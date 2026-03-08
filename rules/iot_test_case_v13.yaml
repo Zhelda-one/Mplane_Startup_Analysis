@@ -1,0 +1,478 @@
+# O-RAN.WG4.IOT.0-R003-v09.00 derived checks (sample patterns; adjust to your logs)
+# - id: S1_1_DHCP_DISCOVER
+#   description: "DHCP DISCOVER observed from O-RU"
+#   severity: INFO
+#   any_pattern:
+#     - '(?i)DHCP.*DISCOVER'
+#     - '(?i)Message.*DHCPDISCOVER'
+#   extra: { category: "PROFILE" }
+
+# - id: S1_2_OPT60_VENDOR
+#   description: "DHCP Option 60 (Vendor Class ID) present and valid"
+#   severity: WARN
+#   all_pattern:
+#     - '(?i)Option\s*60'
+#     - '(?i)oran-ru\/[^\s<"]+'
+#   extra: { category: "PROFILE" }
+
+# - id: S1_3_IP_IN_USE
+#   description: "O-RU uses the offered IP as source in subsequent packets"
+#   severity: INFO
+#   any_pattern:
+#     - '(?i)Src(?:IP|=)\s*[:=]?\s*(\d{1,3}\.){3}\d{1,3}'
+#     - '(?i)source\s+ip\s+(\d{1,3}\.){3}\d{1,3}'
+#   extra: { category: "PROFILE" }
+
+#- id: S2_1_CALL_HOME_TCP
+#  description: "O-RU initiated TCP connection to controller (Call Home)"
+#  severity: INFO
+#  any_pattern:
+#    - '(?i)Call\s*Home'
+#    - '(?i)incoming\s+connection\s+from\s+(\d{1,3}\.){3}\d{1,3}'
+#  extra: { category: "NETCONF" }
+
+- id: 6.2.6.3 SSH/TLS Secure connection establishment
+  description: "SSH session/TLS connection establishment initiated by O-DU "
+  severity: INFO
+  any_pattern:
+    - '(?i)Authentication successful'
+    - 'User\s+"[^"]+"\s+authenticated\.'
+    - '(?i)SSH channel established'
+  collect:
+   mode: "regex"      # regex | boundary | message-id
+   before: 5
+   after:  2
+   max_block_lines: 80
+   max_evidence: 5  
+ 
+  extra: { category: "NETCONF" }
+
+- id: 6.2.6.4-1 NETCONF Capability discovery
+  description: "NETCONF hello exchange between O-RU and O-DU"
+  severity: INFO
+  all_pattern:
+    - '(?i)<\s*hello[^>]*urn:ietf:params:xml:ns:netconf:base'
+  collect:
+   mode: "regex"      # regex | boundary | message-id
+   before: 0
+   after:  5
+   max_block_lines: 80
+   max_evidence: 1
+  extra: { category: "NETCONF" }
+
+- id: 6.2.6.4-2 NETCONF Capability discovery(Capabilities inform)
+  description: "O-RU sends yang-library of ietf-yang-library.yang module"
+  severity: INFO
+  any_pattern:
+    - "<\\s*(?:\\w+:)?rpc\\b[^>]*\\bmessage-id\\s*=\\s*([\"'])\\s*1\\s*\\1[^>]*>"
+    - "<\\s*(?:\\w+:)?rpc-reply\\b[^>]*\\bmessage-id\\s*=\\s*([\"'])\\s*1\\s*\\1[^>]*>\\s*<\\s*(?:\\w+:)?data\\b"
+    - '(?i)<modules-state xmlns="urn:ietf:params:xml:ns:yang:ietf-yang-library">'
+  collect:
+   mode: "regex"      # regex | boundary | message-id
+   before: 0
+   after:  40
+   max_block_lines: 300
+   max_evidence: 1
+  extra: { category: "MODULE" }
+
+
+- id: 6.2.6.6  Initial process of NETCONF Subscribe
+  description: "NETCONF create sbscription O-DU to O-RU"
+  severity: INFO
+  any_pattern:
+    - '(?i)create-subscription'
+  collect:
+   mode: "regex"      # regex | boundary | message-id
+   before: 2
+   after:  7
+   max_block_lines: 80
+   max_evidence: 1
+  extra: { category: "NETCONF" }
+
+- id: 6.2.6.7  Supervision of NETCONF connection
+  description: "O-RU sends supervision notification to O-DU"
+  severity: INFO
+  all_pattern:
+    - '(?i)supervision-notification|supervision-watchdog-reset'
+  collect:
+   mode: "regex"      # regex | boundary | message-id
+   before: 2
+   after: 8
+   max_block_lines: 80
+   max_evidence: 1
+  extra: { category: "NETCONF" }
+
+- id: 6.2.6.8  Retrieval of O-RU information and Additional configuration
+  description: "O-RU sends each yang module list in ietf-yang-library.yang "
+  severity: INFO
+  all_pattern:
+    - '(?i)ietf-interface|o-ran-operations|o-ran-lbm|o-ran-performance-management'
+    - '(?i)o-ran-transceiver|o-ran-sync|o-ran-mplane-int|o-ran-delay-management|o-ran-module-cap'
+    - '(?i)o-ran-alarm-id|o-ran-fan|o-ran-supervision|o-ran-user mgmt'
+  collect:
+   mode: "regex"      # regex | boundary | message-id
+   before: 3
+   after: 3
+   max_block_lines: 80
+   max_evidence: 40
+  extra: { category: "NETCONF" }
+- id: 6.2.6.8 Retrieval of O-RU information and Additional configuration
+  description: "O-RU sends each yang module list in ietf-yang-library.yang"
+  severity: INFO
+  all_pattern:
+    - '(?i)ietf-interface|o-ran-operations|o-ran-lbm|o-ran-performance-management'
+    - '(?i)o-ran-transceiver|o-ran-sync|o-ran-mplane-int|o-ran-delay-management|o-ran-module-cap'
+    - '(?i)o-ran-alarm-id|o-ran-fan|o-ran-supervision|o-ran-user mgmt'
+  collect:
+    mode: "regex"   # regex | boundary | message-id
+    before: 3
+    after: 3
+    max_block_lines: 80
+    max_evidence: 40
+  extra: { category: "NETCONF" }
+
+# -----------------------------
+# 6.2.6.8 Sub rules (1~15)
+# -----------------------------
+
+- id: 6.2.6.8-1 HW info
+  description: "Retrieves O-RU hardware information from O-RU"
+  severity: INFO
+  any_pattern:
+    - '(?i)product-code'
+    - '(?i)o-ran-name'
+  collect:
+    mode: "message-id"
+    before: 2
+    after: 8
+    max_block_lines: 120
+    max_evidence: 3
+  extra: { category: "NETCONF", parent: "6.2.6.8", no_fail: true,  no_judge: true }
+
+- id: 6.2.6.8-2 Interfaces
+  description: "Retrieval of O-RU interface information from O-RU"
+  severity: INFO
+  any_pattern:
+    # 1. <interfaces> 태그 시작 (namespace 포함)
+    # - '(?s)<\s*interfaces\s+xmlns\s*=\s*"urn:ietf:params:xml:ns:yang:ietf-interfaces"'
+    # 2. <interface/> self-closing 태그 (들여쓰기 무시)
+    # - '(?s)<\s*interface\s*/\s*>'
+    # 3. </interfaces> 종료 태그
+    - '(?s)</\s*interfaces\s*>'
+    - '(?!)port-reference '
+  collect:
+    mode: "regex"
+    before: 2
+    after: 20
+    max_block_lines: 120
+    max_evidence: 1
+  extra: { category: "NETCONF", parent: "6.2.6.8", no_fail: true,  no_judge: true }
+
+- id: 6.2.6.8-3 Port transceivers
+  description: "Retrieval of O-RU port transceiver information from O-RU"
+  severity: INFO
+  any_pattern:
+    - '(?i)port-transceiver-data'
+  collect:
+    mode: "message-id"
+    before: 2
+    after: 20
+    max_block_lines: 160
+    max_evidence: 3
+  extra: { category: "NETCONF", parent: "6.2.6.8", no_fail: true,  no_judge: true }
+
+- id: 6.2.6.8-4 Fan state
+  description: "Retrieval of O-RU fan state information from O-RU"
+  severity: INFO
+  any_pattern:
+    - '(?i)fan-tray xmlns="urn:o-ran:fan:1.0'
+  collect:
+    mode: "message-id"
+    before: 2
+    after: 8
+    max_block_lines: 80
+    max_evidence: 3
+  extra: { category: "NETCONF", parent: "6.2.6.8", no_fail: true,  no_judge: true }
+
+- id: 6.2.6.8-5 Band capabilities
+  description: "Retrieval of O-RU band capabilities information from O-RU"
+  severity: INFO
+  any_pattern:
+    - '(?i)module-capability xmlns\s*urn:o-ran:module-cap:1.0'
+    - '(?i)band-capabilities'
+  collect:
+    mode: "message-id"
+    before: 2
+    after: 12
+    max_block_lines: 200
+    max_evidence: 3
+  extra: { category: "MODULE", parent: "6.2.6.8", no_fail: true,  no_judge: true }
+
+- id: 6.2.6.8-6 IQ compression
+  description: "Retrieval of O-RU IQ compression information from O-RU"
+  severity: INFO
+  any_pattern:
+    - '(?i)compression-method-supported'
+  collect:
+    mode: "regex"
+    before: 2
+    after: 12
+    max_block_lines: 200
+    max_evidence: 3
+  extra: { category: "MODULE", parent: "6.2.6.8", no_fail: true,  no_judge: true }
+
+- id: 6.2.6.8-7 Software info
+  description: "Retrieval of O-RU software information from O-RU"
+  severity: INFO
+  any_pattern:
+    - '(?i)software-inventory xmlns\s*urn:o-ran:software-management:1.0'
+    - '(?i)software-slot'
+    - '(?i)<(?:[^>]+:)?software-rev\b[^>]*>'
+  collect:
+    mode: "regex"
+    before: 2
+    after: 12
+    max_block_lines: 160
+    max_evidence: 3
+  extra: { category: "MODULE", parent: "6.2.6.8", no_fail: true,  no_judge: true }
+
+- id: 6.2.6.8-8 TX arrays
+  description: "Retrieval of O-RU TX array information from O-RU"
+  severity: INFO
+  any_pattern:
+    - '(?i)user-plane-configuration xmlns\s*urn:o-ran:uplane-conf:1.0'
+    - '(?i)tx-arrays'
+  collect:
+    mode: "message-id"
+    before: 2
+    after: 12
+    max_block_lines: 200
+    max_evidence: 3
+  extra: { category: "MODULE", parent: "6.2.6.8", no_fail: true,  no_judge: true }
+
+- id: 6.2.6.8-9 RX arrays
+  description: "Retrieval of O-RU RX array information from O-RU"
+  severity: INFO
+  any_pattern:
+    - '(?i)user-plane-configuration xmlns\s*urn:o-ran:uplane-conf:1.0'
+    - '(?i)rx-arrays'
+  collect:
+    mode: "message-id"
+    before: 2
+    after: 12
+    max_block_lines: 200
+    max_evidence: 3
+  extra: { category: "MODULE", parent: "6.2.6.8", no_fail: true,  no_judge: true }
+
+- id: 6.2.6.8-10 Endpoint PRACH group
+  description: "Retrieval of O-RU Endpoint PRACH group information from O-RU"
+  severity: INFO
+  any_pattern:
+    - '(?i)user-plane-configuration xmlns\s*urn:o-ran:uplane-conf:1.0'
+    - '(?i)endpoint-prach-group'
+  collect:
+    mode: "message-id"
+    before: 2
+    after: 12
+    max_block_lines: 200
+    max_evidence: 3
+  extra: { category: "MODULE", parent: "6.2.6.8", no_fail: true,  no_judge: true }
+
+- id: 6.2.6.8-11 Beamforming capability
+  description: "Retrieves O-RU beamforming capability information from O-RU"
+  severity: INFO
+  any_pattern:
+    - '(?i)beamforming-capability'
+  collect:
+    mode: "message-id"
+    before: 2
+    after: 12
+    max_block_lines: 200
+    max_evidence: 3
+  extra: { category: "MODULE", parent: "6.2.6.8", no_fail: true,  no_judge: true }
+
+- id: 6.2.6.8-12 ALD ports
+  description: "Retrieves antenna line device port information from O-RU"
+  severity: INFO
+  any_pattern:
+     # 1. GET 요청의 ald-ports-io (subtree filter)
+    - '(?s)<\s*ald-ports-io\s+xmlns\s*=\s*["'']urn:o-ran:ald-port:1\.0["'']'
+    # 2. 응답의 ald-ports-io 데이터
+  collect:
+    mode: "message-id"
+    before: 2
+    after: 10
+    max_block_lines: 160
+    max_evidence: 3
+  extra: { category: "MODULE", parent: "6.2.6.8", no_fail: true,  no_judge: true }
+
+- id: 6.2.6.8-13 External IO
+  description: "Retrieves external input and output line information from O-RU"
+  severity: INFO
+  any_pattern:
+    - '(?i)external-io xmlns\s*urn:o-ran:external-io:1.0'
+    - '(?i)\binput\b'
+    - '(?i)\boutput\b'
+  collect:
+    mode: "message-id"
+    before: 2
+    after: 12
+    max_block_lines: 200
+    max_evidence: 3
+  extra: { category: "MODULE", parent: "6.2.6.8", no_fail: true,  no_judge: true }
+
+- id: 6.2.6.8-14 Active alarms
+  description: "Retrieves active alarm list from O-RU"
+  severity: INFO
+  any_pattern:
+    - '(?i)active-alarm-list'
+    - '(?i)o-ran-alarm-id'
+  collect:
+    mode: "message-id"
+    before: 2
+    after: 30
+    max_block_lines: 120
+    max_evidence: 3
+  extra: { category: "MODULE", parent: "6.2.6.8", no_fail: true,  no_judge: true }
+
+- id: 6.2.6.8-15 Delay management
+  description: "Retrieves Delay Management from O-RU"
+  severity: INFO
+  all_pattern:
+    - '(?i)<\s*t2a-min-up'  # 구체적 요소
+  collect:
+    mode: "regex"
+    before: 2
+    after: 20
+    max_block_lines: 150
+    max_evidence: 3
+  extra: { category: "NETCONF", parent: "6.2.6.8", no_fail: true,  no_judge: true }
+
+- id: 6.2.6.9  Software management
+  description: "O-RU responds software inventory"
+  severity: INFO
+  all_pattern:
+    - '(?i)<\s*software-inventory'
+    - '(?i)<\s*build-name'
+  collect:
+   mode: "regex"      # regex | boundary | message-id
+   before: 3
+   after: 33
+   max_block_lines: 80
+   max_evidence: 1
+  extra: { category: "MODULE" }
+
+- id: 6.2.6.10  C/U-Plane transport connectivity check between O-DU and O-RU
+  description: "O-DU configure vlan id for CU plane"
+  severity: INFO
+  any_pattern:
+    - '(?i)VLAN IF for oRan eCPRI CU plane'
+    - '(?i)uc-vlan'
+  collect:
+   mode: "regex"      # regex | boundary | message-id
+   before: 9
+   after: 14
+   max_block_lines: 80
+   max_evidence: 1
+  extra: { category: "MODULE" }
+
+- id: 6.2.6.11  U-Plane configuration between O-DU and O-RU
+  description: "O-DU sends User plane configuration and create low level tx/rx endpoint"
+  severity: INFO
+  # any_pattern:
+  #  - '(?i)static-low-level-(?:tx|rx)-endpoints'
+  evidences_pattern:
+    - '(?i)static-low-level-tx-endpoints'
+  collect:
+   mode: "regex"      # regex | boundary | message-id
+   before: 5
+   after: 20
+   max_block_lines: 200
+   max_evidence: 10
+   max_chars: 2000
+  extra: { category: "MODULE" }
+
+- id: 6.2.6.12  Fault Management activation
+  description: "O-RU responds active alarms list"
+  severity: INFO
+  all_pattern:
+    - '(?i)<active-alarms|alarm-list|o-ran-alarm-id'
+  collect:
+   mode: "regex"      # regex | boundary | message-id
+   before: 4
+   after: 7
+   max_block_lines: 200
+   max_evidence: 10
+   max_chars: 2000
+  extra: { category: "MODULE" }
+
+- id: 6.2.6.13  Performance measurement activation
+  description: "configuration of O-RU performance"
+  severity: INFO
+  all_pattern:
+    - '(?i)performance-measurement|measurement-capabilities'
+  collect:
+   mode: "regex"      # regex | boundary | message-id
+   before: 4
+   after: 30
+   max_block_lines: 200
+   max_evidence: 10
+   max_chars: 2000
+  extra: { category: "MODULE" }
+
+- id: 6.2.6.14 synchronization information
+  description: "Synchronization reached LOCKED"
+  severity: INFO
+  all_pattern:
+    - '(?i)<sync-state>\s*LOCKED\s*</sync-state>'
+  collect:
+   mode: "regex"      # regex | boundary | message-id
+   before: 4
+   after: 7
+   max_block_lines: 200
+   max_evidence: 10
+   max_chars: 2000
+  extra: { category: "SYNC" }
+
+- id: 6.2.6.15-1 Configuring the O-RU operational parameters-carrier activation
+  description: "<edit-config> to set <active>ACTIVE</active> succeeded"
+  severity: INFO
+  all_pattern:
+      - '(?i)<active>\s*ACTIVE\s*</active>'
+  collect:
+   mode: "regex"      # regex | boundary | message-id
+   before: 10
+   after: 25
+   max_block_lines: 200
+   max_evidence: 10
+   max_chars: 8000
+  extra: { category: "SUPERVISION" }
+
+- id: 6.2.6.15-2 Configuring the O-RU operational parameters-carrier ready
+  description: "Carrier state READY notification observed"
+  severity: INFO
+  all_pattern:
+    - '(?i)<state>\s*READY\s*</state>'
+  collect:
+   mode: "regex"      # regex | boundary | message-id
+   before: 5
+   after: 15
+   max_block_lines: 200
+   max_evidence: 10
+   max_chars: 8000
+  extra: { category: "SUPERVISION" }
+
+- id: HW_USAGE_ACTIVE
+  description: "Hardware usage-state = active"
+  severity: INFO
+  all_pattern:
+    - '(?i)<usage-state>\s*active\s*</usage-state>'
+  extra: { category: "HW" }
+
+#- id: S3_2_EDIT_CONFIG_OK
+#  description: "Operational parameters applied; <edit-config> -> <ok/>"
+#  severity: INFO
+#  all_pattern:
+#    - '(?i)<\s*edit-config'
+#    - '(?i)<\s*ok\s*/>'
+#  extra: { category: "MODULE" }

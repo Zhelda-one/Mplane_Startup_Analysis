@@ -1,0 +1,20 @@
+# --- Core web stack ---
+fastapi>=0.110
+uvicorn[standard]>=0.27
+
+# File upload (multipart/form-data)
+python-multipart>=0.0.9
+
+# Rules & time parsing
+PyYAML>=6.0.2
+python-dateutil>=2.9.0.post0
+
+# Report export (PDF & PNG)
+reportlab>=4.2.0
+Pillow>=10.3.0
+
+# FastAPI uses Pydantic v2
+pydantic>=2.6.0
+
+# Optional: enable if you later re-enable .docx export
+# python-docx>=1.1.0

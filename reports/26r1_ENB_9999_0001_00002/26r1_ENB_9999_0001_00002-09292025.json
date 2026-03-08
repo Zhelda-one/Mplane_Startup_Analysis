@@ -1,0 +1,1054 @@
+{
+  "overall": "PASS",
+  "summary": {
+    "infos": 14,
+    "warnings": 1,
+    "errors": 0
+  },
+  "results": [
+    {
+      "id": "6.2.6.3 SSH/TLS Secure connection establishment",
+      "description": "SSH/TLS handshake completed",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 6,
+      "evidences": [
+        {
+          "start": 2,
+          "end": 7,
+          "lines": [
+            "2024-07-05T17:16:00.649Z Vbs: [172.22.8.2] Session 0: Interactive SSH authentication method was disabled.",
+            "2024-07-05T17:16:00.649Z Vbs: [172.22.8.2] Session 0: Publickey SSH authentication method was disabled.",
+            "2024-07-05T17:16:00.649Z Vbs: [172.22.8.2] Session 0: Password authentication (host \"172.22.8.2\", user \"########\").",
+            "2024-07-05T17:16:00.675Z Vbs: [172.22.8.2] Session 0: Authentication successful.",
+            "2024-07-05T17:16:00.820Z Dbg: [172.22.8.2] Session 0: Sending message:",
+            "<hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">"
+          ],
+          "text": "2024-07-05T17:16:00.649Z Vbs: [172.22.8.2] Session 0: Interactive SSH authentication method was disabled.\n2024-07-05T17:16:00.649Z Vbs: [172.22.8.2] Session 0: Publickey SSH authentication method was disabled.\n2024-07-05T17:16:00.649Z Vbs: [172.22.8.2] Session 0: Password authentication (host \"172.22.8.2\", user \"########\").\n2024-07-05T17:16:00.675Z Vbs: [172.22.8.2] Session 0: Authentication successful.\n2024-07-05T17:16:00.820Z Dbg: [172.22.8.2] Session 0: Sending message:\n<hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.4-1 NETCONF Capability discovery",
+      "description": "NETCONF <hello> exchange successful",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 12,
+      "evidences": [
+        {
+          "start": 4,
+          "end": 9,
+          "lines": [
+            "2024-07-05T17:16:00.649Z Vbs: [172.22.8.2] Session 0: Password authentication (host \"172.22.8.2\", user \"########\").",
+            "2024-07-05T17:16:00.675Z Vbs: [172.22.8.2] Session 0: Authentication successful.",
+            "2024-07-05T17:16:00.820Z Dbg: [172.22.8.2] Session 0: Sending message:",
+            "<hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t<capabilities>",
+            "\t\t<capability>urn:ietf:params:netconf:base:1.0</capability>"
+          ],
+          "text": "2024-07-05T17:16:00.649Z Vbs: [172.22.8.2] Session 0: Password authentication (host \"172.22.8.2\", user \"########\").\n2024-07-05T17:16:00.675Z Vbs: [172.22.8.2] Session 0: Authentication successful.\n2024-07-05T17:16:00.820Z Dbg: [172.22.8.2] Session 0: Sending message:\n<hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t<capabilities>\n\t\t<capability>urn:ietf:params:netconf:base:1.0</capability>"
+        },
+        {
+          "start": 12,
+          "end": 17,
+          "lines": [
+            "</hello>",
+            "2024-07-05T17:16:00.909Z Dbg: [172.22.8.2] Session 0: Received message:",
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "<hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t<capabilities>",
+            "\t\t<capability>urn:ietf:params:netconf:base:1.0</capability>"
+          ],
+          "text": "</hello>\n2024-07-05T17:16:00.909Z Dbg: [172.22.8.2] Session 0: Received message:\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t<capabilities>\n\t\t<capability>urn:ietf:params:netconf:base:1.0</capability>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.4-2 NETCONF Capability discovery(Capabilities inform)",
+      "description": "O-RU sends yang-library",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 12,
+      "evidences": [
+        {
+          "start": 109,
+          "end": 114,
+          "lines": [
+            "2024-07-05T17:16:00.927Z Vbs: [172.22.8.2] Session 4: Reading schema from localfile \"/ram/yangmodel/ietf-datastores.yang\".",
+            "2024-07-05T17:16:00.927Z Vbs: [172.22.8.2] Session 4: Retrieving data for schema \"ietf-netconf-nmda\", revision \"2019-01-07\".",
+            "2024-07-05T17:16:00.927Z Dbg: [172.22.8.2] Session 4: Sending message:",
+            "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"1\">",
+            "\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t\t<filter type=\"xpath\" xmlns:yanglib=\"urn:ietf:params:xml:ns:yang:ietf-yang-library\" select=\"/yanglib:*\"/>"
+          ],
+          "text": "2024-07-05T17:16:00.927Z Vbs: [172.22.8.2] Session 4: Reading schema from localfile \"/ram/yangmodel/ietf-datastores.yang\".\n2024-07-05T17:16:00.927Z Vbs: [172.22.8.2] Session 4: Retrieving data for schema \"ietf-netconf-nmda\", revision \"2019-01-07\".\n2024-07-05T17:16:00.927Z Dbg: [172.22.8.2] Session 4: Sending message:\n\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"1\">\n\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t\t<filter type=\"xpath\" xmlns:yanglib=\"urn:ietf:params:xml:ns:yang:ietf-yang-library\" select=\"/yanglib:*\"/>"
+        },
+        {
+          "start": 116,
+          "end": 121,
+          "lines": [
+            "\t</rpc>",
+            "2024-07-05T17:16:01.065Z Dbg: [172.22.8.2] Session 4: Received message:",
+            "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "\t<rpc-reply message-id=\"1\" xmlns:ncx=\"http://netconfcentral.org/ns/yuma-ncx\" ncx:last-modified=\"2024-07-05T17:16:37Z\" ncx:etag=\"2\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t<data>",
+            "\t\t\t<modules-state xmlns=\"urn:ietf:params:xml:ns:yang:ietf-yang-library\">"
+          ],
+          "text": "\t</rpc>\n2024-07-05T17:16:01.065Z Dbg: [172.22.8.2] Session 4: Received message:\n\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\t<rpc-reply message-id=\"1\" xmlns:ncx=\"http://netconfcentral.org/ns/yuma-ncx\" ncx:last-modified=\"2024-07-05T17:16:37Z\" ncx:etag=\"2\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t<data>\n\t\t\t<modules-state xmlns=\"urn:ietf:params:xml:ns:yang:ietf-yang-library\">"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.6  Initial process of NETCONF Subscribe",
+      "description": "NETCONF create sbscription O-DU to O-RU",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 12,
+      "evidences": [
+        {
+          "start": 1145,
+          "end": 1150,
+          "lines": [
+            "\t</rpc>",
+            "2024-07-05T17:16:10.697Z Dbg: [172.22.8.2] Session 4: Sending message:",
+            "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"7\">",
+            "\t\t<create-subscription xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">",
+            "\t\t\t<stream>NETCONF</stream>",
+            "\t\t</create-subscription>"
+          ],
+          "text": "\t</rpc>\n2024-07-05T17:16:10.697Z Dbg: [172.22.8.2] Session 4: Sending message:\n\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"7\">\n\t\t<create-subscription xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">\n\t\t\t<stream>NETCONF</stream>\n\t\t</create-subscription>"
+        },
+        {
+          "start": 1147,
+          "end": 1152,
+          "lines": [
+            "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"7\">",
+            "\t\t<create-subscription xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">",
+            "\t\t\t<stream>NETCONF</stream>",
+            "\t\t</create-subscription>",
+            "\t</rpc>",
+            "2024-07-05T17:16:10.700Z Dbg: [172.22.8.2] Session 4: Received message:"
+          ],
+          "text": "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"7\">\n\t\t<create-subscription xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">\n\t\t\t<stream>NETCONF</stream>\n\t\t</create-subscription>\n\t</rpc>\n2024-07-05T17:16:10.700Z Dbg: [172.22.8.2] Session 4: Received message:"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.7  Supervision of NETCONF connection",
+      "description": "O-RU sends supervision notification to O-DU",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 36,
+      "evidences": [
+        {
+          "start": 1156,
+          "end": 1161,
+          "lines": [
+            "\t</rpc-reply>",
+            "2024-07-05T17:16:10.701Z Dbg: [172.22.8.2] Session 4: Sending message:",
+            "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"8\">",
+            "\t\t<supervision-watchdog-reset xmlns=\"urn:o-ran:supervision:1.0\">",
+            "\t\t\t<supervision-notification-interval>10</supervision-notification-interval>",
+            "\t\t\t<guard-timer-overhead>80</guard-timer-overhead>"
+          ],
+          "text": "\t</rpc-reply>\n2024-07-05T17:16:10.701Z Dbg: [172.22.8.2] Session 4: Sending message:\n\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"8\">\n\t\t<supervision-watchdog-reset xmlns=\"urn:o-ran:supervision:1.0\">\n\t\t\t<supervision-notification-interval>10</supervision-notification-interval>\n\t\t\t<guard-timer-overhead>80</guard-timer-overhead>"
+        },
+        {
+          "start": 1157,
+          "end": 1162,
+          "lines": [
+            "2024-07-05T17:16:10.701Z Dbg: [172.22.8.2] Session 4: Sending message:",
+            "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"8\">",
+            "\t\t<supervision-watchdog-reset xmlns=\"urn:o-ran:supervision:1.0\">",
+            "\t\t\t<supervision-notification-interval>10</supervision-notification-interval>",
+            "\t\t\t<guard-timer-overhead>80</guard-timer-overhead>",
+            "\t\t</supervision-watchdog-reset>"
+          ],
+          "text": "2024-07-05T17:16:10.701Z Dbg: [172.22.8.2] Session 4: Sending message:\n\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"8\">\n\t\t<supervision-watchdog-reset xmlns=\"urn:o-ran:supervision:1.0\">\n\t\t\t<supervision-notification-interval>10</supervision-notification-interval>\n\t\t\t<guard-timer-overhead>80</guard-timer-overhead>\n\t\t</supervision-watchdog-reset>"
+        },
+        {
+          "start": 1159,
+          "end": 1164,
+          "lines": [
+            "\t\t<supervision-watchdog-reset xmlns=\"urn:o-ran:supervision:1.0\">",
+            "\t\t\t<supervision-notification-interval>10</supervision-notification-interval>",
+            "\t\t\t<guard-timer-overhead>80</guard-timer-overhead>",
+            "\t\t</supervision-watchdog-reset>",
+            "\t</rpc>",
+            "2024-07-05T17:16:10.716Z Dbg: [172.22.8.2] Session 4: Received message:"
+          ],
+          "text": "\t\t<supervision-watchdog-reset xmlns=\"urn:o-ran:supervision:1.0\">\n\t\t\t<supervision-notification-interval>10</supervision-notification-interval>\n\t\t\t<guard-timer-overhead>80</guard-timer-overhead>\n\t\t</supervision-watchdog-reset>\n\t</rpc>\n2024-07-05T17:16:10.716Z Dbg: [172.22.8.2] Session 4: Received message:"
+        },
+        {
+          "start": 4866,
+          "end": 4871,
+          "lines": [
+            "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "\t<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">",
+            "\t\t<eventTime>2024-07-05T17:16:58.176989Z</eventTime>",
+            "\t\t<supervision-notification xmlns=\"urn:o-ran:supervision:1.0\"/>",
+            "\t</notification>",
+            "2024-07-05T17:16:20.723Z Dbg: [172.22.8.2] Session 4: Sending message:"
+          ],
+          "text": "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\t<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">\n\t\t<eventTime>2024-07-05T17:16:58.176989Z</eventTime>\n\t\t<supervision-notification xmlns=\"urn:o-ran:supervision:1.0\"/>\n\t</notification>\n2024-07-05T17:16:20.723Z Dbg: [172.22.8.2] Session 4: Sending message:"
+        },
+        {
+          "start": 4883,
+          "end": 4888,
+          "lines": [
+            "\t</rpc-reply>",
+            "2024-07-05T17:16:20.727Z Dbg: [172.22.8.2] Session 4: Sending message:",
+            "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"49\">",
+            "\t\t<supervision-watchdog-reset xmlns=\"urn:o-ran:supervision:1.0\">",
+            "\t\t\t<supervision-notification-interval>10</supervision-notification-interval>",
+            "\t\t\t<guard-timer-overhead>80</guard-timer-overhead>"
+          ],
+          "text": "\t</rpc-reply>\n2024-07-05T17:16:20.727Z Dbg: [172.22.8.2] Session 4: Sending message:\n\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"49\">\n\t\t<supervision-watchdog-reset xmlns=\"urn:o-ran:supervision:1.0\">\n\t\t\t<supervision-notification-interval>10</supervision-notification-interval>\n\t\t\t<guard-timer-overhead>80</guard-timer-overhead>"
+        },
+        {
+          "start": 4884,
+          "end": 4889,
+          "lines": [
+            "2024-07-05T17:16:20.727Z Dbg: [172.22.8.2] Session 4: Sending message:",
+            "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"49\">",
+            "\t\t<supervision-watchdog-reset xmlns=\"urn:o-ran:supervision:1.0\">",
+            "\t\t\t<supervision-notification-interval>10</supervision-notification-interval>",
+            "\t\t\t<guard-timer-overhead>80</guard-timer-overhead>",
+            "\t\t</supervision-watchdog-reset>"
+          ],
+          "text": "2024-07-05T17:16:20.727Z Dbg: [172.22.8.2] Session 4: Sending message:\n\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"49\">\n\t\t<supervision-watchdog-reset xmlns=\"urn:o-ran:supervision:1.0\">\n\t\t\t<supervision-notification-interval>10</supervision-notification-interval>\n\t\t\t<guard-timer-overhead>80</guard-timer-overhead>\n\t\t</supervision-watchdog-reset>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.8  Retrieval of O-RU information and Additional configuration",
+      "description": "O-DU sends each yang module list",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 18,
+      "evidences": [
+        {
+          "start": 52,
+          "end": 57,
+          "lines": [
+            "\t\t<capability>http://yumaworks.com/ns/yumaworks-config-change?module=yumaworks-config-change&amp;revision=2019-06-09</capability>",
+            "\t\t<capability>http://yumaworks.com/ns/yumaworks-event-stream?module=yumaworks-event-stream&amp;revision=2021-05-15</capability>",
+            "\t\t<capability>urn:ietf:params:xml:ns:yang:yumaworks-lock?module=yumaworks-lock&amp;revision=2023-04-29</capability>",
+            "\t\t<capability>urn:ietf:params:xml:ns:yang:ietf-interfaces?module=ietf-interfaces&amp;revision=2018-02-20&amp;features=arbitrary-names,pre-provisioning</capability>",
+            "\t\t<capability>urn:ietf:params:netconf:capability:yang-library:1.1?revision=2019-01-04&amp;content-id=6059</capability>",
+            "\t\t<capability>urn:ietf:params:xml:ns:yang:iana-if-type?module=iana-if-type&amp;revision=2017-01-19</capability>"
+          ],
+          "text": "\t\t<capability>http://yumaworks.com/ns/yumaworks-config-change?module=yumaworks-config-change&amp;revision=2019-06-09</capability>\n\t\t<capability>http://yumaworks.com/ns/yumaworks-event-stream?module=yumaworks-event-stream&amp;revision=2021-05-15</capability>\n\t\t<capability>urn:ietf:params:xml:ns:yang:yumaworks-lock?module=yumaworks-lock&amp;revision=2023-04-29</capability>\n\t\t<capability>urn:ietf:params:xml:ns:yang:ietf-interfaces?module=ietf-interfaces&amp;revision=2018-02-20&amp;features=arbitrary-names,pre-provisioning</capability>\n\t\t<capability>urn:ietf:params:netconf:capability:yang-library:1.1?revision=2019-01-04&amp;content-id=6059</capability>\n\t\t<capability>urn:ietf:params:xml:ns:yang:iana-if-type?module=iana-if-type&amp;revision=2017-01-19</capability>"
+        },
+        {
+          "start": 70,
+          "end": 75,
+          "lines": [
+            "\t\t<capability>urn:o-ran:processing-element:1.0?module=o-ran-processing-element&amp;revision=2020-04-17</capability>",
+            "\t\t<capability>urn:o-ran:module-cap:1.0?module=o-ran-module-cap&amp;revision=2021-03-22&amp;features=TRANSPORT-FRAGMENTATION,PRACH-STATIC-CONFIGURATION-SUPPORTED</capability>",
+            "\t\t<capability>urn:o-ran:uplane-conf:1.0?module=o-ran-uplane-conf&amp;revision=2021-03-22&amp;features=EAXC-GAIN-CORRECTION,TX-REFERENCE-LEVEL</capability>",
+            "\t\t<capability>urn:o-ran:performance-management:1.0?module=o-ran-performance-management&amp;revision=2021-03-22&amp;features=GRANULARITY-TRANSPORT-MEASUREMENT</capability>",
+            "\t\t<capability>urn:o-ran:fm:1.0?module=o-ran-fm&amp;revision=2021-03-22</capability>",
+            "\t\t<capability>urn:o-ran:lbm:1.0?module=o-ran-lbm&amp;revision=2021-03-22</capability>"
+          ],
+          "text": "\t\t<capability>urn:o-ran:processing-element:1.0?module=o-ran-processing-element&amp;revision=2020-04-17</capability>\n\t\t<capability>urn:o-ran:module-cap:1.0?module=o-ran-module-cap&amp;revision=2021-03-22&amp;features=TRANSPORT-FRAGMENTATION,PRACH-STATIC-CONFIGURATION-SUPPORTED</capability>\n\t\t<capability>urn:o-ran:uplane-conf:1.0?module=o-ran-uplane-conf&amp;revision=2021-03-22&amp;features=EAXC-GAIN-CORRECTION,TX-REFERENCE-LEVEL</capability>\n\t\t<capability>urn:o-ran:performance-management:1.0?module=o-ran-performance-management&amp;revision=2021-03-22&amp;features=GRANULARITY-TRANSPORT-MEASUREMENT</capability>\n\t\t<capability>urn:o-ran:fm:1.0?module=o-ran-fm&amp;revision=2021-03-22</capability>\n\t\t<capability>urn:o-ran:lbm:1.0?module=o-ran-lbm&amp;revision=2021-03-22</capability>"
+        },
+        {
+          "start": 72,
+          "end": 77,
+          "lines": [
+            "\t\t<capability>urn:o-ran:uplane-conf:1.0?module=o-ran-uplane-conf&amp;revision=2021-03-22&amp;features=EAXC-GAIN-CORRECTION,TX-REFERENCE-LEVEL</capability>",
+            "\t\t<capability>urn:o-ran:performance-management:1.0?module=o-ran-performance-management&amp;revision=2021-03-22&amp;features=GRANULARITY-TRANSPORT-MEASUREMENT</capability>",
+            "\t\t<capability>urn:o-ran:fm:1.0?module=o-ran-fm&amp;revision=2021-03-22</capability>",
+            "\t\t<capability>urn:o-ran:lbm:1.0?module=o-ran-lbm&amp;revision=2021-03-22</capability>",
+            "\t\t<capability>urn:o-ran:supervision:1.0?module=o-ran-supervision&amp;revision=2021-03-22</capability>",
+            "\t\t<capability>urn:o-ran:operations:1.0?module=o-ran-operations&amp;revision=2021-03-22</capability>"
+          ],
+          "text": "\t\t<capability>urn:o-ran:uplane-conf:1.0?module=o-ran-uplane-conf&amp;revision=2021-03-22&amp;features=EAXC-GAIN-CORRECTION,TX-REFERENCE-LEVEL</capability>\n\t\t<capability>urn:o-ran:performance-management:1.0?module=o-ran-performance-management&amp;revision=2021-03-22&amp;features=GRANULARITY-TRANSPORT-MEASUREMENT</capability>\n\t\t<capability>urn:o-ran:fm:1.0?module=o-ran-fm&amp;revision=2021-03-22</capability>\n\t\t<capability>urn:o-ran:lbm:1.0?module=o-ran-lbm&amp;revision=2021-03-22</capability>\n\t\t<capability>urn:o-ran:supervision:1.0?module=o-ran-supervision&amp;revision=2021-03-22</capability>\n\t\t<capability>urn:o-ran:operations:1.0?module=o-ran-operations&amp;revision=2021-03-22</capability>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.9  Software management",
+      "description": "O-RU responds software inventory",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 42,
+      "evidences": [
+        {
+          "start": 1054,
+          "end": 1059,
+          "lines": [
+            "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"3\">",
+            "\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t\t<filter type=\"subtree\">",
+            "\t\t\t\t<software-inventory xmlns=\"urn:o-ran:software-management:1.0\">",
+            "\t\t\t\t\t<software-slot>",
+            "\t\t\t\t\t\t<status>VALID</status>"
+          ],
+          "text": "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"3\">\n\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t\t<filter type=\"subtree\">\n\t\t\t\t<software-inventory xmlns=\"urn:o-ran:software-management:1.0\">\n\t\t\t\t\t<software-slot>\n\t\t\t\t\t\t<status>VALID</status>"
+        },
+        {
+          "start": 1071,
+          "end": 1076,
+          "lines": [
+            "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "\t<rpc-reply message-id=\"3\" xmlns:ncx=\"http://netconfcentral.org/ns/yuma-ncx\" ncx:last-modified=\"2024-07-05T17:16:37Z\" ncx:etag=\"2\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t<data>",
+            "\t\t\t<software-inventory xmlns=\"urn:o-ran:software-management:1.0\">",
+            "\t\t\t\t<software-slot>",
+            "\t\t\t\t\t<name>slot1</name>"
+          ],
+          "text": "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\t<rpc-reply message-id=\"3\" xmlns:ncx=\"http://netconfcentral.org/ns/yuma-ncx\" ncx:last-modified=\"2024-07-05T17:16:37Z\" ncx:etag=\"2\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t<data>\n\t\t\t<software-inventory xmlns=\"urn:o-ran:software-management:1.0\">\n\t\t\t\t<software-slot>\n\t\t\t\t\t<name>slot1</name>"
+        },
+        {
+          "start": 2237,
+          "end": 2242,
+          "lines": [
+            "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"14\">",
+            "\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t\t<filter type=\"subtree\">",
+            "\t\t\t\t<software-inventory xmlns=\"urn:o-ran:software-management:1.0\">",
+            "\t\t\t\t\t<software-slot/>",
+            "\t\t\t\t</software-inventory>"
+          ],
+          "text": "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"14\">\n\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t\t<filter type=\"subtree\">\n\t\t\t\t<software-inventory xmlns=\"urn:o-ran:software-management:1.0\">\n\t\t\t\t\t<software-slot/>\n\t\t\t\t</software-inventory>"
+        },
+        {
+          "start": 2247,
+          "end": 2252,
+          "lines": [
+            "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "\t<rpc-reply message-id=\"14\" xmlns:ncx=\"http://netconfcentral.org/ns/yuma-ncx\" ncx:last-modified=\"2024-07-05T17:16:37Z\" ncx:etag=\"2\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t<data>",
+            "\t\t\t<software-inventory xmlns=\"urn:o-ran:software-management:1.0\">",
+            "\t\t\t\t<software-slot>",
+            "\t\t\t\t\t<name>slot0</name>"
+          ],
+          "text": "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\t<rpc-reply message-id=\"14\" xmlns:ncx=\"http://netconfcentral.org/ns/yuma-ncx\" ncx:last-modified=\"2024-07-05T17:16:37Z\" ncx:etag=\"2\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t<data>\n\t\t\t<software-inventory xmlns=\"urn:o-ran:software-management:1.0\">\n\t\t\t\t<software-slot>\n\t\t\t\t\t<name>slot0</name>"
+        },
+        {
+          "start": 4164,
+          "end": 4169,
+          "lines": [
+            "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"29\">",
+            "\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t\t<filter type=\"subtree\">",
+            "\t\t\t\t<software-inventory xmlns=\"urn:o-ran:software-management:1.0\"></software-inventory>",
+            "\t\t\t</filter>",
+            "\t\t</get>"
+          ],
+          "text": "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"29\">\n\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t\t<filter type=\"subtree\">\n\t\t\t\t<software-inventory xmlns=\"urn:o-ran:software-management:1.0\"></software-inventory>\n\t\t\t</filter>\n\t\t</get>"
+        },
+        {
+          "start": 4172,
+          "end": 4177,
+          "lines": [
+            "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "\t<rpc-reply message-id=\"29\" xmlns:ncx=\"http://netconfcentral.org/ns/yuma-ncx\" ncx:last-modified=\"2024-07-05T17:16:55Z\" ncx:etag=\"3\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t<data>",
+            "\t\t\t<software-inventory xmlns=\"urn:o-ran:software-management:1.0\">",
+            "\t\t\t\t<software-slot>",
+            "\t\t\t\t\t<name>slot0</name>"
+          ],
+          "text": "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\t<rpc-reply message-id=\"29\" xmlns:ncx=\"http://netconfcentral.org/ns/yuma-ncx\" ncx:last-modified=\"2024-07-05T17:16:55Z\" ncx:etag=\"3\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t<data>\n\t\t\t<software-inventory xmlns=\"urn:o-ran:software-management:1.0\">\n\t\t\t\t<software-slot>\n\t\t\t\t\t<name>slot0</name>"
+        },
+        {
+          "start": 2257,
+          "end": 2262,
+          "lines": [
+            "\t\t\t\t\t<product-code>FJRU-N75N3N1-G</product-code>",
+            "\t\t\t\t\t<vendor-code>FJ</vendor-code>",
+            "\t\t\t\t\t<build-id>7021</build-id>",
+            "\t\t\t\t\t<build-name>FJ-RU-ET1---------0105.FGF</build-name>",
+            "\t\t\t\t\t<build-version>0105</build-version>",
+            "\t\t\t\t</software-slot>"
+          ],
+          "text": "\t\t\t\t\t<product-code>FJRU-N75N3N1-G</product-code>\n\t\t\t\t\t<vendor-code>FJ</vendor-code>\n\t\t\t\t\t<build-id>7021</build-id>\n\t\t\t\t\t<build-name>FJ-RU-ET1---------0105.FGF</build-name>\n\t\t\t\t\t<build-version>0105</build-version>\n\t\t\t\t</software-slot>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.10  C/U-Plane transport connectivity check between O-DU and O-RU",
+      "description": "O-DU configure vlan id for CU plane",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 42,
+      "evidences": [
+        {
+          "start": 2055,
+          "end": 2060,
+          "lines": [
+            "\t\t\t\t\t<higher-layer-if>mplane-ip1</higher-layer-if>",
+            "\t\t\t\t\t<lower-layer-if>fheth1</lower-layer-if>",
+            "\t\t\t\t\t<statistics></statistics>",
+            "\t\t\t\t\t<vlan-id xmlns=\"urn:o-ran:interfaces:1.0\">2</vlan-id>",
+            "\t\t\t\t\t<port-reference xmlns=\"urn:o-ran:interfaces:1.0\">",
+            "\t\t\t\t\t\t<port-name>hw-fhport1</port-name>"
+          ],
+          "text": "\t\t\t\t\t<higher-layer-if>mplane-ip1</higher-layer-if>\n\t\t\t\t\t<lower-layer-if>fheth1</lower-layer-if>\n\t\t\t\t\t<statistics></statistics>\n\t\t\t\t\t<vlan-id xmlns=\"urn:o-ran:interfaces:1.0\">2</vlan-id>\n\t\t\t\t\t<port-reference xmlns=\"urn:o-ran:interfaces:1.0\">\n\t\t\t\t\t\t<port-name>hw-fhport1</port-name>"
+        },
+        {
+          "start": 4707,
+          "end": 4712,
+          "lines": [
+            "\t\t\t\t\t<searchable-mplane-access-vlans-info>",
+            "\t\t\t\t\t\t<searchable-access-vlans>2</searchable-access-vlans>",
+            "\t\t\t\t\t\t<vlan-range>",
+            "\t\t\t\t\t\t\t<lowest-vlan-id>2</lowest-vlan-id>",
+            "\t\t\t\t\t\t\t<highest-vlan-id>2</highest-vlan-id>",
+            "\t\t\t\t\t\t</vlan-range>"
+          ],
+          "text": "\t\t\t\t\t<searchable-mplane-access-vlans-info>\n\t\t\t\t\t\t<searchable-access-vlans>2</searchable-access-vlans>\n\t\t\t\t\t\t<vlan-range>\n\t\t\t\t\t\t\t<lowest-vlan-id>2</lowest-vlan-id>\n\t\t\t\t\t\t\t<highest-vlan-id>2</highest-vlan-id>\n\t\t\t\t\t\t</vlan-range>"
+        },
+        {
+          "start": 4708,
+          "end": 4713,
+          "lines": [
+            "\t\t\t\t\t\t<searchable-access-vlans>2</searchable-access-vlans>",
+            "\t\t\t\t\t\t<vlan-range>",
+            "\t\t\t\t\t\t\t<lowest-vlan-id>2</lowest-vlan-id>",
+            "\t\t\t\t\t\t\t<highest-vlan-id>2</highest-vlan-id>",
+            "\t\t\t\t\t\t</vlan-range>",
+            "\t\t\t\t\t</searchable-mplane-access-vlans-info>"
+          ],
+          "text": "\t\t\t\t\t\t<searchable-access-vlans>2</searchable-access-vlans>\n\t\t\t\t\t\t<vlan-range>\n\t\t\t\t\t\t\t<lowest-vlan-id>2</lowest-vlan-id>\n\t\t\t\t\t\t\t<highest-vlan-id>2</highest-vlan-id>\n\t\t\t\t\t\t</vlan-range>\n\t\t\t\t\t</searchable-mplane-access-vlans-info>"
+        },
+        {
+          "start": 4942,
+          "end": 4947,
+          "lines": [
+            "\t\t\t\t<if:interfaces xmlns:if=\"urn:ietf:params:xml:ns:yang:ietf-interfaces\" xmlns:o-ran-int=\"urn:o-ran:interfaces:1.0\" xmlns:ianaift=\"urn:ietf:params:xml:ns:yang:iana-if-type\">",
+            "\t\t\t\t\t<if:interface>",
+            "\t\t\t\t\t\t<if:name>vlan_0_201</if:name>",
+            "\t\t\t\t\t\t<if:description>VLAN IF for oRan eCPRI CU plane</if:description>",
+            "\t\t\t\t\t\t<if:type>ianaift:l2vlan</if:type>",
+            "\t\t\t\t\t\t<o-ran-int:base-interface>fheth0</o-ran-int:base-interface>"
+          ],
+          "text": "\t\t\t\t<if:interfaces xmlns:if=\"urn:ietf:params:xml:ns:yang:ietf-interfaces\" xmlns:o-ran-int=\"urn:o-ran:interfaces:1.0\" xmlns:ianaift=\"urn:ietf:params:xml:ns:yang:iana-if-type\">\n\t\t\t\t\t<if:interface>\n\t\t\t\t\t\t<if:name>vlan_0_201</if:name>\n\t\t\t\t\t\t<if:description>VLAN IF for oRan eCPRI CU plane</if:description>\n\t\t\t\t\t\t<if:type>ianaift:l2vlan</if:type>\n\t\t\t\t\t\t<o-ran-int:base-interface>fheth0</o-ran-int:base-interface>"
+        },
+        {
+          "start": 4947,
+          "end": 4952,
+          "lines": [
+            "\t\t\t\t\t\t<o-ran-int:base-interface>fheth0</o-ran-int:base-interface>",
+            "\t\t\t\t\t\t<if:enabled>true</if:enabled>",
+            "\t\t\t\t\t\t<o-ran-int:mac-address>34:fe:9e:3d:e0:99</o-ran-int:mac-address>",
+            "\t\t\t\t\t\t<o-ran-int:vlan-id>201</o-ran-int:vlan-id>",
+            "\t\t\t\t\t</if:interface>",
+            "\t\t\t\t</if:interfaces>"
+          ],
+          "text": "\t\t\t\t\t\t<o-ran-int:base-interface>fheth0</o-ran-int:base-interface>\n\t\t\t\t\t\t<if:enabled>true</if:enabled>\n\t\t\t\t\t\t<o-ran-int:mac-address>34:fe:9e:3d:e0:99</o-ran-int:mac-address>\n\t\t\t\t\t\t<o-ran-int:vlan-id>201</o-ran-int:vlan-id>\n\t\t\t\t\t</if:interface>\n\t\t\t\t</if:interfaces>"
+        },
+        {
+          "start": 4997,
+          "end": 5002,
+          "lines": [
+            "\t\t\t\t\t\t\t<interface-name>vlan_0_201</interface-name>",
+            "\t\t\t\t\t\t\t<eth-flow>",
+            "\t\t\t\t\t\t\t\t<ru-mac-address>34:fe:9e:3d:e0:99</ru-mac-address>",
+            "\t\t\t\t\t\t\t\t<vlan-id>201</vlan-id>",
+            "\t\t\t\t\t\t\t\t<o-du-mac-address>00:77:e4:a3:0c:1a</o-du-mac-address>",
+            "\t\t\t\t\t\t\t</eth-flow>"
+          ],
+          "text": "\t\t\t\t\t\t\t<interface-name>vlan_0_201</interface-name>\n\t\t\t\t\t\t\t<eth-flow>\n\t\t\t\t\t\t\t\t<ru-mac-address>34:fe:9e:3d:e0:99</ru-mac-address>\n\t\t\t\t\t\t\t\t<vlan-id>201</vlan-id>\n\t\t\t\t\t\t\t\t<o-du-mac-address>00:77:e4:a3:0c:1a</o-du-mac-address>\n\t\t\t\t\t\t\t</eth-flow>"
+        },
+        {
+          "start": 5047,
+          "end": 5052,
+          "lines": [
+            "\t\t\t\t<if:interfaces xmlns:if=\"urn:ietf:params:xml:ns:yang:ietf-interfaces\" xmlns:o-ran-int=\"urn:o-ran:interfaces:1.0\" xmlns:ianaift=\"urn:ietf:params:xml:ns:yang:iana-if-type\">",
+            "\t\t\t\t\t<if:interface>",
+            "\t\t\t\t\t\t<if:name>vlan_0_201</if:name>",
+            "\t\t\t\t\t\t<if:description>VLAN IF for oRan eCPRI CU plane</if:description>",
+            "\t\t\t\t\t\t<if:type>ianaift:l2vlan</if:type>",
+            "\t\t\t\t\t\t<o-ran-int:base-interface>fheth0</o-ran-int:base-interface>"
+          ],
+          "text": "\t\t\t\t<if:interfaces xmlns:if=\"urn:ietf:params:xml:ns:yang:ietf-interfaces\" xmlns:o-ran-int=\"urn:o-ran:interfaces:1.0\" xmlns:ianaift=\"urn:ietf:params:xml:ns:yang:iana-if-type\">\n\t\t\t\t\t<if:interface>\n\t\t\t\t\t\t<if:name>vlan_0_201</if:name>\n\t\t\t\t\t\t<if:description>VLAN IF for oRan eCPRI CU plane</if:description>\n\t\t\t\t\t\t<if:type>ianaift:l2vlan</if:type>\n\t\t\t\t\t\t<o-ran-int:base-interface>fheth0</o-ran-int:base-interface>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.11  U-Plane configuration between O-DU and O-RU",
+      "description": "O-DU sends User plane configuration and create low level tx/rx endpoint",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 42,
+      "evidences": [
+        {
+          "start": 2341,
+          "end": 2346,
+          "lines": [
+            "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"16\">",
+            "\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t\t<filter type=\"subtree\">",
+            "\t\t\t\t<user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "\t\t\t\t\t<tx-arrays/>",
+            "\t\t\t\t</user-plane-configuration>"
+          ],
+          "text": "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"16\">\n\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t\t<filter type=\"subtree\">\n\t\t\t\t<user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">\n\t\t\t\t\t<tx-arrays/>\n\t\t\t\t</user-plane-configuration>"
+        },
+        {
+          "start": 2351,
+          "end": 2356,
+          "lines": [
+            "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "\t<rpc-reply message-id=\"16\" xmlns:ncx=\"http://netconfcentral.org/ns/yuma-ncx\" ncx:last-modified=\"2024-07-05T17:16:37Z\" ncx:etag=\"2\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t<data>",
+            "\t\t\t<user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "\t\t\t\t<tx-arrays>",
+            "\t\t\t\t\t<name>Tx-Array-00</name>"
+          ],
+          "text": "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\t<rpc-reply message-id=\"16\" xmlns:ncx=\"http://netconfcentral.org/ns/yuma-ncx\" ncx:last-modified=\"2024-07-05T17:16:37Z\" ncx:etag=\"2\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t<data>\n\t\t\t<user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">\n\t\t\t\t<tx-arrays>\n\t\t\t\t\t<name>Tx-Array-00</name>"
+        },
+        {
+          "start": 2659,
+          "end": 2664,
+          "lines": [
+            "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"17\">",
+            "\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t\t<filter type=\"subtree\">",
+            "\t\t\t\t<user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "\t\t\t\t\t<rx-arrays/>",
+            "\t\t\t\t</user-plane-configuration>"
+          ],
+          "text": "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"17\">\n\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t\t<filter type=\"subtree\">\n\t\t\t\t<user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">\n\t\t\t\t\t<rx-arrays/>\n\t\t\t\t</user-plane-configuration>"
+        },
+        {
+          "start": 2669,
+          "end": 2674,
+          "lines": [
+            "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "\t<rpc-reply message-id=\"17\" xmlns:ncx=\"http://netconfcentral.org/ns/yuma-ncx\" ncx:last-modified=\"2024-07-05T17:16:37Z\" ncx:etag=\"2\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t<data>",
+            "\t\t\t<user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "\t\t\t\t<rx-arrays>",
+            "\t\t\t\t\t<name>Rx-Array-00</name>"
+          ],
+          "text": "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\t<rpc-reply message-id=\"17\" xmlns:ncx=\"http://netconfcentral.org/ns/yuma-ncx\" ncx:last-modified=\"2024-07-05T17:16:37Z\" ncx:etag=\"2\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t<data>\n\t\t\t<user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">\n\t\t\t\t<rx-arrays>\n\t\t\t\t\t<name>Rx-Array-00</name>"
+        },
+        {
+          "start": 2967,
+          "end": 2972,
+          "lines": [
+            "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"20\">",
+            "\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t\t<filter type=\"subtree\">",
+            "\t\t\t\t<user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "\t\t\t\t\t<endpoint-types/>",
+            "\t\t\t\t</user-plane-configuration>"
+          ],
+          "text": "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"20\">\n\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t\t<filter type=\"subtree\">\n\t\t\t\t<user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">\n\t\t\t\t\t<endpoint-types/>\n\t\t\t\t</user-plane-configuration>"
+        },
+        {
+          "start": 2977,
+          "end": 2982,
+          "lines": [
+            "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "\t<rpc-reply message-id=\"20\" xmlns:ncx=\"http://netconfcentral.org/ns/yuma-ncx\" ncx:last-modified=\"2024-07-05T17:16:37Z\" ncx:etag=\"2\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t<data>",
+            "\t\t\t<user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "\t\t\t\t<endpoint-types>",
+            "\t\t\t\t\t<id>0</id>"
+          ],
+          "text": "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\t<rpc-reply message-id=\"20\" xmlns:ncx=\"http://netconfcentral.org/ns/yuma-ncx\" ncx:last-modified=\"2024-07-05T17:16:37Z\" ncx:etag=\"2\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t<data>\n\t\t\t<user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">\n\t\t\t\t<endpoint-types>\n\t\t\t\t\t<id>0</id>"
+        },
+        {
+          "start": 3113,
+          "end": 3118,
+          "lines": [
+            "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"21\">",
+            "\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t\t<filter type=\"subtree\">",
+            "\t\t\t\t<user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "\t\t\t\t\t<static-low-level-tx-endpoints/>",
+            "\t\t\t\t</user-plane-configuration>"
+          ],
+          "text": "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"21\">\n\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t\t<filter type=\"subtree\">\n\t\t\t\t<user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">\n\t\t\t\t\t<static-low-level-tx-endpoints/>\n\t\t\t\t</user-plane-configuration>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.12  Fault Management activation",
+      "description": "O-RU responds active alarms list",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 12,
+      "evidences": [
+        {
+          "start": 4149,
+          "end": 4154,
+          "lines": [
+            "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"28\">",
+            "\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t\t<filter type=\"subtree\">",
+            "\t\t\t\t<active-alarm-list xmlns=\"urn:o-ran:fm:1.0\"></active-alarm-list>",
+            "\t\t\t</filter>",
+            "\t\t</get>"
+          ],
+          "text": "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"28\">\n\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t\t<filter type=\"subtree\">\n\t\t\t\t<active-alarm-list xmlns=\"urn:o-ran:fm:1.0\"></active-alarm-list>\n\t\t\t</filter>\n\t\t</get>"
+        },
+        {
+          "start": 4157,
+          "end": 4162,
+          "lines": [
+            "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "\t<rpc-reply message-id=\"28\" xmlns:ncx=\"http://netconfcentral.org/ns/yuma-ncx\" ncx:last-modified=\"2024-07-05T17:16:55Z\" ncx:etag=\"3\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t<data>",
+            "\t\t\t<active-alarm-list xmlns=\"urn:o-ran:fm:1.0\"></active-alarm-list>",
+            "\t\t</data>",
+            "\t</rpc-reply>"
+          ],
+          "text": "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\t<rpc-reply message-id=\"28\" xmlns:ncx=\"http://netconfcentral.org/ns/yuma-ncx\" ncx:last-modified=\"2024-07-05T17:16:55Z\" ncx:etag=\"3\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t<data>\n\t\t\t<active-alarm-list xmlns=\"urn:o-ran:fm:1.0\"></active-alarm-list>\n\t\t</data>\n\t</rpc-reply>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.13  Performance measurement activation",
+      "description": "configuration of O-RU performance",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 24,
+      "evidences": [
+        {
+          "start": 4368,
+          "end": 4373,
+          "lines": [
+            "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"35\">",
+            "\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t\t<filter type=\"subtree\">",
+            "\t\t\t\t<performance-measurement-objects xmlns=\"urn:o-ran:performance-management:1.0\">",
+            "\t\t\t\t\t<measurement-capabilitites></measurement-capabilitites>",
+            "\t\t\t\t</performance-measurement-objects>"
+          ],
+          "text": "\t<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"35\">\n\t\t<get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t\t<filter type=\"subtree\">\n\t\t\t\t<performance-measurement-objects xmlns=\"urn:o-ran:performance-management:1.0\">\n\t\t\t\t\t<measurement-capabilitites></measurement-capabilitites>\n\t\t\t\t</performance-measurement-objects>"
+        },
+        {
+          "start": 4370,
+          "end": 4375,
+          "lines": [
+            "\t\t\t<filter type=\"subtree\">",
+            "\t\t\t\t<performance-measurement-objects xmlns=\"urn:o-ran:performance-management:1.0\">",
+            "\t\t\t\t\t<measurement-capabilitites></measurement-capabilitites>",
+            "\t\t\t\t</performance-measurement-objects>",
+            "\t\t\t</filter>",
+            "\t\t</get>"
+          ],
+          "text": "\t\t\t<filter type=\"subtree\">\n\t\t\t\t<performance-measurement-objects xmlns=\"urn:o-ran:performance-management:1.0\">\n\t\t\t\t\t<measurement-capabilitites></measurement-capabilitites>\n\t\t\t\t</performance-measurement-objects>\n\t\t\t</filter>\n\t\t</get>"
+        },
+        {
+          "start": 4378,
+          "end": 4383,
+          "lines": [
+            "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "\t<rpc-reply message-id=\"35\" xmlns:ncx=\"http://netconfcentral.org/ns/yuma-ncx\" ncx:last-modified=\"2024-07-05T17:16:55Z\" ncx:etag=\"3\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t<data>",
+            "\t\t\t<performance-measurement-objects xmlns=\"urn:o-ran:performance-management:1.0\">",
+            "\t\t\t\t<measurement-capabilitites>",
+            "\t\t\t\t\t<transceiver-objects>"
+          ],
+          "text": "\t<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\t<rpc-reply message-id=\"35\" xmlns:ncx=\"http://netconfcentral.org/ns/yuma-ncx\" ncx:last-modified=\"2024-07-05T17:16:55Z\" ncx:etag=\"3\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t<data>\n\t\t\t<performance-measurement-objects xmlns=\"urn:o-ran:performance-management:1.0\">\n\t\t\t\t<measurement-capabilitites>\n\t\t\t\t\t<transceiver-objects>"
+        },
+        {
+          "start": 4423,
+          "end": 4428,
+          "lines": [
+            "\t\t\t\t\t\t<measurement-object>TX_TOTAL</measurement-object>",
+            "\t\t\t\t\t</tx-stats-objects>",
+            "\t\t\t\t</measurement-capabilitites>",
+            "\t\t\t</performance-measurement-objects>",
+            "\t\t</data>",
+            "\t</rpc-reply>"
+          ],
+          "text": "\t\t\t\t\t\t<measurement-object>TX_TOTAL</measurement-object>\n\t\t\t\t\t</tx-stats-objects>\n\t\t\t\t</measurement-capabilitites>\n\t\t\t</performance-measurement-objects>\n\t\t</data>\n\t</rpc-reply>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.14 synchronization information",
+      "description": "Synchronization reached LOCKED",
+      "severity": "WARN",
+      "status": "PASS",
+      "evidence_count": 12,
+      "evidences": [
+        {
+          "start": 3990,
+          "end": 3995,
+          "lines": [
+            "\t<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">",
+            "\t\t<eventTime>2024-07-05T17:16:55.341141Z</eventTime>",
+            "\t\t<synchronization-state-change xmlns=\"urn:o-ran:sync:1.0\">",
+            "\t\t\t<sync-state>LOCKED</sync-state>",
+            "\t\t</synchronization-state-change>",
+            "\t</notification>"
+          ],
+          "text": "\t<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">\n\t\t<eventTime>2024-07-05T17:16:55.341141Z</eventTime>\n\t\t<synchronization-state-change xmlns=\"urn:o-ran:sync:1.0\">\n\t\t\t<sync-state>LOCKED</sync-state>\n\t\t</synchronization-state-change>\n\t</notification>"
+        },
+        {
+          "start": 4216,
+          "end": 4221,
+          "lines": [
+            "\t\t<data>",
+            "\t\t\t<sync xmlns=\"urn:o-ran:sync:1.0\">",
+            "\t\t\t\t<sync-status>",
+            "\t\t\t\t\t<sync-state>LOCKED</sync-state>",
+            "\t\t\t\t\t<supported-reference-types>",
+            "\t\t\t\t\t\t<item>PTP</item>"
+          ],
+          "text": "\t\t<data>\n\t\t\t<sync xmlns=\"urn:o-ran:sync:1.0\">\n\t\t\t\t<sync-status>\n\t\t\t\t\t<sync-state>LOCKED</sync-state>\n\t\t\t\t\t<supported-reference-types>\n\t\t\t\t\t\t<item>PTP</item>"
+        }
+      ],
+      "extra": {
+        "category": "SYNC"
+      }
+    },
+    {
+      "id": "6.2.6.15-1 Configuring the O-RU operational parameters-carrier activation",
+      "description": "<edit-config> to set <active>ACTIVE</active> succeeded",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 60,
+      "evidences": [
+        {
+          "start": 6523,
+          "end": 6528,
+          "lines": [
+            "\t\t\t\t\t<user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\" xmlns:nc=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t\t\t\t\t<tx-array-carriers>",
+            "\t\t\t\t\t\t\t<name>NR7066.TX41_1_1_0</name>",
+            "\t\t\t\t\t\t\t<active>ACTIVE</active>",
+            "\t\t\t\t\t\t</tx-array-carriers>",
+            "\t\t\t\t\t\t<tx-array-carriers>"
+          ],
+          "text": "\t\t\t\t\t<user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\" xmlns:nc=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t\t\t\t\t<tx-array-carriers>\n\t\t\t\t\t\t\t<name>NR7066.TX41_1_1_0</name>\n\t\t\t\t\t\t\t<active>ACTIVE</active>\n\t\t\t\t\t\t</tx-array-carriers>\n\t\t\t\t\t\t<tx-array-carriers>"
+        },
+        {
+          "start": 6527,
+          "end": 6532,
+          "lines": [
+            "\t\t\t\t\t\t</tx-array-carriers>",
+            "\t\t\t\t\t\t<tx-array-carriers>",
+            "\t\t\t\t\t\t\t<name>NR7066.TX41_1_1_1</name>",
+            "\t\t\t\t\t\t\t<active>ACTIVE</active>",
+            "\t\t\t\t\t\t</tx-array-carriers>",
+            "\t\t\t\t\t\t<tx-array-carriers>"
+          ],
+          "text": "\t\t\t\t\t\t</tx-array-carriers>\n\t\t\t\t\t\t<tx-array-carriers>\n\t\t\t\t\t\t\t<name>NR7066.TX41_1_1_1</name>\n\t\t\t\t\t\t\t<active>ACTIVE</active>\n\t\t\t\t\t\t</tx-array-carriers>\n\t\t\t\t\t\t<tx-array-carriers>"
+        },
+        {
+          "start": 6531,
+          "end": 6536,
+          "lines": [
+            "\t\t\t\t\t\t</tx-array-carriers>",
+            "\t\t\t\t\t\t<tx-array-carriers>",
+            "\t\t\t\t\t\t\t<name>NR7066.TX41_1_1_8</name>",
+            "\t\t\t\t\t\t\t<active>ACTIVE</active>",
+            "\t\t\t\t\t\t</tx-array-carriers>",
+            "\t\t\t\t\t\t<tx-array-carriers>"
+          ],
+          "text": "\t\t\t\t\t\t</tx-array-carriers>\n\t\t\t\t\t\t<tx-array-carriers>\n\t\t\t\t\t\t\t<name>NR7066.TX41_1_1_8</name>\n\t\t\t\t\t\t\t<active>ACTIVE</active>\n\t\t\t\t\t\t</tx-array-carriers>\n\t\t\t\t\t\t<tx-array-carriers>"
+        },
+        {
+          "start": 6535,
+          "end": 6540,
+          "lines": [
+            "\t\t\t\t\t\t</tx-array-carriers>",
+            "\t\t\t\t\t\t<tx-array-carriers>",
+            "\t\t\t\t\t\t\t<name>NR7066.TX41_1_1_9</name>",
+            "\t\t\t\t\t\t\t<active>ACTIVE</active>",
+            "\t\t\t\t\t\t</tx-array-carriers>",
+            "\t\t\t\t\t\t<rx-array-carriers>"
+          ],
+          "text": "\t\t\t\t\t\t</tx-array-carriers>\n\t\t\t\t\t\t<tx-array-carriers>\n\t\t\t\t\t\t\t<name>NR7066.TX41_1_1_9</name>\n\t\t\t\t\t\t\t<active>ACTIVE</active>\n\t\t\t\t\t\t</tx-array-carriers>\n\t\t\t\t\t\t<rx-array-carriers>"
+        },
+        {
+          "start": 6539,
+          "end": 6544,
+          "lines": [
+            "\t\t\t\t\t\t</tx-array-carriers>",
+            "\t\t\t\t\t\t<rx-array-carriers>",
+            "\t\t\t\t\t\t\t<name>NR7066.RX41_1_1_0</name>",
+            "\t\t\t\t\t\t\t<active>ACTIVE</active>",
+            "\t\t\t\t\t\t</rx-array-carriers>",
+            "\t\t\t\t\t\t<rx-array-carriers>"
+          ],
+          "text": "\t\t\t\t\t\t</tx-array-carriers>\n\t\t\t\t\t\t<rx-array-carriers>\n\t\t\t\t\t\t\t<name>NR7066.RX41_1_1_0</name>\n\t\t\t\t\t\t\t<active>ACTIVE</active>\n\t\t\t\t\t\t</rx-array-carriers>\n\t\t\t\t\t\t<rx-array-carriers>"
+        },
+        {
+          "start": 6543,
+          "end": 6548,
+          "lines": [
+            "\t\t\t\t\t\t</rx-array-carriers>",
+            "\t\t\t\t\t\t<rx-array-carriers>",
+            "\t\t\t\t\t\t\t<name>NR7066.RX41_1_1_1</name>",
+            "\t\t\t\t\t\t\t<active>ACTIVE</active>",
+            "\t\t\t\t\t\t</rx-array-carriers>",
+            "\t\t\t\t\t\t<rx-array-carriers>"
+          ],
+          "text": "\t\t\t\t\t\t</rx-array-carriers>\n\t\t\t\t\t\t<rx-array-carriers>\n\t\t\t\t\t\t\t<name>NR7066.RX41_1_1_1</name>\n\t\t\t\t\t\t\t<active>ACTIVE</active>\n\t\t\t\t\t\t</rx-array-carriers>\n\t\t\t\t\t\t<rx-array-carriers>"
+        },
+        {
+          "start": 6547,
+          "end": 6552,
+          "lines": [
+            "\t\t\t\t\t\t</rx-array-carriers>",
+            "\t\t\t\t\t\t<rx-array-carriers>",
+            "\t\t\t\t\t\t\t<name>NR7066.RX41_1_1_8</name>",
+            "\t\t\t\t\t\t\t<active>ACTIVE</active>",
+            "\t\t\t\t\t\t</rx-array-carriers>",
+            "\t\t\t\t\t\t<rx-array-carriers>"
+          ],
+          "text": "\t\t\t\t\t\t</rx-array-carriers>\n\t\t\t\t\t\t<rx-array-carriers>\n\t\t\t\t\t\t\t<name>NR7066.RX41_1_1_8</name>\n\t\t\t\t\t\t\t<active>ACTIVE</active>\n\t\t\t\t\t\t</rx-array-carriers>\n\t\t\t\t\t\t<rx-array-carriers>"
+        },
+        {
+          "start": 6551,
+          "end": 6556,
+          "lines": [
+            "\t\t\t\t\t\t</rx-array-carriers>",
+            "\t\t\t\t\t\t<rx-array-carriers>",
+            "\t\t\t\t\t\t\t<name>NR7066.RX41_1_1_9</name>",
+            "\t\t\t\t\t\t\t<active>ACTIVE</active>",
+            "\t\t\t\t\t\t</rx-array-carriers>",
+            "\t\t\t\t\t</user-plane-configuration>"
+          ],
+          "text": "\t\t\t\t\t\t</rx-array-carriers>\n\t\t\t\t\t\t<rx-array-carriers>\n\t\t\t\t\t\t\t<name>NR7066.RX41_1_1_9</name>\n\t\t\t\t\t\t\t<active>ACTIVE</active>\n\t\t\t\t\t\t</rx-array-carriers>\n\t\t\t\t\t</user-plane-configuration>"
+        },
+        {
+          "start": 7509,
+          "end": 7514,
+          "lines": [
+            "\t\t\t\t\t<user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\" xmlns:nc=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "\t\t\t\t\t\t<tx-array-carriers>",
+            "\t\t\t\t\t\t\t<name>NR7066.TX42_1_1_16</name>",
+            "\t\t\t\t\t\t\t<active>ACTIVE</active>",
+            "\t\t\t\t\t\t</tx-array-carriers>",
+            "\t\t\t\t\t\t<tx-array-carriers>"
+          ],
+          "text": "\t\t\t\t\t<user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\" xmlns:nc=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n\t\t\t\t\t\t<tx-array-carriers>\n\t\t\t\t\t\t\t<name>NR7066.TX42_1_1_16</name>\n\t\t\t\t\t\t\t<active>ACTIVE</active>\n\t\t\t\t\t\t</tx-array-carriers>\n\t\t\t\t\t\t<tx-array-carriers>"
+        },
+        {
+          "start": 7513,
+          "end": 7518,
+          "lines": [
+            "\t\t\t\t\t\t</tx-array-carriers>",
+            "\t\t\t\t\t\t<tx-array-carriers>",
+            "\t\t\t\t\t\t\t<name>NR7066.TX42_1_1_17</name>",
+            "\t\t\t\t\t\t\t<active>ACTIVE</active>",
+            "\t\t\t\t\t\t</tx-array-carriers>",
+            "\t\t\t\t\t\t<tx-array-carriers>"
+          ],
+          "text": "\t\t\t\t\t\t</tx-array-carriers>\n\t\t\t\t\t\t<tx-array-carriers>\n\t\t\t\t\t\t\t<name>NR7066.TX42_1_1_17</name>\n\t\t\t\t\t\t\t<active>ACTIVE</active>\n\t\t\t\t\t\t</tx-array-carriers>\n\t\t\t\t\t\t<tx-array-carriers>"
+        }
+      ],
+      "extra": {
+        "category": "SUPERVISION"
+      }
+    },
+    {
+      "id": "6.2.6.15-2 Configuring the O-RU operational parameters-carrier ready",
+      "description": "Carrier state READY notification observed",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 60,
+      "evidences": [
+        {
+          "start": 6588,
+          "end": 6593,
+          "lines": [
+            "\t\t\t<tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "\t\t\t\t<tx-array-carriers>",
+            "\t\t\t\t\t<name>NR7066.TX41_1_1_0</name>",
+            "\t\t\t\t\t<state>READY</state>",
+            "\t\t\t\t</tx-array-carriers>",
+            "\t\t\t</tx-array-carriers-state-change>"
+          ],
+          "text": "\t\t\t<tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">\n\t\t\t\t<tx-array-carriers>\n\t\t\t\t\t<name>NR7066.TX41_1_1_0</name>\n\t\t\t\t\t<state>READY</state>\n\t\t\t\t</tx-array-carriers>\n\t\t\t</tx-array-carriers-state-change>"
+        },
+        {
+          "start": 6623,
+          "end": 6628,
+          "lines": [
+            "\t\t\t<tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "\t\t\t\t<tx-array-carriers>",
+            "\t\t\t\t\t<name>NR7066.TX41_1_1_1</name>",
+            "\t\t\t\t\t<state>READY</state>",
+            "\t\t\t\t</tx-array-carriers>",
+            "\t\t\t</tx-array-carriers-state-change>"
+          ],
+          "text": "\t\t\t<tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">\n\t\t\t\t<tx-array-carriers>\n\t\t\t\t\t<name>NR7066.TX41_1_1_1</name>\n\t\t\t\t\t<state>READY</state>\n\t\t\t\t</tx-array-carriers>\n\t\t\t</tx-array-carriers-state-change>"
+        },
+        {
+          "start": 6919,
+          "end": 6924,
+          "lines": [
+            "\t\t\t<tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "\t\t\t\t<tx-array-carriers>",
+            "\t\t\t\t\t<name>NR7066.TX41_1_1_8</name>",
+            "\t\t\t\t\t<state>READY</state>",
+            "\t\t\t\t</tx-array-carriers>",
+            "\t\t\t</tx-array-carriers-state-change>"
+          ],
+          "text": "\t\t\t<tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">\n\t\t\t\t<tx-array-carriers>\n\t\t\t\t\t<name>NR7066.TX41_1_1_8</name>\n\t\t\t\t\t<state>READY</state>\n\t\t\t\t</tx-array-carriers>\n\t\t\t</tx-array-carriers-state-change>"
+        },
+        {
+          "start": 6941,
+          "end": 6946,
+          "lines": [
+            "\t\t\t<tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "\t\t\t\t<tx-array-carriers>",
+            "\t\t\t\t\t<name>NR7066.TX41_1_1_9</name>",
+            "\t\t\t\t\t<state>READY</state>",
+            "\t\t\t\t</tx-array-carriers>",
+            "\t\t\t</tx-array-carriers-state-change>"
+          ],
+          "text": "\t\t\t<tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">\n\t\t\t\t<tx-array-carriers>\n\t\t\t\t\t<name>NR7066.TX41_1_1_9</name>\n\t\t\t\t\t<state>READY</state>\n\t\t\t\t</tx-array-carriers>\n\t\t\t</tx-array-carriers-state-change>"
+        },
+        {
+          "start": 6963,
+          "end": 6968,
+          "lines": [
+            "\t\t\t<rx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "\t\t\t\t<rx-array-carriers>",
+            "\t\t\t\t\t<name>NR7066.RX41_1_1_0</name>",
+            "\t\t\t\t\t<state>READY</state>",
+            "\t\t\t\t</rx-array-carriers>",
+            "\t\t\t</rx-array-carriers-state-change>"
+          ],
+          "text": "\t\t\t<rx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">\n\t\t\t\t<rx-array-carriers>\n\t\t\t\t\t<name>NR7066.RX41_1_1_0</name>\n\t\t\t\t\t<state>READY</state>\n\t\t\t\t</rx-array-carriers>\n\t\t\t</rx-array-carriers-state-change>"
+        },
+        {
+          "start": 6985,
+          "end": 6990,
+          "lines": [
+            "\t\t\t<rx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "\t\t\t\t<rx-array-carriers>",
+            "\t\t\t\t\t<name>NR7066.RX41_1_1_1</name>",
+            "\t\t\t\t\t<state>READY</state>",
+            "\t\t\t\t</rx-array-carriers>",
+            "\t\t\t</rx-array-carriers-state-change>"
+          ],
+          "text": "\t\t\t<rx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">\n\t\t\t\t<rx-array-carriers>\n\t\t\t\t\t<name>NR7066.RX41_1_1_1</name>\n\t\t\t\t\t<state>READY</state>\n\t\t\t\t</rx-array-carriers>\n\t\t\t</rx-array-carriers-state-change>"
+        },
+        {
+          "start": 7007,
+          "end": 7012,
+          "lines": [
+            "\t\t\t<rx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "\t\t\t\t<rx-array-carriers>",
+            "\t\t\t\t\t<name>NR7066.RX41_1_1_8</name>",
+            "\t\t\t\t\t<state>READY</state>",
+            "\t\t\t\t</rx-array-carriers>",
+            "\t\t\t</rx-array-carriers-state-change>"
+          ],
+          "text": "\t\t\t<rx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">\n\t\t\t\t<rx-array-carriers>\n\t\t\t\t\t<name>NR7066.RX41_1_1_8</name>\n\t\t\t\t\t<state>READY</state>\n\t\t\t\t</rx-array-carriers>\n\t\t\t</rx-array-carriers-state-change>"
+        },
+        {
+          "start": 7035,
+          "end": 7040,
+          "lines": [
+            "\t\t\t<rx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "\t\t\t\t<rx-array-carriers>",
+            "\t\t\t\t\t<name>NR7066.RX41_1_1_9</name>",
+            "\t\t\t\t\t<state>READY</state>",
+            "\t\t\t\t</rx-array-carriers>",
+            "\t\t\t</rx-array-carriers-state-change>"
+          ],
+          "text": "\t\t\t<rx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">\n\t\t\t\t<rx-array-carriers>\n\t\t\t\t\t<name>NR7066.RX41_1_1_9</name>\n\t\t\t\t\t<state>READY</state>\n\t\t\t\t</rx-array-carriers>\n\t\t\t</rx-array-carriers-state-change>"
+        },
+        {
+          "start": 7574,
+          "end": 7579,
+          "lines": [
+            "\t\t\t<tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "\t\t\t\t<tx-array-carriers>",
+            "\t\t\t\t\t<name>NR7066.TX42_1_1_16</name>",
+            "\t\t\t\t\t<state>READY</state>",
+            "\t\t\t\t</tx-array-carriers>",
+            "\t\t\t</tx-array-carriers-state-change>"
+          ],
+          "text": "\t\t\t<tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">\n\t\t\t\t<tx-array-carriers>\n\t\t\t\t\t<name>NR7066.TX42_1_1_16</name>\n\t\t\t\t\t<state>READY</state>\n\t\t\t\t</tx-array-carriers>\n\t\t\t</tx-array-carriers-state-change>"
+        },
+        {
+          "start": 7601,
+          "end": 7606,
+          "lines": [
+            "\t\t\t<tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "\t\t\t\t<tx-array-carriers>",
+            "\t\t\t\t\t<name>NR7066.TX42_1_1_17</name>",
+            "\t\t\t\t\t<state>READY</state>",
+            "\t\t\t\t</tx-array-carriers>",
+            "\t\t\t</tx-array-carriers-state-change>"
+          ],
+          "text": "\t\t\t<tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">\n\t\t\t\t<tx-array-carriers>\n\t\t\t\t\t<name>NR7066.TX42_1_1_17</name>\n\t\t\t\t\t<state>READY</state>\n\t\t\t\t</tx-array-carriers>\n\t\t\t</tx-array-carriers-state-change>"
+        }
+      ],
+      "extra": {
+        "category": "SUPERVISION"
+      }
+    },
+    {
+      "id": "HW_USAGE_ACTIVE",
+      "description": "Hardware usage-state = active",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 6,
+      "evidences": [
+        {
+          "start": 7477,
+          "end": 7482,
+          "lines": [
+            "\t\t\t\t\t\t\t<state-last-changed>2024-07-05T12:17:20-05:00</state-last-changed>",
+            "\t\t\t\t\t\t\t<admin-state>unlocked</admin-state>",
+            "\t\t\t\t\t\t\t<oper-state>enabled</oper-state>",
+            "\t\t\t\t\t\t\t<usage-state>active</usage-state>",
+            "\t\t\t\t\t\t\t<power-state xmlns=\"urn:o-ran:hardware:1.0\">AWAKE</power-state>",
+            "\t\t\t\t\t\t\t<availability-state xmlns=\"urn:o-ran:hardware:1.0\">NORMAL</availability-state>"
+          ],
+          "text": "\t\t\t\t\t\t\t<state-last-changed>2024-07-05T12:17:20-05:00</state-last-changed>\n\t\t\t\t\t\t\t<admin-state>unlocked</admin-state>\n\t\t\t\t\t\t\t<oper-state>enabled</oper-state>\n\t\t\t\t\t\t\t<usage-state>active</usage-state>\n\t\t\t\t\t\t\t<power-state xmlns=\"urn:o-ran:hardware:1.0\">AWAKE</power-state>\n\t\t\t\t\t\t\t<availability-state xmlns=\"urn:o-ran:hardware:1.0\">NORMAL</availability-state>"
+        }
+      ],
+      "extra": {
+        "category": "HW"
+      }
+    }
+  ],
+  "run_id": "26r1_ENB_9999_0001_00002-09292025",
+  "input_filename": "RMOD_L-1_NetconfRpcMessageTrace - Copy.txt",
+  "saved_at": "2025-09-29T14:38:23Z",
+  "sw_version": "26r1_ENB_9999_0001_00002",
+  "exports": {},
+  "saved_path": null
+}

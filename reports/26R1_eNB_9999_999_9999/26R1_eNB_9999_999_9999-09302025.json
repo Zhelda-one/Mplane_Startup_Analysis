@@ -1,0 +1,696 @@
+{
+  "overall": "PASS",
+  "summary": {
+    "infos": 15,
+    "warnings": 0,
+    "errors": 0
+  },
+  "results": [
+    {
+      "id": "6.2.6.3 SSH/TLS Secure connection establishment",
+      "description": "SSH session/TLS connection establishment initiated by O-DU ",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 7,
+      "evidences": [
+        {
+          "start": 1,
+          "end": 7,
+          "lines": [
+            "2025-09-29T20:47:41.139Z Vbs: [172.22.0.2] Session 0: some of ssh parameters option set failed, (maybe NULL value)",
+            "2025-09-29T20:47:41.213Z Vbs: [172.22.0.2] Session 0: Interactive SSH authentication method was disabled.",
+            "2025-09-29T20:47:41.213Z Vbs: [172.22.0.2] Session 0: Publickey SSH authentication method was disabled.",
+            "2025-09-29T20:47:41.213Z Vbs: [172.22.0.2] Session 0: Password authentication (host \"172.22.0.2\", user \"##########\").",
+            "2025-09-29T20:47:41.228Z Vbs: [172.22.0.2] Session 0: Authentication successful.",
+            "2025-09-29T20:47:41.258Z Dbg: [172.22.0.2] Session 0: Sending message:",
+            "<hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">"
+          ],
+          "text": "2025-09-29T20:47:41.139Z Vbs: [172.22.0.2] Session 0: some of ssh parameters option set failed, (maybe NULL value)\n2025-09-29T20:47:41.213Z Vbs: [172.22.0.2] Session 0: Interactive SSH authentication method was disabled.\n2025-09-29T20:47:41.213Z Vbs: [172.22.0.2] Session 0: Publickey SSH authentication method was disabled.\n2025-09-29T20:47:41.213Z Vbs: [172.22.0.2] Session 0: Password authentication (host \"172.22.0.2\", user \"##########\").\n2025-09-29T20:47:41.228Z Vbs: [172.22.0.2] Session 0: Authentication successful.\n2025-09-29T20:47:41.258Z Dbg: [172.22.0.2] Session 0: Sending message:\n<hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.4-1 NETCONF Capability discovery",
+      "description": "NETCONF hello exchange between O-RU and O-DU",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 6,
+      "evidences": [
+        {
+          "start": 7,
+          "end": 12,
+          "lines": [
+            "<hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "  <capabilities>",
+            "    <capability>urn:ietf:params:netconf:base:1.0</capability>",
+            "    <capability>urn:ietf:params:netconf:base:1.1</capability>",
+            "  </capabilities>",
+            "</hello>"
+          ],
+          "text": "<hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n  <capabilities>\n    <capability>urn:ietf:params:netconf:base:1.0</capability>\n    <capability>urn:ietf:params:netconf:base:1.1</capability>\n  </capabilities>\n</hello>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.4-2 NETCONF Capability discovery(Capabilities inform)",
+      "description": "O-RU sends yang-library of ietf-yang-library.yang module",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 41,
+      "evidences": [
+        {
+          "start": 53,
+          "end": 93,
+          "lines": [
+            "<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"1\">",
+            "  <get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "    <filter type=\"xpath\" xmlns:yanglib=\"urn:ietf:params:xml:ns:yang:ietf-yang-library\" select=\"/yanglib:*\"/>",
+            "  </get>",
+            "</rpc>",
+            "2025-09-29T20:47:41.328Z Dbg: [172.22.0.2] Session 1: Received message:",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"1\">",
+            "  <data>",
+            "    <yang-library xmlns=\"urn:ietf:params:xml:ns:yang:ietf-yang-library\">",
+            "      <module-set>",
+            "        <name>complete</name>",
+            "        <module>",
+            "          <name>yang</name>",
+            "          <revision>2022-06-16</revision>",
+            "          <namespace>urn:ietf:params:xml:ns:yang:1</namespace>",
+            "        </module>",
+            "        <module>",
+            "          <name>ietf-inet-types</name>",
+            "          <revision>2013-07-15</revision>",
+            "          <namespace>urn:ietf:params:xml:ns:yang:ietf-inet-types</namespace>",
+            "        </module>",
+            "        <module>",
+            "          <name>ietf-yang-types</name>",
+            "          <revision>2013-07-15</revision>",
+            "          <namespace>urn:ietf:params:xml:ns:yang:ietf-yang-types</namespace>",
+            "        </module>",
+            "        <module>",
+            "          <name>ietf-yang-schema-mount</name>",
+            "          <revision>2019-01-14</revision>",
+            "          <namespace>urn:ietf:params:xml:ns:yang:ietf-yang-schema-mount</namespace>",
+            "        </module>",
+            "        <module>",
+            "          <name>ietf-datastores</name>",
+            "          <revision>2018-02-14</revision>",
+            "          <namespace>urn:ietf:params:xml:ns:yang:ietf-datastores</namespace>",
+            "        </module>",
+            "        <module>",
+            "          <name>sysrepo</name>",
+            "          <revision>2023-02-16</revision>",
+            "          <namespace>http://www.sysrepo.org/yang/sysrepo</namespace>",
+            "        </module>"
+          ],
+          "text": "<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"1\">\n  <get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n    <filter type=\"xpath\" xmlns:yanglib=\"urn:ietf:params:xml:ns:yang:ietf-yang-library\" select=\"/yanglib:*\"/>\n  </get>\n</rpc>\n2025-09-29T20:47:41.328Z Dbg: [172.22.0.2] Session 1: Received message:\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"1\">\n  <data>\n    <yang-library xmlns=\"urn:ietf:params:xml:ns:yang:ietf-yang-library\">\n      <module-set>\n        <name>complete</name>\n        <module>\n          <name>yang</name>\n          <revision>2022-06-16</revision>\n          <namespace>urn:ietf:params:xml:ns:yang:1</namespace>\n        </module>\n        <module>\n          <name>ietf-inet-types</name>\n          <revision>2013-07-15</revision>\n          <namespace>urn:ietf:params:xml:ns:yang:ietf-inet-types</namespace>\n        </module>\n        <module>\n          <name>ietf-yang-types</name>\n          <revision>2013-07-15</revision>\n          <namespace>urn:ietf:params:xml:ns:yang:ietf-yang-types</namespace>\n        </module>\n        <module>\n          <name>ietf-yang-schema-mount</name>\n          <revision>2019-01-14</revision>\n          <namespace>urn:ietf:params:xml:ns:yang:ietf-yang-schema-mount</namespace>\n        </module>\n        <module>\n          <name>ietf-datastores</name>\n          <revision>2018-02-14</revision>\n          <namespace>urn:ietf:params:xml:ns:yang:ietf-datastores</namespace>\n        </module>\n        <module>\n          <name>sysrepo</name>\n          <revision>2023-02-16</revision>\n          <namespace>http://www.sysrepo.org/yang/sysrepo</namespace>\n        </module>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.6  Initial process of NETCONF Subscribe",
+      "description": "NETCONF create sbscription O-DU to O-RU",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 10,
+      "evidences": [
+        {
+          "start": 4347,
+          "end": 4356,
+          "lines": [
+            "2025-09-29T20:48:32.719Z Dbg: [172.22.0.2] Session 1: Sending message:",
+            "<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"10\">",
+            "  <create-subscription xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">",
+            "    <stream>NETCONF</stream>",
+            "  </create-subscription>",
+            "</rpc>",
+            "2025-09-29T20:48:32.857Z Dbg: [172.22.0.2] Session 1: Received message:",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"10\">",
+            "  <ok/>",
+            "</rpc-reply>"
+          ],
+          "text": "2025-09-29T20:48:32.719Z Dbg: [172.22.0.2] Session 1: Sending message:\n<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"10\">\n  <create-subscription xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">\n    <stream>NETCONF</stream>\n  </create-subscription>\n</rpc>\n2025-09-29T20:48:32.857Z Dbg: [172.22.0.2] Session 1: Received message:\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"10\">\n  <ok/>\n</rpc-reply>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.7  Supervision of NETCONF connection",
+      "description": "O-RU sends supervision notification to O-DU",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 11,
+      "evidences": [
+        {
+          "start": 4357,
+          "end": 4367,
+          "lines": [
+            "2025-09-29T20:48:32.857Z Dbg: [172.22.0.2] Session 1: Sending message:",
+            "<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"11\">",
+            "  <supervision-watchdog-reset xmlns=\"urn:o-ran:supervision:1.0\">",
+            "    <supervision-notification-interval>10</supervision-notification-interval>",
+            "    <guard-timer-overhead>80</guard-timer-overhead>",
+            "  </supervision-watchdog-reset>",
+            "</rpc>",
+            "2025-09-29T20:48:32.876Z Dbg: [172.22.0.2] Session 1: Received message:",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"11\">",
+            "  <next-update-at xmlns=\"urn:o-ran:supervision:1.0\">2025-09-29T20:48:42+00:00</next-update-at>",
+            "</rpc-reply>"
+          ],
+          "text": "2025-09-29T20:48:32.857Z Dbg: [172.22.0.2] Session 1: Sending message:\n<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"11\">\n  <supervision-watchdog-reset xmlns=\"urn:o-ran:supervision:1.0\">\n    <supervision-notification-interval>10</supervision-notification-interval>\n    <guard-timer-overhead>80</guard-timer-overhead>\n  </supervision-watchdog-reset>\n</rpc>\n2025-09-29T20:48:32.876Z Dbg: [172.22.0.2] Session 1: Received message:\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"11\">\n  <next-update-at xmlns=\"urn:o-ran:supervision:1.0\">2025-09-29T20:48:42+00:00</next-update-at>\n</rpc-reply>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.8  Retrieval of O-RU information and Additional configuration",
+      "description": "O-RU sends each yang module list in ietf-yang-library.yang ",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 35,
+      "evidences": [
+        {
+          "start": 177,
+          "end": 183,
+          "lines": [
+            "          <feature>hardware-state</feature>",
+            "        </module>",
+            "        <module>",
+            "          <name>ietf-interfaces</name>",
+            "          <revision>2018-02-20</revision>",
+            "          <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>",
+            "          <location>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</location>"
+          ],
+          "text": "          <feature>hardware-state</feature>\n        </module>\n        <module>\n          <name>ietf-interfaces</name>\n          <revision>2018-02-20</revision>\n          <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>\n          <location>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</location>"
+        },
+        {
+          "start": 179,
+          "end": 185,
+          "lines": [
+            "        <module>",
+            "          <name>ietf-interfaces</name>",
+            "          <revision>2018-02-20</revision>",
+            "          <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>",
+            "          <location>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</location>",
+            "          <feature>if-mib</feature>",
+            "        </module>"
+          ],
+          "text": "        <module>\n          <name>ietf-interfaces</name>\n          <revision>2018-02-20</revision>\n          <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>\n          <location>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</location>\n          <feature>if-mib</feature>\n        </module>"
+        },
+        {
+          "start": 180,
+          "end": 186,
+          "lines": [
+            "          <name>ietf-interfaces</name>",
+            "          <revision>2018-02-20</revision>",
+            "          <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>",
+            "          <location>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</location>",
+            "          <feature>if-mib</feature>",
+            "        </module>",
+            "        <module>"
+          ],
+          "text": "          <name>ietf-interfaces</name>\n          <revision>2018-02-20</revision>\n          <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>\n          <location>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</location>\n          <feature>if-mib</feature>\n        </module>\n        <module>"
+        },
+        {
+          "start": 273,
+          "end": 279,
+          "lines": [
+            "          <location>file:///var/volatile/tmp/sysrepo/yang/o-ran-interfaces@2021-12-01.yang</location>",
+            "        </module>",
+            "        <module>",
+            "          <name>o-ran-mplane-int</name>",
+            "          <revision>2021-12-01</revision>",
+            "          <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>",
+            "          <location>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</location>"
+          ],
+          "text": "          <location>file:///var/volatile/tmp/sysrepo/yang/o-ran-interfaces@2021-12-01.yang</location>\n        </module>\n        <module>\n          <name>o-ran-mplane-int</name>\n          <revision>2021-12-01</revision>\n          <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>\n          <location>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</location>"
+        },
+        {
+          "start": 276,
+          "end": 282,
+          "lines": [
+            "          <name>o-ran-mplane-int</name>",
+            "          <revision>2021-12-01</revision>",
+            "          <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>",
+            "          <location>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</location>",
+            "        </module>",
+            "        <module>",
+            "          <name>o-ran-processing-element</name>"
+          ],
+          "text": "          <name>o-ran-mplane-int</name>\n          <revision>2021-12-01</revision>\n          <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>\n          <location>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</location>\n        </module>\n        <module>\n          <name>o-ran-processing-element</name>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.9  Software management",
+      "description": "O-RU responds software inventory",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 37,
+      "evidences": [
+        {
+          "start": 2874,
+          "end": 2910,
+          "lines": [
+            "<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"4\">",
+            "  <get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "    <filter type=\"subtree\">",
+            "      <software-inventory xmlns=\"urn:o-ran:software-management:1.0\">",
+            "        <software-slot>",
+            "          <name/>",
+            "          <status>VALID</status>",
+            "          <active>true</active>",
+            "          <running>true</running>",
+            "          <product-code/>",
+            "          <build-id/>",
+            "          <build-name/>",
+            "          <build-version/>",
+            "          <vendor-code/>",
+            "        </software-slot>",
+            "      </software-inventory>",
+            "    </filter>",
+            "  </get>",
+            "</rpc>",
+            "2025-09-29T20:48:26.600Z Dbg: [172.22.0.2] Session 1: Received message:",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"4\">",
+            "  <data>",
+            "    <software-inventory xmlns=\"urn:o-ran:software-management:1.0\">",
+            "      <software-slot>",
+            "        <name>Slot2</name>",
+            "        <status>VALID</status>",
+            "        <active>true</active>",
+            "        <running>true</running>",
+            "        <product-code>476626A.X21</product-code>",
+            "        <vendor-code>NK</vendor-code>",
+            "        <build-id>1</build-id>",
+            "        <build-name>NK.RF.SRM7.trunk</build-name>",
+            "        <build-version>20250915.016</build-version>",
+            "      </software-slot>",
+            "    </software-inventory>",
+            "  </data>",
+            "</rpc-reply>"
+          ],
+          "text": "<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"4\">\n  <get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n    <filter type=\"subtree\">\n      <software-inventory xmlns=\"urn:o-ran:software-management:1.0\">\n        <software-slot>\n          <name/>\n          <status>VALID</status>\n          <active>true</active>\n          <running>true</running>\n          <product-code/>\n          <build-id/>\n          <build-name/>\n          <build-version/>\n          <vendor-code/>\n        </software-slot>\n      </software-inventory>\n    </filter>\n  </get>\n</rpc>\n2025-09-29T20:48:26.600Z Dbg: [172.22.0.2] Session 1: Received message:\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"4\">\n  <data>\n    <software-inventory xmlns=\"urn:o-ran:software-management:1.0\">\n      <software-slot>\n        <name>Slot2</name>\n        <status>VALID</status>\n        <active>true</active>\n        <running>true</running>\n        <product-code>476626A.X21</product-code>\n        <vendor-code>NK</vendor-code>\n        <build-id>1</build-id>\n        <build-name>NK.RF.SRM7.trunk</build-name>\n        <build-version>20250915.016</build-version>\n      </software-slot>\n    </software-inventory>\n  </data>\n</rpc-reply>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.10  C/U-Plane transport connectivity check between O-DU and O-RU",
+      "description": "O-DU configure vlan id for CU plane",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 24,
+      "evidences": [
+        {
+          "start": 13205,
+          "end": 13228,
+          "lines": [
+            "<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"95\">",
+            "  <edit-config xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "    <target>",
+            "      <running/>",
+            "    </target>",
+            "    <config>",
+            "      <interfaces xmlns=\"urn:ietf:params:xml:ns:yang:ietf-interfaces\">",
+            "        <interface>",
+            "          <name>vlan_1_ethernetInterface0</name>",
+            "          <description>VLAN IF for oRan eCPRI CU plane</description>",
+            "          <type xmlns:ianaift=\"urn:ietf:params:xml:ns:yang:iana-if-type\">ianaift:l2vlan</type>",
+            "          <enabled>true</enabled>",
+            "          <base-interface xmlns=\"urn:o-ran:interfaces:1.0\">ethernetInterface0</base-interface>",
+            "          <vlan-id xmlns=\"urn:o-ran:interfaces:1.0\">1</vlan-id>",
+            "          <mac-address xmlns=\"urn:o-ran:interfaces:1.0\">d0:48:4f:2b:1f:3f</mac-address>",
+            "        </interface>",
+            "      </interfaces>",
+            "    </config>",
+            "  </edit-config>",
+            "</rpc>",
+            "2025-09-29T20:49:07.244Z Dbg: [172.22.0.2] Session 1: Received message:",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"95\">",
+            "  <ok/>",
+            "</rpc-reply>"
+          ],
+          "text": "<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"95\">\n  <edit-config xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n    <target>\n      <running/>\n    </target>\n    <config>\n      <interfaces xmlns=\"urn:ietf:params:xml:ns:yang:ietf-interfaces\">\n        <interface>\n          <name>vlan_1_ethernetInterface0</name>\n          <description>VLAN IF for oRan eCPRI CU plane</description>\n          <type xmlns:ianaift=\"urn:ietf:params:xml:ns:yang:iana-if-type\">ianaift:l2vlan</type>\n          <enabled>true</enabled>\n          <base-interface xmlns=\"urn:o-ran:interfaces:1.0\">ethernetInterface0</base-interface>\n          <vlan-id xmlns=\"urn:o-ran:interfaces:1.0\">1</vlan-id>\n          <mac-address xmlns=\"urn:o-ran:interfaces:1.0\">d0:48:4f:2b:1f:3f</mac-address>\n        </interface>\n      </interfaces>\n    </config>\n  </edit-config>\n</rpc>\n2025-09-29T20:49:07.244Z Dbg: [172.22.0.2] Session 1: Received message:\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"95\">\n  <ok/>\n</rpc-reply>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.11  U-Plane configuration between O-DU and O-RU",
+      "description": "O-DU sends User plane configuration and create low level tx/rx endpoint",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 26,
+      "evidences": [
+        {
+          "start": 5585,
+          "end": 5610,
+          "lines": [
+            "2025-09-29T20:48:39.423Z Dbg: [172.22.0.2] Session 1: Sending message:",
+            "<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"26\">",
+            "  <get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "    <filter type=\"subtree\">",
+            "      <user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "        <static-low-level-tx-endpoints/>",
+            "      </user-plane-configuration>",
+            "    </filter>",
+            "  </get>",
+            "</rpc>",
+            "2025-09-29T20:48:39.672Z Dbg: [172.22.0.2] Session 1: Received message:",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"26\">",
+            "  <data>",
+            "    <user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "      <static-low-level-tx-endpoints>",
+            "        <name>lowLevelTxEndpoint0</name>",
+            "        <restricted-interfaces>ethernetInterface0</restricted-interfaces>",
+            "        <restricted-interfaces>ethernetInterface2</restricted-interfaces>",
+            "        <array>txArray1a</array>",
+            "        <endpoint-type>4</endpoint-type>",
+            "        <supported-reference-level>",
+            "          <id>0</id>",
+            "          <min>-8.2082</min>",
+            "          <max>16.1055</max>",
+            "        </supported-reference-level>",
+            "        <compression>"
+          ],
+          "text": "2025-09-29T20:48:39.423Z Dbg: [172.22.0.2] Session 1: Sending message:\n<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"26\">\n  <get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n    <filter type=\"subtree\">\n      <user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">\n        <static-low-level-tx-endpoints/>\n      </user-plane-configuration>\n    </filter>\n  </get>\n</rpc>\n2025-09-29T20:48:39.672Z Dbg: [172.22.0.2] Session 1: Received message:\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"26\">\n  <data>\n    <user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">\n      <static-low-level-tx-endpoints>\n        <name>lowLevelTxEndpoint0</name>\n        <restricted-interfaces>ethernetInterface0</restricted-interfaces>\n        <restricted-interfaces>ethernetInterface2</restricted-interfaces>\n        <array>txArray1a</array>\n        <endpoint-type>4</endpoint-type>\n        <supported-reference-level>\n          <id>0</id>\n          <min>-8.2082</min>\n          <max>16.1055</max>\n        </supported-reference-level>\n        <compression>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.12  Fault Management activation",
+      "description": "O-RU responds active alarms list",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 12,
+      "evidences": [
+        {
+          "start": 10644,
+          "end": 10655,
+          "lines": [
+            "2025-09-29T20:48:45.532Z Dbg: [172.22.0.2] Session 1: Sending message:",
+            "<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"47\">",
+            "  <get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "    <filter type=\"subtree\">",
+            "      <active-alarm-list xmlns=\"urn:o-ran:fm:1.0\"/>",
+            "    </filter>",
+            "  </get>",
+            "</rpc>",
+            "2025-09-29T20:48:45.543Z Dbg: [172.22.0.2] Session 1: Received message:",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"47\">",
+            "  <data>",
+            "  </data>"
+          ],
+          "text": "2025-09-29T20:48:45.532Z Dbg: [172.22.0.2] Session 1: Sending message:\n<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"47\">\n  <get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n    <filter type=\"subtree\">\n      <active-alarm-list xmlns=\"urn:o-ran:fm:1.0\"/>\n    </filter>\n  </get>\n</rpc>\n2025-09-29T20:48:45.543Z Dbg: [172.22.0.2] Session 1: Received message:\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"47\">\n  <data>\n  </data>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.13  Performance measurement activation",
+      "description": "configuration of O-RU performance",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 35,
+      "evidences": [
+        {
+          "start": 10325,
+          "end": 10359,
+          "lines": [
+            "2025-09-29T20:48:45.389Z Dbg: [172.22.0.2] Session 1: Sending message:",
+            "<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"41\">",
+            "  <get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "    <filter type=\"subtree\">",
+            "      <performance-measurement-objects xmlns=\"urn:o-ran:performance-management:1.0\">",
+            "        <measurement-capabilitites/>",
+            "      </performance-measurement-objects>",
+            "    </filter>",
+            "  </get>",
+            "</rpc>",
+            "2025-09-29T20:48:45.411Z Dbg: [172.22.0.2] Session 1: Received message:",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"41\">",
+            "  <data>",
+            "    <performance-measurement-objects xmlns=\"urn:o-ran:performance-management:1.0\">",
+            "      <measurement-capabilitites>",
+            "        <transceiver-objects>",
+            "          <measurement-object>RX_POWER</measurement-object>",
+            "          <report-info>MAXIMUM</report-info>",
+            "          <report-info>MINIMUM</report-info>",
+            "          <report-info>FIRST</report-info>",
+            "          <report-info>LATEST</report-info>",
+            "          <report-info>FREQUENCY_TABLE</report-info>",
+            "          <function>RAW</function>",
+            "          <function>LOG_10</function>",
+            "          <max-bin-count>65535</max-bin-count>",
+            "        </transceiver-objects>",
+            "        <transceiver-objects>",
+            "          <measurement-object>TX_POWER</measurement-object>",
+            "          <report-info>MAXIMUM</report-info>",
+            "          <report-info>MINIMUM</report-info>",
+            "          <report-info>FIRST</report-info>",
+            "          <report-info>LATEST</report-info>",
+            "          <report-info>FREQUENCY_TABLE</report-info>",
+            "          <function>RAW</function>",
+            "          <function>LOG_10</function>"
+          ],
+          "text": "2025-09-29T20:48:45.389Z Dbg: [172.22.0.2] Session 1: Sending message:\n<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"41\">\n  <get xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n    <filter type=\"subtree\">\n      <performance-measurement-objects xmlns=\"urn:o-ran:performance-management:1.0\">\n        <measurement-capabilitites/>\n      </performance-measurement-objects>\n    </filter>\n  </get>\n</rpc>\n2025-09-29T20:48:45.411Z Dbg: [172.22.0.2] Session 1: Received message:\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"41\">\n  <data>\n    <performance-measurement-objects xmlns=\"urn:o-ran:performance-management:1.0\">\n      <measurement-capabilitites>\n        <transceiver-objects>\n          <measurement-object>RX_POWER</measurement-object>\n          <report-info>MAXIMUM</report-info>\n          <report-info>MINIMUM</report-info>\n          <report-info>FIRST</report-info>\n          <report-info>LATEST</report-info>\n          <report-info>FREQUENCY_TABLE</report-info>\n          <function>RAW</function>\n          <function>LOG_10</function>\n          <max-bin-count>65535</max-bin-count>\n        </transceiver-objects>\n        <transceiver-objects>\n          <measurement-object>TX_POWER</measurement-object>\n          <report-info>MAXIMUM</report-info>\n          <report-info>MINIMUM</report-info>\n          <report-info>FIRST</report-info>\n          <report-info>LATEST</report-info>\n          <report-info>FREQUENCY_TABLE</report-info>\n          <function>RAW</function>\n          <function>LOG_10</function>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.14 synchronization information",
+      "description": "Synchronization reached LOCKED",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 12,
+      "evidences": [
+        {
+          "start": 10225,
+          "end": 10236,
+          "lines": [
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"38\">",
+            "  <data>",
+            "    <sync xmlns=\"urn:o-ran:sync:1.0\">",
+            "      <sync-status>",
+            "        <sync-state>LOCKED</sync-state>",
+            "        <supported-reference-types>",
+            "          <item>PTP</item>",
+            "        </supported-reference-types>",
+            "      </sync-status>",
+            "    </sync>",
+            "  </data>",
+            "</rpc-reply>"
+          ],
+          "text": "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"38\">\n  <data>\n    <sync xmlns=\"urn:o-ran:sync:1.0\">\n      <sync-status>\n        <sync-state>LOCKED</sync-state>\n        <supported-reference-types>\n          <item>PTP</item>\n        </supported-reference-types>\n      </sync-status>\n    </sync>\n  </data>\n</rpc-reply>"
+        }
+      ],
+      "extra": {
+        "category": "SYNC"
+      }
+    },
+    {
+      "id": "6.2.6.15-1 Configuring the O-RU operational parameters-carrier activation",
+      "description": "<edit-config> to set <active>ACTIVE</active> succeeded",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 36,
+      "evidences": [
+        {
+          "start": 20118,
+          "end": 20153,
+          "lines": [
+            "2025-09-29T20:49:26.717Z Dbg: [172.22.0.2] Session 1: Sending message:",
+            "<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"199\">",
+            "  <edit-config xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "    <target>",
+            "      <running/>",
+            "    </target>",
+            "    <config>",
+            "      <user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "        <tx-array-carriers>",
+            "          <name>NR405160.TX3_1_1_48</name>",
+            "          <active>ACTIVE</active>",
+            "        </tx-array-carriers>",
+            "        <tx-array-carriers>",
+            "          <name>NR405160.TX3_1_1_49</name>",
+            "          <active>ACTIVE</active>",
+            "        </tx-array-carriers>",
+            "        <tx-array-carriers>",
+            "          <name>NR405160.TX3_1_1_56</name>",
+            "          <active>ACTIVE</active>",
+            "        </tx-array-carriers>",
+            "        <tx-array-carriers>",
+            "          <name>NR405160.TX3_1_1_57</name>",
+            "          <active>ACTIVE</active>",
+            "        </tx-array-carriers>",
+            "        <rx-array-carriers>",
+            "          <name>NR405160.RX3_1_1_48</name>",
+            "          <active>ACTIVE</active>",
+            "        </rx-array-carriers>",
+            "        <rx-array-carriers>",
+            "          <name>NR405160.RX3_1_1_49</name>",
+            "          <active>ACTIVE</active>",
+            "        </rx-array-carriers>",
+            "        <rx-array-carriers>",
+            "          <name>NR405160.RX3_1_1_56</name>",
+            "          <active>ACTIVE</active>",
+            "        </rx-array-carriers>"
+          ],
+          "text": "2025-09-29T20:49:26.717Z Dbg: [172.22.0.2] Session 1: Sending message:\n<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"199\">\n  <edit-config xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n    <target>\n      <running/>\n    </target>\n    <config>\n      <user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">\n        <tx-array-carriers>\n          <name>NR405160.TX3_1_1_48</name>\n          <active>ACTIVE</active>\n        </tx-array-carriers>\n        <tx-array-carriers>\n          <name>NR405160.TX3_1_1_49</name>\n          <active>ACTIVE</active>\n        </tx-array-carriers>\n        <tx-array-carriers>\n          <name>NR405160.TX3_1_1_56</name>\n          <active>ACTIVE</active>\n        </tx-array-carriers>\n        <tx-array-carriers>\n          <name>NR405160.TX3_1_1_57</name>\n          <active>ACTIVE</active>\n        </tx-array-carriers>\n        <rx-array-carriers>\n          <name>NR405160.RX3_1_1_48</name>\n          <active>ACTIVE</active>\n        </rx-array-carriers>\n        <rx-array-carriers>\n          <name>NR405160.RX3_1_1_49</name>\n          <active>ACTIVE</active>\n        </rx-array-carriers>\n        <rx-array-carriers>\n          <name>NR405160.RX3_1_1_56</name>\n          <active>ACTIVE</active>\n        </rx-array-carriers>"
+        }
+      ],
+      "extra": {
+        "category": "SUPERVISION"
+      }
+    },
+    {
+      "id": "6.2.6.15-2 Configuring the O-RU operational parameters-carrier ready",
+      "description": "Carrier state READY notification observed",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 42,
+      "evidences": [
+        {
+          "start": 20240,
+          "end": 20260,
+          "lines": [
+            "<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">",
+            "  <eventTime>2025-09-29T20:49:29.378436264+00:00</eventTime>",
+            "  <rx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "    <rx-array-carriers>",
+            "      <name>NR405160.RX3_1_1_48</name>",
+            "      <state>READY</state>",
+            "    </rx-array-carriers>",
+            "    <rx-array-carriers>",
+            "      <name>NR405160.RX3_1_1_49</name>",
+            "      <state>READY</state>",
+            "    </rx-array-carriers>",
+            "    <rx-array-carriers>",
+            "      <name>NR405160.RX3_1_1_56</name>",
+            "      <state>READY</state>",
+            "    </rx-array-carriers>",
+            "    <rx-array-carriers>",
+            "      <name>NR405160.RX3_1_1_57</name>",
+            "      <state>READY</state>",
+            "    </rx-array-carriers>",
+            "  </rx-array-carriers-state-change>",
+            "</notification>"
+          ],
+          "text": "<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">\n  <eventTime>2025-09-29T20:49:29.378436264+00:00</eventTime>\n  <rx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">\n    <rx-array-carriers>\n      <name>NR405160.RX3_1_1_48</name>\n      <state>READY</state>\n    </rx-array-carriers>\n    <rx-array-carriers>\n      <name>NR405160.RX3_1_1_49</name>\n      <state>READY</state>\n    </rx-array-carriers>\n    <rx-array-carriers>\n      <name>NR405160.RX3_1_1_56</name>\n      <state>READY</state>\n    </rx-array-carriers>\n    <rx-array-carriers>\n      <name>NR405160.RX3_1_1_57</name>\n      <state>READY</state>\n    </rx-array-carriers>\n  </rx-array-carriers-state-change>\n</notification>"
+        },
+        {
+          "start": 20244,
+          "end": 20264,
+          "lines": [
+            "      <name>NR405160.RX3_1_1_48</name>",
+            "      <state>READY</state>",
+            "    </rx-array-carriers>",
+            "    <rx-array-carriers>",
+            "      <name>NR405160.RX3_1_1_49</name>",
+            "      <state>READY</state>",
+            "    </rx-array-carriers>",
+            "    <rx-array-carriers>",
+            "      <name>NR405160.RX3_1_1_56</name>",
+            "      <state>READY</state>",
+            "    </rx-array-carriers>",
+            "    <rx-array-carriers>",
+            "      <name>NR405160.RX3_1_1_57</name>",
+            "      <state>READY</state>",
+            "    </rx-array-carriers>",
+            "  </rx-array-carriers-state-change>",
+            "</notification>",
+            "2025-09-29T20:49:29.606Z Dbg: [172.22.0.2] Session 1: Received message:",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"201\">",
+            "  <ok/>",
+            "</rpc-reply>"
+          ],
+          "text": "      <name>NR405160.RX3_1_1_48</name>\n      <state>READY</state>\n    </rx-array-carriers>\n    <rx-array-carriers>\n      <name>NR405160.RX3_1_1_49</name>\n      <state>READY</state>\n    </rx-array-carriers>\n    <rx-array-carriers>\n      <name>NR405160.RX3_1_1_56</name>\n      <state>READY</state>\n    </rx-array-carriers>\n    <rx-array-carriers>\n      <name>NR405160.RX3_1_1_57</name>\n      <state>READY</state>\n    </rx-array-carriers>\n  </rx-array-carriers-state-change>\n</notification>\n2025-09-29T20:49:29.606Z Dbg: [172.22.0.2] Session 1: Received message:\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"201\">\n  <ok/>\n</rpc-reply>"
+        }
+      ],
+      "extra": {
+        "category": "SUPERVISION"
+      }
+    },
+    {
+      "id": "HW_USAGE_ACTIVE",
+      "description": "Hardware usage-state = active",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 26,
+      "evidences": [
+        {
+          "start": 14887,
+          "end": 14912,
+          "lines": [
+            "        <name>Module</name>",
+            "        <class xmlns:o-ran-hw=\"urn:o-ran:hardware:1.0\">o-ran-hw:O-RAN-RADIO</class>",
+            "        <state>",
+            "          <admin-state>unlocked</admin-state>",
+            "          <oper-state>enabled</oper-state>",
+            "          <usage-state>active</usage-state>",
+            "          <availability-state xmlns=\"urn:o-ran:hardware:1.0\">NORMAL</availability-state>",
+            "        </state>",
+            "      </component>",
+            "    </hardware>",
+            "  </data>",
+            "</rpc-reply>",
+            "2025-09-29T20:49:12.826Z Dbg: [172.22.0.2] Session 1: Sending message:",
+            "<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"138\">",
+            "  <lock xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "    <target>",
+            "      <running/>",
+            "    </target>",
+            "  </lock>",
+            "</rpc>",
+            "2025-09-29T20:49:12.832Z Dbg: [172.22.0.2] Session 1: Received message:",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"138\">",
+            "  <ok/>",
+            "</rpc-reply>",
+            "2025-09-29T20:49:12.834Z Dbg: [172.22.0.2] Session 1: Sending message:",
+            "<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"139\">"
+          ],
+          "text": "        <name>Module</name>\n        <class xmlns:o-ran-hw=\"urn:o-ran:hardware:1.0\">o-ran-hw:O-RAN-RADIO</class>\n        <state>\n          <admin-state>unlocked</admin-state>\n          <oper-state>enabled</oper-state>\n          <usage-state>active</usage-state>\n          <availability-state xmlns=\"urn:o-ran:hardware:1.0\">NORMAL</availability-state>\n        </state>\n      </component>\n    </hardware>\n  </data>\n</rpc-reply>\n2025-09-29T20:49:12.826Z Dbg: [172.22.0.2] Session 1: Sending message:\n<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"138\">\n  <lock xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n    <target>\n      <running/>\n    </target>\n  </lock>\n</rpc>\n2025-09-29T20:49:12.832Z Dbg: [172.22.0.2] Session 1: Received message:\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"138\">\n  <ok/>\n</rpc-reply>\n2025-09-29T20:49:12.834Z Dbg: [172.22.0.2] Session 1: Sending message:\n<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"139\">"
+        }
+      ],
+      "extra": {
+        "category": "HW"
+      }
+    }
+  ],
+  "run_id": "26R1_eNB_9999_999_9999-09302025",
+  "input_filename": "RMOD_L-1_RPC_0_XML3.log",
+  "saved_at": "2025-09-30T15:35:40Z",
+  "sw_version": "26R1_eNB_9999_999_9999",
+  "exports": {},
+  "saved_path": null
+}

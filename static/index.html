@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>O-RAN M-Plane Startup Log Analyzer</title>
+<link rel="icon" href="data:,">
+<style>
+  :root{--primary:#0078d4;--primary-dark:#005a9e;--ok:#28a745;--ok-dark:#1e7e34;--bg:#f4f7f9;--card:#fff;--muted:#eef4f8;--border:#ddd;--text:#333}
+  *{box-sizing:border-box}
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);margin:0;padding:20px}
+  .container{max-width:1200px;margin:auto;background:var(--card);padding:20px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.08); position:relative;}
+  h1,h2{color:var(--primary-dark);border-bottom:2px solid var(--primary-dark);padding-bottom:10px;margin-top:0}
+  .upload{background:var(--muted);border:2px dashed var(--primary);padding:12px;border-radius:8px;margin-bottom:20px}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .row-left,.row-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .btn{background:var(--primary);color:#fff;border:0;border-radius:6px;padding:8px 12px;font-weight:600;cursor:pointer}
+  .btn[disabled]{opacity:.6;cursor:not-allowed}
+  .badge{display:inline-block;padding:4px 10px;border-radius:12px;font-weight:700;font-size:12px;background:#eee}
+  .pass{background:#c8f7c5}.fail{background:#f7c5c5}
+  .muted{color:#666}
+  .flow{display:flex;align-items:center;gap:10px;margin:20px 0;padding:0 10px}
+  .step{flex:1;text-align:center}
+  .icon{display:inline-flex;align-items:center;justify-content:center;width:50px;height:50px;border-radius:50%;background:#ccc;color:#fff;font-weight:800;border:3px solid #aaa;transition: transform .35s ease, box-shadow .35s ease, background-color .35s ease, border-color .35s ease;}
+  .done .icon{background:var(--ok);border-color:var(--ok-dark);animation:step-pop .38s ease-out 1;box-shadow:0 0 0 0 rgba(76,175,80,.55);}
+  @keyframes step-pop{0%{transform:scale(.85)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+  .label{font-size:14px;font-weight:700;margin-top:6px}
+  .conn{flex:1;height:6px;background:#ccc;border-radius:3px;position:relative;overflow:hidden}
+  .conn.done{background:#4caf50}
+  .conn.done::before{content:"";position:absolute;top:0;left:-40%;width:40%;height:100%;background:rgba(255,255,255,.7);filter:blur(6px);opacity:.9;animation:sweep 1.2s ease-out 1}
+  @keyframes sweep{0%{left:-40%;opacity:.95}100%{left:110%;opacity:0}}
+  table{border-collapse:collapse;width:100%} th,td{border:1px solid #ccc;padding:8px 10px;text-align:left} th{background:#f3f3f3}
+  tr.clickable{cursor:pointer} tr.selected{outline:2px solid var(--primary)}
+  .chip{display:inline-block;min-width:72px;text-align:center;border-radius:12px;padding:2px 8px;font-weight:700;font-size:12px;background:#eee;margin-right:8px}
+  .chip.pass{background:#c8f7c5}.chip.fail{background:#f7c5c5}
+  .clist .item{padding:8px 10px;border-bottom:1px dashed #e7e7e7;display:flex;gap:8px;align-items:center}
+  .clist .title{font-weight:800;margin:8px 0 6px}
+  .evidence{margin-top:14px;border:1px solid var(--border);border-radius:8px;background:#fff}
+  .evi-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#f3f7fb;border-bottom:1px solid var(--border)}
+  .evi-body{padding:10px 12px;max-height:420px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+  .mono{font-family:ui-monospace,SFMono-Regular,Consolas,Menlo,Monaco,monospace}
+  .status-pass { color: #2e7d32; font-weight: 700; }
+  .status-fail { color: #d32f2f; font-weight: 700; }
+  .status-nolog { color: #6c757d; font-style: italic; }
+  .corner-logo{position:absolute;top:16px;right:16px;width:48px;height:auto;opacity:.9;pointer-events:none}
+  @media (max-width:780px){.row{gap:10px}.row-right{width:100%;justify-content:flex-end}.corner-logo{width:36px;top:12px;right:12px}}
+    /* Box1: Format & Save 색상 커스텀 */
+  /*#boxFormat{
+    background: #fff4e6;          /* 배경색 */
+    /*border-color: #ff8a00;        /* 점선 테두리색 */
+  /* }
+  /* #boxFormat .btn{
+    background: #ff8a00;          /* 버튼 배경 */
+  /* }
+  /* #boxFormat .btn:hover{
+    filter: brightness(0.95);     /* 호버 살짝 어둡게 */
+  /* }
+  /* #boxFormat .muted{
+    color: #a4622a;               /* 설명 글자색(선택사항) */
+  /*}*/
+
+  #boxFormat{ background:#e9f8ef; border-color:#2eb872 }
+  #boxFormat .btn{ background:#2eb872 }
+  #boxFormat .muted{ color:#267a55 }
+
+  /* Header row */
+  .section-h2-row{ display:flex; align-items:center; gap:12px; }
+  .section-h2-row .section-spacer{ flex:1 1 auto; }
+  .section-h2-row .section-badge{
+    width:120px; height:auto; object-fit:contain;
+    border-radius:6px; border:1px solid var(--border, #d9d9d9);
+    box-shadow:0 1px 3px rgba(0,0,0,.08);
+  }
+  @media (max-width:780px){
+    .section-h2-row .section-badge{ width:92px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <img src="/static/img/logo.jpg" alt="logo" class="corner-logo" />
+
+  <h1>O-RAN M-Plane Startup Log Analyzer - by RL1 PD US Poc & Val Team</h1>
+
+  <!-- ▣ Box 1: Format & Save (Local Pretty) -->
+  <div class="upload" id="boxFormat">
+    <div><strong>Format &amp; Save</strong> — RMOD RPC log to XML format. <span style="color: red;"><strong> [Ensure the log captures the M-plane startup process.]</strong></span></div>
+    <div class="row" style="margin-top:6px">
+      <div class="row-left">
+        <input type="file" id="fileInputFmt" accept=".txt,.log" />
+        <button class="btn" id="formatSaveBtn" type="button" title="Format (XML pretty) & Save">
+          Format &amp; Save (XML)
+        </button>
+        <span id="fileNameFmt" class="muted"></span>
+      </div>
+      <div class="row-right">
+        <span class="muted">Saves as <code>*_XML.log</code> (original extension preserved)</span>
+      </div>
+    </div>
+    <div id="saveMsgFmt" class="muted" style="white-space:pre-wrap;margin-top:6px;"></div>
+  </div>
+
+  <!-- ▣ Box 2: Analyze (Server) -->
+  <div class="upload" id="boxAnalyze">
+    <div>Upload a log file to analyze.</div>
+    <div class="row" style="margin-top:6px">
+      <div class="row-left">
+        <input type="file" id="fileInput" accept=".txt,.log" />
+        <button class="btn" id="analyzeBtn">Analyze</button>
+        <span id="fileName" class="muted"></span>
+        <span id="overall" class="badge">Waiting</span>
+        <span id="sum" class="muted">infos=0 warnings=0 errors=0</span>
+      </div>
+      <div class="row-right">
+        <span style="color:#005a9e;font-weight:700">SW Ver</span>
+        <input type="text" id="swVersion" placeholder="SW version (folder name)" style="min-width:220px">
+        <label><input type="checkbox" id="expPdf" checked> PDF</label>
+        <label><input type="checkbox" id="expPng"> PNG</label>
+        <button class="btn" id="saveBtn" disabled>SAVE</button>
+      </div>
+    </div>
+    <div id="saveMsg" class="muted" style="white-space:pre-wrap;margin-top:6px;"></div>
+  </div>
+
+  <div class="section-h2-row">
+    <h2>Startup Procedure Visualization (IOT Spec)</h2>
+    <div class="section-spacer"></div>
+    <img class="section-badge" src="/static/img/oran.jpg" alt="O-RAN Alliance logo">
+  </div>
+
+  <div class="flow">
+    <div class="step" id="sA"><div class="icon">●</div><div class="label">1. Secure Session</div></div>
+    <div class="conn" id="cA"></div>
+    <div class="step" id="sB"><div class="icon">●</div><div class="label">2. Configuration &amp; Sync</div></div>
+    <div class="conn" id="cB"></div>
+    <div class="step" id="sC"><div class="icon">●</div><div class="label">3. Service Activation</div></div>
+  </div>
+
+  <h2>Results Summary</h2>
+  <div style="overflow:auto;margin-bottom:10px">
+    <table id="tbl" aria-label="Rule Results">
+      <thead><tr><th>IOT Test ID</th><th>Description</th><th>Severity</th><th>Status</th><th>Logs</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <h2>Logs Viewer[Partial Log]</h2>
+  <div class="evidence" id="evidence">
+    <div class="evi-head">
+      <div id="eviTitle" class="mono">Click a row or checklist item to preview logs…</div>
+      <button class="btn" id="copyBtn" title="Copy logs" style="display:none">Copy</button>
+    </div>
+    <div class="evi-body mono" id="eviBody"></div>
+  </div>
+
+  <h2 style="margin-top:22px">Verification Checklist</h2>
+  <div id="checklist" class="clist"></div>
+</div>
+
+<script>
+function getLogStatusDisplay(count){ return count>0 ? '<span class="status-pass">OK</span>' : '<span class="status-nolog">No Log</span>'; }
+
+/* ───────────────────────────────
+   강력 XML 포매터 (전역 치환 방식)
+─────────────────────────────── */
+function prettyXmlish(source){
+  if (!source) return source;
+  let src = source.replace(/\r/g, '');
+  const htmlDecodeMap = { '&lt;':'<', '&gt;':'>', '&amp;':'&', '&quot;':'"', '&#34;':'"', '&apos;':"'", '&#39;':"'" };
+  src = src
+    .replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&')
+    .replace(/&quot;/g,'"').replace(/&apos;/g,"'")
+    .replace(/&(lt|gt|amp|quot|apos)#?\d*;/g, m => htmlDecodeMap[m] || m);
+
+  const TAG = /<(?:(\/)([\w:\-\.]+)\s*>|([\w:\-\.]+)([^<>]*?)\/>|([\w:\-\.]+)([^<>]*?)>)/g;
+  const spans = [];
+  let m, stack = [];
+  while ((m = TAG.exec(src))){
+    if (m[1]) { const name = m[2];
+      for (let i = stack.length - 1; i >= 0; i--){
+        if (stack[i].name === name){
+          spans.push([stack[i].pos, TAG.lastIndex]);
+          stack = stack.slice(0, i); break;
+        }
+      }
+    } else if (m[5]) { stack.push({ name: m[5], pos: m.index }); }
+  }
+  if (!spans.length){ return src.replace(/>(\s*)</g, '>\n<'); }
+
+  function doPretty(xml){
+    let s = xml.replace(/>(\s*)</g, '>\n<').trim();
+    s = s.replace(/^\s*<\?xml[^>]*>\s*\n?/i, '');
+    const lines = s.split('\n');
+    let depth = 0; const out = [];
+    for (let line of lines){
+      const t = line.trim(); if (!t) continue;
+      const isClose  = /^<\/[^>]+>/.test(t);
+      const isSelf   = /\/>\s*$/.test(t) || /^<[\?!]/.test(t);
+      const openCnt  = (t.match(/<[^!?/][^>]*>/g)||[]).length;
+      const closeCnt = (t.match(/<\/[^>]+>/g)||[]).length;
+      if (isClose || closeCnt > openCnt) depth = Math.max(0, depth - 1);
+      out.push('  '.repeat(depth) + t);
+      if (!isSelf && openCnt > closeCnt) depth++;
+    }
+    return out.join('\n');
+  }
+
+  spans.sort((a,b)=>a[0]-b[0] || a[1]-b[1]);
+  const merged = [];
+  for (const sp of spans){
+    if (!merged.length){ merged.push(sp); continue; }
+    const last = merged[merged.length-1];
+    if (sp[0] >= last[0] && sp[1] <= last[1]) continue;
+    merged.push(sp);
+  }
+
+  let out = [], last = 0;
+  for (const [a,b] of merged){
+    const before = src.slice(last, a);
+    const after  = src.slice(b);
+    const pretty = doPretty(src.slice(a, b));
+    const needNLBefore = before.length && !/\n$/.test(before);
+    const needNLAfter  = after.length  && !/^\n/.test(after);
+    out.push(before);
+    if (needNLBefore) out.push('\n');
+    out.push(pretty);
+    if (needNLAfter) out.push('\n');
+    last = b;
+  }
+  out.push(src.slice(last));
+  let txt = out.join('');
+
+  txt = txt.split('\n').map(line=>{
+    const mm = line.match(/^(.*?\b(?:Sending message|Received message)\s*:\s*)(<.*)$/);
+    if (!mm) return line;
+    const head = mm[1]; const body = doPretty(mm[2]);
+    return head + '\n' + body;
+  }).join('\n');
+
+  txt = txt
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/^[ \t]*\n/gm, '')
+    .replace(/\n{2,}/g, '\n');
+  return txt;
+}
+</script>
+
+<script>
+(function(){
+  const fi=document.getElementById('fileInput');
+  const analyzeBtn=document.getElementById('analyzeBtn');
+  const saveBtn=document.getElementById('saveBtn');
+  const fileName=document.getElementById('fileName');
+  const overall=document.getElementById('overall');
+  const sum=document.getElementById('sum');
+  const saveMsg=document.getElementById('saveMsg');
+  const sw=document.getElementById('swVersion');
+  const expPdf=document.getElementById('expPdf');
+  const expPng=document.getElementById('expPng');
+
+  const tbody=document.querySelector('#tbl tbody');
+  const eviTitle=document.getElementById('eviTitle');
+  const eviBody=document.getElementById('eviBody');
+  const copyBtn=document.getElementById('copyBtn');
+
+  let lastReport=null;
+
+  fi.addEventListener('change', e => { fileName.textContent = e.target.files[0]?.name || ''; });
+
+  function setFlow(a,b,c){
+    const play = (el, on) => {
+      if (!el) return;
+      if (!on) { el.classList.remove('done'); return; }
+      el.classList.remove('done'); void el.offsetWidth; el.classList.add('done');
+    };
+    const S=(id,ok)=>{
+      const el=document.getElementById(id); if(!el) return;
+      el.querySelector('.icon').textContent=ok?'✓':'●'; play(el, !!ok);
+    };
+    const C=(id,ok)=>{ play(document.getElementById(id), !!ok); };
+    S('sA',a); C('cA',a); S('sB',b); C('cB',b); S('sC',c);
+  }
+
+  function showLogsById(ruleId){
+    const r=(lastReport?.results||[]).find(x=>x.id===ruleId);
+    if(!r){ eviTitle.textContent='No logs.'; eviBody.textContent=''; copyBtn.style.display='none'; return; }
+    eviTitle.textContent=(r.id||'-')+' — logs ('+(r.evidence_count||0)+')';
+    const blocks=(r.evidences||[]).map(e=>{
+      const s=e.start??0, e2=e.end??s;
+      const pretty=prettyXmlish(e.text||"");
+      const lines = pretty.split("\n").filter(t => t.trim().length > 0);
+      const body=lines.map((t,i)=>`L${String(s+i).padStart(5,' ')} │ ${t}`).join("\n");
+      return `L${s}${e2&&e2!==s?`–L${e2}`:""}\n`+body;
+    });
+    eviBody.textContent = blocks.length ? blocks.join("\n\n") : "(no captured logs)";
+    copyBtn.style.display = blocks.length ? 'inline-block' : 'none';
+    copyBtn.onclick = async ()=>{ try{ await navigator.clipboard.writeText(eviBody.textContent); copyBtn.textContent='Copied'; setTimeout(()=>copyBtn.textContent='Copy',1200);}catch(_){ } };
+  }
+
+  function attachRowClicks(){
+    tbody.querySelectorAll('tr').forEach(tr=>{
+      tr.classList.add('clickable');
+      tr.addEventListener('click', ()=>{
+        tbody.querySelectorAll('tr').forEach(x=>x.classList.remove('selected'));
+        tr.classList.add('selected');
+        const rid=tr.getAttribute('data-id');
+        showLogsById(rid);
+      });
+    });
+  }
+
+  // ✅ checklist는 report.checklist가 있으면 그것을, 없으면 results 기반으로 생성
+  function renderChecklist(report){
+    const container = document.getElementById('checklist');
+    container.innerHTML = "";
+
+    if (Array.isArray(report?.checklist) && report.checklist.length){
+      for (const group of report.checklist){
+        const title = document.createElement('div');
+        title.className = "title";
+        title.textContent = group.title || "Checklist";
+        container.appendChild(title);
+
+        const items = Array.isArray(group.items) ? group.items : [];
+        if (!items.length){
+          const none=document.createElement('div'); none.className='item muted'; none.textContent='(no items)';
+          container.appendChild(none);
+          continue;
+        }
+        for (const it of items){
+          const div=document.createElement('div'); div.className='item';
+          const chip=document.createElement('span');
+          const st=(it.status||"").toUpperCase();
+          chip.className='chip '+(st==='PASS'?'pass':(st==='FAIL'?'fail':'')); chip.textContent=st||'INFO';
+          const txt=document.createElement('span'); txt.className='muted';
+          txt.textContent = (it.id? `${it.id} — `:"") + (it.text || "");
+          div.appendChild(chip); div.appendChild(txt);
+          div.addEventListener('click', ()=>{
+            const tr=[...document.querySelectorAll('#tbl tbody tr')].find(tr=>tr.getAttribute('data-id')===it.id);
+            if(tr){ tr.scrollIntoView({block:'center'}); document.querySelectorAll('#tbl tbody tr').forEach(x=>x.classList.remove('selected')); tr.classList.add('selected'); }
+            if (typeof showLogsById === 'function' && it.id) showLogsById(it.id);
+          });
+          container.appendChild(div);
+        }
+      }
+      return;
+    }
+
+    const results = (report?.results || []);
+    const groups=[
+      {title:"Step 1: Secure Session", keys:["NETCONF"]},
+      {title:"Step 2: Configuration & Synchronization", keys:["MODULE","SYNC"]},
+      {title:"Step 3: Service Activation", keys:["SUPERVISION","HW","UPLANE"]},
+    ];
+    const byCat={};
+    results.forEach(r=>{
+      const c=(r?.extra?.category||"").toUpperCase();
+      if(!c) return; (byCat[c]||(byCat[c]=[])).push(r);
+    });
+    groups.forEach(g=>{
+      const title=document.createElement('div'); title.className="title"; title.textContent=g.title; container.appendChild(title);
+      const items=[]; g.keys.forEach(k=>{ (byCat[k]||[]).forEach(r=>items.push(r)); });
+      if(items.length===0){ const none=document.createElement('div'); none.className='item muted'; none.textContent='(no items)'; container.appendChild(none); return; }
+      items.sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+      items.forEach(r=>{
+        const div=document.createElement('div'); div.className='item';
+        const chip=document.createElement('span'); const st=(r.status||"").toUpperCase();
+        chip.className='chip '+(st==='PASS'?'pass':(st==='FAIL'?'fail':'')); chip.textContent=st||'INFO';
+        const txt=document.createElement('span'); txt.className='muted'; txt.textContent=`${r.id||""} — ${r.description||""}`;
+        div.appendChild(chip); div.appendChild(txt);
+        div.addEventListener('click', ()=>{
+          const tr=[...document.querySelectorAll('#tbl tbody tr')].find(tr=>tr.getAttribute('data-id')===r.id);
+          if(tr){ tr.scrollIntoView({block:'center'}); document.querySelectorAll('#tbl tbody tr').forEach(x=>x.classList.remove('selected')); tr.classList.add('selected'); }
+          if (typeof showLogsById === 'function' && r.id) showLogsById(r.id);
+        });
+        container.appendChild(div);
+      });
+    });
+  }
+
+  function renderReport(report){
+    lastReport=report; saveBtn.disabled=false; saveMsg.textContent='';
+    const overall=document.getElementById('overall');
+    overall.textContent=report.overall||'-';
+    overall.className='badge '+(((report.overall||'').toUpperCase()==='PASS')?'pass':'fail');
+    const s=report.summary||{}; const sum=document.getElementById('sum');
+    sum.textContent=`infos=${s.infos||0} warnings=${s.warnings||0} errors=${s.errors||0}`;
+
+    const results=(report.results||[]).filter(r=>!(r && /^S1_/.test(r.id||'')));
+    const tbody=document.querySelector('#tbl tbody');
+    tbody.innerHTML='';
+    results.forEach(r=>{
+      const tr=document.createElement('tr'); tr.setAttribute('data-id', r.id||'');
+      tr.innerHTML=
+        `<td>${r.id||''}</td>`+
+        `<td>${r.description||''}</td>`+
+        `<td>${r.severity||''}</td>`+
+        `<td><span class="${((r.status||'').toUpperCase()==='FAIL')?'status-fail':((r.status||'').toUpperCase()==='PASS')?'status-pass':''}">${r.status||''}</span></td>`+
+        `<td>${getLogStatusDisplay(r.evidence_count||0)}</td>`;
+      tbody.appendChild(tr);
+    });
+    attachRowClicks();
+
+    const cats={};
+    results.forEach(r=>{
+      const c=(r.extra&&r.extra.category||'').toUpperCase(); if(!c) return;
+      if(!cats[c] || r.status==='FAIL' || (r.status==='PASS' && cats[c]!=='FAIL')) cats[c]=r.status;
+    });
+    setFlow((cats['NETCONF']==='PASS'), (cats['MODULE']==='PASS' && (cats['SYNC']||'')!=='FAIL'), ((cats['SUPERVISION']||'')!=='FAIL' && (cats['HW']||'')!=='FAIL'));
+
+    // ✅ 누락되어 있던 호출 복구
+    renderChecklist(report);
+
+    eviTitle.textContent="Click a row or checklist item to preview logs…";
+    eviBody.textContent=""; copyBtn.style.display="none";
+  }
+
+  analyzeBtn.addEventListener('click', async ()=>{
+    try{
+      saveMsg.textContent=''; overall.textContent='Analyzing...'; overall.className='badge'; analyzeBtn.disabled=true; saveBtn.disabled=true;
+      const f=fi.files[0]; if(!f){ alert('Please select a file.'); analyzeBtn.disabled=false; return; }
+      const fd=new FormData(); fd.append('logfile', f);
+      const res=await fetch('/api/analyze', {method:'POST', body:fd});
+      const raw=await res.text();
+      let data; try{ data=JSON.parse(raw);}catch{ data={ ok:false, error:raw }; }
+      if(!res.ok || data.ok===false){ overall.textContent='Error'; overall.className='badge fail'; saveMsg.textContent=data.error||`HTTP ${res.status} ${res.statusText}`; return; }
+      renderReport(data);
+    }catch(e){
+      overall.textContent='Error'; overall.className='badge fail';
+      saveMsg.textContent=(e && e.message)?e.message:String(e);
+    }finally{ analyzeBtn.disabled=false; }
+  });
+
+  const saveBtnEl=document.getElementById('saveBtn');
+  saveBtnEl.addEventListener('click', async ()=>{
+    if(!lastReport){ alert('Analyze first.'); return; }
+    try{
+      saveBtnEl.disabled=true;
+      const ex=[]; if(expPdf.checked)ex.push('pdf'); if(expPng.checked)ex.push('png');
+      const body={report:lastReport, sw_version:(sw.value||'').trim(), export:ex.join(',')};
+      const res=await fetch('/api/save',{method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+      if(!res.ok){ const t=await res.text(); throw new Error(`HTTP ${res.status}\n${t}`); }
+      const saved=await res.json();
+      const links=[]; const x=saved.exports||{};
+      if(x.pdf) links.push(`<a href="${x.pdf}" target="_blank">PDF</a>`);
+      if(x.png) links.push(`<a href="${x.png}" target="_blank">PNG</a>`);
+      saveMsg.innerHTML=`Saved to: <code>${saved.saved_path||'-'}</code>`+(links.length?` — downloads: ${links.join(' | ')}`:'');
+    }catch(e){ saveMsg.textContent=(e && e.message)?e.message:String(e); }
+    finally{ saveBtnEl.disabled=false; }
+  });
+})();
+</script>
+
+<!-- ▣ Format & Save 스크립트 (Box1 전용) -->
+<script>
+(()=> {
+  const fiFmt  = document.getElementById('fileInputFmt');
+  const btnFmt = document.getElementById('formatSaveBtn');
+  const nameEl = document.getElementById('fileNameFmt');
+  const msgEl  = document.getElementById('saveMsgFmt');
+
+  fiFmt.addEventListener('change', e => { nameEl.textContent = e.target.files[0]?.name || ''; });
+
+  function readFileAsText(file){
+    return new Promise((resolve,reject)=>{
+      const fr=new FileReader();
+      fr.onload = () => resolve(fr.result || '');
+      fr.onerror = () => reject(fr.error || new Error('read error'));
+      fr.readAsText(file,'utf-8');
+    });
+  }
+  function downloadText(text, filename){
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+    const url  = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  btnFmt.addEventListener('click', async ()=>{
+    try{
+      msgEl.textContent='';
+      const f=fiFmt.files && fiFmt.files[0];
+      if(!f){ alert('Please select a file for formatting.'); return; }
+      const raw = await readFileAsText(f);
+      const prettyText = prettyXmlish(raw);
+      const base=f.name||'log.txt'; const dot=base.lastIndexOf('.');
+      const name = dot>0 ? (base.slice(0,dot)+'_XML'+base.slice(dot)) : (base+'_XML.log');
+      downloadText(prettyText, name);
+      msgEl.textContent=`Formatted file saved as "${name}".`;
+    }catch(err){
+      console.error(err); msgEl.textContent=String(err);
+      alert('Formatting failed: '+String(err));
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

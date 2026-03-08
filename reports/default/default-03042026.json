@@ -1,0 +1,3032 @@
+{
+  "overall": "PASS",
+  "summary": {
+    "infos": 16,
+    "warnings": 0,
+    "errors": 0
+  },
+  "main_results": [
+    {
+      "id": "6.2.6.3 SSH/TLS Secure connection establishment",
+      "description": "SSH session/TLS connection establishment initiated by O-DU ",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 12,
+      "evidences": [
+        {
+          "start": 1,
+          "end": 4,
+          "lines": [
+            "[2026-02-23 16:54:39.410366];INFO;Establishing M-plane link to RU0:192.168.172.247:49560 user(1):nkoranuser ...",
+            "[2026-02-23 16:54:39.957701];INFO;SSH channel established(0)",
+            "[2026-02-23 16:54:39.957959];SEND;264bytes",
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+          ],
+          "text": "[2026-02-23 16:54:39.410366];INFO;Establishing M-plane link to RU0:192.168.172.247:49560 user(1):nkoranuser ...\n[2026-02-23 16:54:39.957701];INFO;SSH channel established(0)\n[2026-02-23 16:54:39.957959];SEND;264bytes\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        },
+        {
+          "start": 7123,
+          "end": 7130,
+          "lines": [
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"33\">",
+            "  <ok/>",
+            "</rpc-reply>",
+            "[2026-02-23 16:57:11.416761];WARNING;Disconnected(cause:7) Session error(122)",
+            "[2026-02-23 16:57:22.753186];INFO;Establishing M-plane link to RU0:192.168.172.239:36156 user(1):nkoranuser ...",
+            "[2026-02-23 16:57:23.297153];INFO;SSH channel established(0)",
+            "[2026-02-23 16:57:23.297408];SEND;264bytes",
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+          ],
+          "text": "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"33\">\n  <ok/>\n</rpc-reply>\n[2026-02-23 16:57:11.416761];WARNING;Disconnected(cause:7) Session error(122)\n[2026-02-23 16:57:22.753186];INFO;Establishing M-plane link to RU0:192.168.172.239:36156 user(1):nkoranuser ...\n[2026-02-23 16:57:23.297153];INFO;SSH channel established(0)\n[2026-02-23 16:57:23.297408];SEND;264bytes\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.4-1 NETCONF Capability discovery",
+      "description": "NETCONF hello exchange between O-RU and O-DU",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 6,
+      "evidences": [
+        {
+          "start": 5,
+          "end": 10,
+          "lines": [
+            "<hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "  <capabilities>",
+            "    <capability>urn:ietf:params:netconf:base:1.0</capability>",
+            "    <capability>urn:ietf:params:netconf:base:1.1</capability>",
+            "  </capabilities>",
+            "</hello>"
+          ],
+          "text": "<hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n  <capabilities>\n    <capability>urn:ietf:params:netconf:base:1.0</capability>\n    <capability>urn:ietf:params:netconf:base:1.1</capability>\n  </capabilities>\n</hello>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.4-2 NETCONF Capability discovery(Capabilities inform)",
+      "description": "O-RU sends yang-library of ietf-yang-library.yang module",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 41,
+      "evidences": [
+        {
+          "start": 44,
+          "end": 84,
+          "lines": [
+            "<rpc message-id=\"1\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "  <get>",
+            "    <filter type=\"subtree\">",
+            "      <modules-state xmlns=\"urn:ietf:params:xml:ns:yang:ietf-yang-library\"/>",
+            "    </filter>",
+            "  </get>",
+            "</rpc>",
+            "[2026-02-23 16:54:40.090573];RECV;28928bytes",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"1\">",
+            "  <data>",
+            "    <modules-state xmlns=\"urn:ietf:params:xml:ns:yang:ietf-yang-library\">",
+            "      <module-set-id>17</module-set-id>",
+            "      <module>",
+            "        <name>ietf-yang-metadata</name>",
+            "        <revision>2016-08-05</revision>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-yang-metadata</namespace>",
+            "        <conformance-type>import</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>yang</name>",
+            "        <revision>2022-06-16</revision>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:1</namespace>",
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>ietf-inet-types</name>",
+            "        <revision>2013-07-15</revision>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-inet-types</namespace>",
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>ietf-yang-types</name>",
+            "        <revision>2013-07-15</revision>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-yang-types</namespace>",
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>ietf-yang-schema-mount</name>",
+            "        <revision>2019-01-14</revision>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-yang-schema-mount</namespace>",
+            "        <conformance-type>implement</conformance-type>"
+          ],
+          "text": "<rpc message-id=\"1\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n  <get>\n    <filter type=\"subtree\">\n      <modules-state xmlns=\"urn:ietf:params:xml:ns:yang:ietf-yang-library\"/>\n    </filter>\n  </get>\n</rpc>\n[2026-02-23 16:54:40.090573];RECV;28928bytes\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"1\">\n  <data>\n    <modules-state xmlns=\"urn:ietf:params:xml:ns:yang:ietf-yang-library\">\n      <module-set-id>17</module-set-id>\n      <module>\n        <name>ietf-yang-metadata</name>\n        <revision>2016-08-05</revision>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-yang-metadata</namespace>\n        <conformance-type>import</conformance-type>\n      </module>\n      <module>\n        <name>yang</name>\n        <revision>2022-06-16</revision>\n        <namespace>urn:ietf:params:xml:ns:yang:1</namespace>\n        <conformance-type>implement</conformance-type>\n      </module>\n      <module>\n        <name>ietf-inet-types</name>\n        <revision>2013-07-15</revision>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-inet-types</namespace>\n        <conformance-type>implement</conformance-type>\n      </module>\n      <module>\n        <name>ietf-yang-types</name>\n        <revision>2013-07-15</revision>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-yang-types</namespace>\n        <conformance-type>implement</conformance-type>\n      </module>\n      <module>\n        <name>ietf-yang-schema-mount</name>\n        <revision>2019-01-14</revision>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-yang-schema-mount</namespace>\n        <conformance-type>implement</conformance-type>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.6  Initial process of NETCONF Subscribe",
+      "description": "NETCONF create sbscription O-DU to O-RU",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 10,
+      "evidences": [
+        {
+          "start": 955,
+          "end": 964,
+          "lines": [
+            "      \"ietf-netconf-monitoring get-schema RPC\";",
+            "      }",
+            "      enum \"create-subscription\" {",
+            "      description",
+            "      \"notifications create-subscription RPC\";",
+            "      }",
+            "      enum \"get-data\" {",
+            "      description",
+            "      \"ietf-netconf-nmda get-data RPC\";",
+            "      }"
+          ],
+          "text": "      \"ietf-netconf-monitoring get-schema RPC\";\n      }\n      enum \"create-subscription\" {\n      description\n      \"notifications create-subscription RPC\";\n      }\n      enum \"get-data\" {\n      description\n      \"ietf-netconf-nmda get-data RPC\";\n      }"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.7  Supervision of NETCONF connection",
+      "description": "O-RU sends supervision notification to O-DU",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 11,
+      "evidences": [
+        {
+          "start": 6696,
+          "end": 6706,
+          "lines": [
+            "    description",
+            "    \"O-RUs supporting this feature reuse the session-id generated for each NETCONF",
+            "    session in supervision-notification. The session-id is defined in RFC 6241.",
+            "    For these O-RUs, the O-RU controller participating in the NETCONF supervision",
+            "    procedure can subscribe to supervision-notification notification events,",
+            "    filtering for the supervision-notification/session-id matching",
+            "    session-id in the Hello Message received from NETCONF Server earlier.\";",
+            "    }",
+            "    feature UPLANE-ONLY-DL-MODE {",
+            "    description",
+            "    \"Presence of feature indicates that O-RU supports U-Plane-only DL mode.\";"
+          ],
+          "text": "    description\n    \"O-RUs supporting this feature reuse the session-id generated for each NETCONF\n    session in supervision-notification. The session-id is defined in RFC 6241.\n    For these O-RUs, the O-RU controller participating in the NETCONF supervision\n    procedure can subscribe to supervision-notification notification events,\n    filtering for the supervision-notification/session-id matching\n    session-id in the Hello Message received from NETCONF Server earlier.\";\n    }\n    feature UPLANE-ONLY-DL-MODE {\n    description\n    \"Presence of feature indicates that O-RU supports U-Plane-only DL mode.\";"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.8  Retrieval of O-RU information and Additional configuration",
+      "description": "O-RU sends each yang module list in ietf-yang-library.yang ",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 42,
+      "evidences": [
+        {
+          "start": 200,
+          "end": 206,
+          "lines": [
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>ietf-interfaces</name>",
+            "        <revision>2018-02-20</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>"
+          ],
+          "text": "        <conformance-type>implement</conformance-type>\n      </module>\n      <module>\n        <name>ietf-interfaces</name>\n        <revision>2018-02-20</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>"
+        },
+        {
+          "start": 202,
+          "end": 208,
+          "lines": [
+            "      <module>",
+            "        <name>ietf-interfaces</name>",
+            "        <revision>2018-02-20</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>",
+            "        <feature>if-mib</feature>",
+            "        <conformance-type>implement</conformance-type>"
+          ],
+          "text": "      <module>\n        <name>ietf-interfaces</name>\n        <revision>2018-02-20</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>\n        <feature>if-mib</feature>\n        <conformance-type>implement</conformance-type>"
+        },
+        {
+          "start": 203,
+          "end": 209,
+          "lines": [
+            "        <name>ietf-interfaces</name>",
+            "        <revision>2018-02-20</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>",
+            "        <feature>if-mib</feature>",
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>"
+          ],
+          "text": "        <name>ietf-interfaces</name>\n        <revision>2018-02-20</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>\n        <feature>if-mib</feature>\n        <conformance-type>implement</conformance-type>\n      </module>"
+        },
+        {
+          "start": 312,
+          "end": 318,
+          "lines": [
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>o-ran-mplane-int</name>",
+            "        <revision>2021-12-01</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</schema>",
+            "        <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>"
+          ],
+          "text": "        <conformance-type>implement</conformance-type>\n      </module>\n      <module>\n        <name>o-ran-mplane-int</name>\n        <revision>2021-12-01</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</schema>\n        <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>"
+        },
+        {
+          "start": 314,
+          "end": 320,
+          "lines": [
+            "      <module>",
+            "        <name>o-ran-mplane-int</name>",
+            "        <revision>2021-12-01</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</schema>",
+            "        <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>",
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>"
+          ],
+          "text": "      <module>\n        <name>o-ran-mplane-int</name>\n        <revision>2021-12-01</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</schema>\n        <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>\n        <conformance-type>implement</conformance-type>\n      </module>"
+        },
+        {
+          "start": 326,
+          "end": 332,
+          "lines": [
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>o-ran-transceiver</name>",
+            "        <revision>2023-04-10</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-transceiver@2023-04-10.yang</schema>",
+            "        <namespace>urn:o-ran:transceiver:1.0</namespace>"
+          ],
+          "text": "        <conformance-type>implement</conformance-type>\n      </module>\n      <module>\n        <name>o-ran-transceiver</name>\n        <revision>2023-04-10</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-transceiver@2023-04-10.yang</schema>\n        <namespace>urn:o-ran:transceiver:1.0</namespace>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.8 Retrieval of O-RU information and Additional configuration",
+      "description": "O-RU sends each yang module list in ietf-yang-library.yang",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 42,
+      "evidences": [
+        {
+          "start": 200,
+          "end": 206,
+          "lines": [
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>ietf-interfaces</name>",
+            "        <revision>2018-02-20</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>"
+          ],
+          "text": "        <conformance-type>implement</conformance-type>\n      </module>\n      <module>\n        <name>ietf-interfaces</name>\n        <revision>2018-02-20</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>"
+        },
+        {
+          "start": 202,
+          "end": 208,
+          "lines": [
+            "      <module>",
+            "        <name>ietf-interfaces</name>",
+            "        <revision>2018-02-20</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>",
+            "        <feature>if-mib</feature>",
+            "        <conformance-type>implement</conformance-type>"
+          ],
+          "text": "      <module>\n        <name>ietf-interfaces</name>\n        <revision>2018-02-20</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>\n        <feature>if-mib</feature>\n        <conformance-type>implement</conformance-type>"
+        },
+        {
+          "start": 203,
+          "end": 209,
+          "lines": [
+            "        <name>ietf-interfaces</name>",
+            "        <revision>2018-02-20</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>",
+            "        <feature>if-mib</feature>",
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>"
+          ],
+          "text": "        <name>ietf-interfaces</name>\n        <revision>2018-02-20</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>\n        <feature>if-mib</feature>\n        <conformance-type>implement</conformance-type>\n      </module>"
+        },
+        {
+          "start": 312,
+          "end": 318,
+          "lines": [
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>o-ran-mplane-int</name>",
+            "        <revision>2021-12-01</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</schema>",
+            "        <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>"
+          ],
+          "text": "        <conformance-type>implement</conformance-type>\n      </module>\n      <module>\n        <name>o-ran-mplane-int</name>\n        <revision>2021-12-01</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</schema>\n        <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>"
+        },
+        {
+          "start": 314,
+          "end": 320,
+          "lines": [
+            "      <module>",
+            "        <name>o-ran-mplane-int</name>",
+            "        <revision>2021-12-01</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</schema>",
+            "        <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>",
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>"
+          ],
+          "text": "      <module>\n        <name>o-ran-mplane-int</name>\n        <revision>2021-12-01</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</schema>\n        <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>\n        <conformance-type>implement</conformance-type>\n      </module>"
+        },
+        {
+          "start": 326,
+          "end": 332,
+          "lines": [
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>o-ran-transceiver</name>",
+            "        <revision>2023-04-10</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-transceiver@2023-04-10.yang</schema>",
+            "        <namespace>urn:o-ran:transceiver:1.0</namespace>"
+          ],
+          "text": "        <conformance-type>implement</conformance-type>\n      </module>\n      <module>\n        <name>o-ran-transceiver</name>\n        <revision>2023-04-10</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-transceiver@2023-04-10.yang</schema>\n        <namespace>urn:o-ran:transceiver:1.0</namespace>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.9  Software management",
+      "description": "O-RU responds software inventory",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 37,
+      "evidences": [
+        {
+          "start": 6953,
+          "end": 6989,
+          "lines": [
+            "<rpc message-id=\"30\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "  <get>",
+            "    <filter type=\"subtree\">",
+            "      <software-inventory xmlns=\"urn:o-ran:software-management:1.0\"/>",
+            "    </filter>",
+            "  </get>",
+            "</rpc>",
+            "[2026-02-23 16:54:46.101310];RECV;971bytes",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"30\">",
+            "  <data>",
+            "    <software-inventory xmlns=\"urn:o-ran:software-management:1.0\">",
+            "      <software-slot>",
+            "        <name>Slot1</name>",
+            "        <status>VALID</status>",
+            "        <active>false</active>",
+            "        <running>false</running>",
+            "        <access>READ_WRITE</access>",
+            "        <product-code>476626A.X23</product-code>",
+            "        <vendor-code>NK</vendor-code>",
+            "        <build-id>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-id>",
+            "        <build-name>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-name>",
+            "        <build-version>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-version>",
+            "      </software-slot>",
+            "      <software-slot>",
+            "        <name>Slot2</name>",
+            "        <status>VALID</status>",
+            "        <active>true</active>",
+            "        <running>true</running>",
+            "        <access>READ_WRITE</access>",
+            "        <product-code>476626A.X23</product-code>",
+            "        <vendor-code>NK</vendor-code>",
+            "        <build-id>NK.RF.SRM7.trunk.20260219.042</build-id>",
+            "        <build-name>NK.RF.SRM7.trunk.20260219.042</build-name>",
+            "        <build-version>NK.RF.SRM7.trunk.20260219.042</build-version>",
+            "      </software-slot>",
+            "    </software-inventory>",
+            "  </data>"
+          ],
+          "text": "<rpc message-id=\"30\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n  <get>\n    <filter type=\"subtree\">\n      <software-inventory xmlns=\"urn:o-ran:software-management:1.0\"/>\n    </filter>\n  </get>\n</rpc>\n[2026-02-23 16:54:46.101310];RECV;971bytes\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"30\">\n  <data>\n    <software-inventory xmlns=\"urn:o-ran:software-management:1.0\">\n      <software-slot>\n        <name>Slot1</name>\n        <status>VALID</status>\n        <active>false</active>\n        <running>false</running>\n        <access>READ_WRITE</access>\n        <product-code>476626A.X23</product-code>\n        <vendor-code>NK</vendor-code>\n        <build-id>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-id>\n        <build-name>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-name>\n        <build-version>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-version>\n      </software-slot>\n      <software-slot>\n        <name>Slot2</name>\n        <status>VALID</status>\n        <active>true</active>\n        <running>true</running>\n        <access>READ_WRITE</access>\n        <product-code>476626A.X23</product-code>\n        <vendor-code>NK</vendor-code>\n        <build-id>NK.RF.SRM7.trunk.20260219.042</build-id>\n        <build-name>NK.RF.SRM7.trunk.20260219.042</build-name>\n        <build-version>NK.RF.SRM7.trunk.20260219.042</build-version>\n      </software-slot>\n    </software-inventory>\n  </data>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.10  C/U-Plane transport connectivity check between O-DU and O-RU",
+      "description": "O-DU configure vlan id for CU plane",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 24,
+      "evidences": [
+        {
+          "start": 28418,
+          "end": 28441,
+          "lines": [
+            "          <l2-mtu xmlns=\"urn:o-ran:interfaces:1.0\">1500</l2-mtu>",
+            "          <vlan-tagging xmlns=\"urn:o-ran:interfaces:1.0\">true</vlan-tagging>",
+            "          <class-of-service xmlns=\"urn:o-ran:interfaces:1.0\">",
+            "            <u-plane-marking>7</u-plane-marking>",
+            "            <c-plane-marking>7</c-plane-marking>",
+            "            <m-plane-marking>2</m-plane-marking>",
+            "          </class-of-service>",
+            "        </interface>",
+            "        <interface>",
+            "          <name>uc-vlan0</name>",
+            "          <type xmlns:ianaift=\"urn:ietf:params:xml:ns:yang:iana-if-type\">ianaift:l2vlan</type>",
+            "          <enabled>true</enabled>",
+            "          <base-interface xmlns=\"urn:o-ran:interfaces:1.0\">ethernetInterface0</base-interface>",
+            "          <vlan-id xmlns=\"urn:o-ran:interfaces:1.0\">13</vlan-id>",
+            "          <mac-address xmlns=\"urn:o-ran:interfaces:1.0\">B8:97:7A:3F:82:CA</mac-address>",
+            "        </interface>",
+            "      </interfaces>",
+            "    </config>",
+            "  </edit-config>",
+            "</rpc>",
+            "[2026-02-23 16:57:30.983071];RECV;92bytes",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"41\">",
+            "  <ok/>",
+            "</rpc-reply>"
+          ],
+          "text": "          <l2-mtu xmlns=\"urn:o-ran:interfaces:1.0\">1500</l2-mtu>\n          <vlan-tagging xmlns=\"urn:o-ran:interfaces:1.0\">true</vlan-tagging>\n          <class-of-service xmlns=\"urn:o-ran:interfaces:1.0\">\n            <u-plane-marking>7</u-plane-marking>\n            <c-plane-marking>7</c-plane-marking>\n            <m-plane-marking>2</m-plane-marking>\n          </class-of-service>\n        </interface>\n        <interface>\n          <name>uc-vlan0</name>\n          <type xmlns:ianaift=\"urn:ietf:params:xml:ns:yang:iana-if-type\">ianaift:l2vlan</type>\n          <enabled>true</enabled>\n          <base-interface xmlns=\"urn:o-ran:interfaces:1.0\">ethernetInterface0</base-interface>\n          <vlan-id xmlns=\"urn:o-ran:interfaces:1.0\">13</vlan-id>\n          <mac-address xmlns=\"urn:o-ran:interfaces:1.0\">B8:97:7A:3F:82:CA</mac-address>\n        </interface>\n      </interfaces>\n    </config>\n  </edit-config>\n</rpc>\n[2026-02-23 16:57:30.983071];RECV;92bytes\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"41\">\n  <ok/>\n</rpc-reply>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.11  U-Plane configuration between O-DU and O-RU",
+      "description": "O-DU sends User plane configuration and create low level tx/rx endpoint",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 26,
+      "evidences": [
+        {
+          "start": 17008,
+          "end": 17033,
+          "lines": [
+            "          <exponent>4</exponent>",
+            "          <fs-offset>0</fs-offset>",
+            "          <fs-offset>16</fs-offset>",
+            "        </compression-method-supported>",
+            "      </supported-compression-method-sets>",
+            "      <static-low-level-tx-endpoints>",
+            "        <name>lowLevelTxEndpoint0</name>",
+            "        <restricted-interfaces>ethernetInterface0</restricted-interfaces>",
+            "        <restricted-interfaces>ethernetInterface2</restricted-interfaces>",
+            "        <array>txArray1a</array>",
+            "        <endpoint-type>4</endpoint-type>",
+            "        <supported-reference-level>",
+            "          <id>0</id>",
+            "          <min>-8.2082</min>",
+            "          <max>16.1055</max>",
+            "        </supported-reference-level>",
+            "        <compression>",
+            "          <supported-compression-set-id>0</supported-compression-set-id>",
+            "        </compression>",
+            "        <configurable-tdd-pattern-supported>false</configurable-tdd-pattern-supported>",
+            "      </static-low-level-tx-endpoints>",
+            "      <static-low-level-tx-endpoints>",
+            "        <name>lowLevelTxEndpoint1</name>",
+            "        <restricted-interfaces>ethernetInterface0</restricted-interfaces>",
+            "        <restricted-interfaces>ethernetInterface2</restricted-interfaces>",
+            "        <array>txArray1a</array>"
+          ],
+          "text": "          <exponent>4</exponent>\n          <fs-offset>0</fs-offset>\n          <fs-offset>16</fs-offset>\n        </compression-method-supported>\n      </supported-compression-method-sets>\n      <static-low-level-tx-endpoints>\n        <name>lowLevelTxEndpoint0</name>\n        <restricted-interfaces>ethernetInterface0</restricted-interfaces>\n        <restricted-interfaces>ethernetInterface2</restricted-interfaces>\n        <array>txArray1a</array>\n        <endpoint-type>4</endpoint-type>\n        <supported-reference-level>\n          <id>0</id>\n          <min>-8.2082</min>\n          <max>16.1055</max>\n        </supported-reference-level>\n        <compression>\n          <supported-compression-set-id>0</supported-compression-set-id>\n        </compression>\n        <configurable-tdd-pattern-supported>false</configurable-tdd-pattern-supported>\n      </static-low-level-tx-endpoints>\n      <static-low-level-tx-endpoints>\n        <name>lowLevelTxEndpoint1</name>\n        <restricted-interfaces>ethernetInterface0</restricted-interfaces>\n        <restricted-interfaces>ethernetInterface2</restricted-interfaces>\n        <array>txArray1a</array>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.12  Fault Management activation",
+      "description": "O-RU responds active alarms list",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 12,
+      "evidences": [
+        {
+          "start": 28960,
+          "end": 28971,
+          "lines": [
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "<rpc message-id=\"52\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "  <get>",
+            "    <filter type=\"subtree\">",
+            "      <active-alarm-list xmlns=\"urn:o-ran:fm:1.0\"/>",
+            "    </filter>",
+            "  </get>",
+            "</rpc>",
+            "[2026-02-23 16:58:24.245512];RECV;100bytes",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"52\">",
+            "  <data/>",
+            "</rpc-reply>"
+          ],
+          "text": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rpc message-id=\"52\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n  <get>\n    <filter type=\"subtree\">\n      <active-alarm-list xmlns=\"urn:o-ran:fm:1.0\"/>\n    </filter>\n  </get>\n</rpc>\n[2026-02-23 16:58:24.245512];RECV;100bytes\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"52\">\n  <data/>\n</rpc-reply>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.13  Performance measurement activation",
+      "description": "configuration of O-RU performance",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 70,
+      "evidences": [
+        {
+          "start": 2179,
+          "end": 2213,
+          "lines": [
+            "    }",
+            "    }",
+            "    }",
+            "    }",
+            "    augment \"/o-ran-pm:performance-measurement-objects\" {",
+            "    leaf ethernet-measurement-interval {",
+            "    type uint16;",
+            "    units \"seconds\";",
+            "    }",
+            "    list ethernet-measurement-objects {",
+            "    key \"measurement-object\";",
+            "    leaf measurement-object {",
+            "    type enumeration {",
+            "    enum \"RECEIVED_FRAMES\";",
+            "    enum \"RECEIVED_CRC_ERRORED_FRAMES\";",
+            "    enum \"RECEIVED_FEC_CORRECTABLE_CODEWORDS\";",
+            "    enum \"RECEIVED_FEC_UNCORRECTABLE_CODEWORDS\";",
+            "    enum \"RECEIVER_PCS_STATUS_CHANGE_COUNT\";",
+            "    enum \"RECEIVED_ERRORED_FRAMES\";",
+            "    enum \"RECEIVED_MULTICAST_FRAMES\";",
+            "    enum \"RECEIVED_UNKNOWN_VLAN_FRAMES\";",
+            "    enum \"RECEIVED_UNKNOWN_TYPE_FRAMES\";",
+            "    enum \"RECEIVED_OCTETS\";",
+            "    enum \"TRANSMITTED_FRAMES\";",
+            "    enum \"TRANSMITTED_MULTICAST_FRAMES\";",
+            "    enum \"TRANSMITTED_OCTETS\";",
+            "    }",
+            "    }",
+            "    leaf active {",
+            "    type boolean;",
+            "    default \"false\";",
+            "    }",
+            "    leaf-list report-info {",
+            "    type ethernet-report-info;",
+            "    }"
+          ],
+          "text": "    }\n    }\n    }\n    }\n    augment \"/o-ran-pm:performance-measurement-objects\" {\n    leaf ethernet-measurement-interval {\n    type uint16;\n    units \"seconds\";\n    }\n    list ethernet-measurement-objects {\n    key \"measurement-object\";\n    leaf measurement-object {\n    type enumeration {\n    enum \"RECEIVED_FRAMES\";\n    enum \"RECEIVED_CRC_ERRORED_FRAMES\";\n    enum \"RECEIVED_FEC_CORRECTABLE_CODEWORDS\";\n    enum \"RECEIVED_FEC_UNCORRECTABLE_CODEWORDS\";\n    enum \"RECEIVER_PCS_STATUS_CHANGE_COUNT\";\n    enum \"RECEIVED_ERRORED_FRAMES\";\n    enum \"RECEIVED_MULTICAST_FRAMES\";\n    enum \"RECEIVED_UNKNOWN_VLAN_FRAMES\";\n    enum \"RECEIVED_UNKNOWN_TYPE_FRAMES\";\n    enum \"RECEIVED_OCTETS\";\n    enum \"TRANSMITTED_FRAMES\";\n    enum \"TRANSMITTED_MULTICAST_FRAMES\";\n    enum \"TRANSMITTED_OCTETS\";\n    }\n    }\n    leaf active {\n    type boolean;\n    default \"false\";\n    }\n    leaf-list report-info {\n    type ethernet-report-info;\n    }"
+        },
+        {
+          "start": 2219,
+          "end": 2253,
+          "lines": [
+            "    }",
+            "    uses ethernet-measurement-result-grouping;",
+            "    }",
+            "    }",
+            "    augment \"/o-ran-pm:performance-measurement-objects/o-ran-pm:measurement-capabilitites\" {",
+            "    list ethernet-objects {",
+            "    key \"measurement-object\";",
+            "    leaf measurement-object {",
+            "    type leafref {",
+            "    path \"/o-ran-pm:performance-measurement-objects/ethernet-measurement-objects/measurement-object\";",
+            "    require-instance false;",
+            "    }",
+            "    }",
+            "    }",
+            "    }",
+            "    augment \"/o-ran-pm:measurement-result-stats\" {",
+            "    list ethernet-stats {",
+            "    key \"measurement-object\";",
+            "    leaf measurement-object {",
+            "    type leafref {",
+            "    path \"/o-ran-pm:performance-measurement-objects/ethernet-measurement-objects/measurement-object\";",
+            "    require-instance false;",
+            "    }",
+            "    }",
+            "    list ethernet-measurement-results {",
+            "    config false;",
+            "    uses o-ran-pm:start-and-end-time;",
+            "    uses ethernet-measurement-result-grouping;",
+            "    }",
+            "    }",
+            "    }",
+            "    augment \"/o-ran-pm:performance-measurement-objects\" {",
+            "    list transceiver2-measurement-objects {",
+            "    key \"measurement-object\";",
+            "    leaf measurement-object {"
+          ],
+          "text": "    }\n    uses ethernet-measurement-result-grouping;\n    }\n    }\n    augment \"/o-ran-pm:performance-measurement-objects/o-ran-pm:measurement-capabilitites\" {\n    list ethernet-objects {\n    key \"measurement-object\";\n    leaf measurement-object {\n    type leafref {\n    path \"/o-ran-pm:performance-measurement-objects/ethernet-measurement-objects/measurement-object\";\n    require-instance false;\n    }\n    }\n    }\n    }\n    augment \"/o-ran-pm:measurement-result-stats\" {\n    list ethernet-stats {\n    key \"measurement-object\";\n    leaf measurement-object {\n    type leafref {\n    path \"/o-ran-pm:performance-measurement-objects/ethernet-measurement-objects/measurement-object\";\n    require-instance false;\n    }\n    }\n    list ethernet-measurement-results {\n    config false;\n    uses o-ran-pm:start-and-end-time;\n    uses ethernet-measurement-result-grouping;\n    }\n    }\n    }\n    augment \"/o-ran-pm:performance-measurement-objects\" {\n    list transceiver2-measurement-objects {\n    key \"measurement-object\";\n    leaf measurement-object {"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.14 synchronization information",
+      "description": "Synchronization reached LOCKED",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 24,
+      "evidences": [
+        {
+          "start": 14244,
+          "end": 14255,
+          "lines": [
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"32\">",
+            "  <data>",
+            "    <sync xmlns=\"urn:o-ran:sync:1.0\">",
+            "      <sync-status>",
+            "        <sync-state>LOCKED</sync-state>",
+            "        <supported-reference-types>",
+            "          <item>PTP</item>",
+            "        </supported-reference-types>",
+            "      </sync-status>",
+            "      <sync-capability>",
+            "        <sync-t-tsc>ENCHANCED</sync-t-tsc>",
+            "      </sync-capability>"
+          ],
+          "text": "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"32\">\n  <data>\n    <sync xmlns=\"urn:o-ran:sync:1.0\">\n      <sync-status>\n        <sync-state>LOCKED</sync-state>\n        <supported-reference-types>\n          <item>PTP</item>\n        </supported-reference-types>\n      </sync-status>\n      <sync-capability>\n        <sync-t-tsc>ENCHANCED</sync-t-tsc>\n      </sync-capability>"
+        },
+        {
+          "start": 28982,
+          "end": 28993,
+          "lines": [
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"53\">",
+            "  <data>",
+            "    <sync xmlns=\"urn:o-ran:sync:1.0\">",
+            "      <sync-status>",
+            "        <sync-state>LOCKED</sync-state>",
+            "        <supported-reference-types>",
+            "          <item>PTP</item>",
+            "        </supported-reference-types>",
+            "      </sync-status>",
+            "      <sync-capability>",
+            "        <sync-t-tsc>ENCHANCED</sync-t-tsc>",
+            "      </sync-capability>"
+          ],
+          "text": "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"53\">\n  <data>\n    <sync xmlns=\"urn:o-ran:sync:1.0\">\n      <sync-status>\n        <sync-state>LOCKED</sync-state>\n        <supported-reference-types>\n          <item>PTP</item>\n        </supported-reference-types>\n      </sync-status>\n      <sync-capability>\n        <sync-t-tsc>ENCHANCED</sync-t-tsc>\n      </sync-capability>"
+        }
+      ],
+      "extra": {
+        "category": "SYNC"
+      }
+    },
+    {
+      "id": "6.2.6.15-1 Configuring the O-RU operational parameters-carrier activation",
+      "description": "<edit-config> to set <active>ACTIVE</active> succeeded",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 36,
+      "evidences": [
+        {
+          "start": 29523,
+          "end": 29558,
+          "lines": [
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "<rpc message-id=\"60\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "  <edit-config>",
+            "    <target>",
+            "      <running/>",
+            "    </target>",
+            "    <config>",
+            "      <user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "        <tx-array-carriers>",
+            "          <name>Tx-Array-Carrier-00</name>",
+            "          <active>ACTIVE</active>",
+            "        </tx-array-carriers>",
+            "        <tx-array-carriers>",
+            "          <name>Tx-Array-Carrier-01</name>",
+            "          <active>ACTIVE</active>",
+            "        </tx-array-carriers>",
+            "        <rx-array-carriers>",
+            "          <name>Rx-Array-Carrier-00</name>",
+            "          <active>ACTIVE</active>",
+            "        </rx-array-carriers>",
+            "        <rx-array-carriers>",
+            "          <name>Rx-Array-Carrier-01</name>",
+            "          <active>ACTIVE</active>",
+            "        </rx-array-carriers>",
+            "      </user-plane-configuration>",
+            "    </config>",
+            "  </edit-config>",
+            "</rpc>",
+            "[2026-02-23 17:00:10.214019];RECV;92bytes",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"60\">",
+            "  <ok/>",
+            "</rpc-reply>",
+            "[2026-02-23 17:00:10.940758];RECV;424bytes",
+            "<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">",
+            "  <eventTime>2026-02-23T16:59:58.700849393-06:00</eventTime>",
+            "  <rx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">"
+          ],
+          "text": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rpc message-id=\"60\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n  <edit-config>\n    <target>\n      <running/>\n    </target>\n    <config>\n      <user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">\n        <tx-array-carriers>\n          <name>Tx-Array-Carrier-00</name>\n          <active>ACTIVE</active>\n        </tx-array-carriers>\n        <tx-array-carriers>\n          <name>Tx-Array-Carrier-01</name>\n          <active>ACTIVE</active>\n        </tx-array-carriers>\n        <rx-array-carriers>\n          <name>Rx-Array-Carrier-00</name>\n          <active>ACTIVE</active>\n        </rx-array-carriers>\n        <rx-array-carriers>\n          <name>Rx-Array-Carrier-01</name>\n          <active>ACTIVE</active>\n        </rx-array-carriers>\n      </user-plane-configuration>\n    </config>\n  </edit-config>\n</rpc>\n[2026-02-23 17:00:10.214019];RECV;92bytes\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"60\">\n  <ok/>\n</rpc-reply>\n[2026-02-23 17:00:10.940758];RECV;424bytes\n<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">\n  <eventTime>2026-02-23T16:59:58.700849393-06:00</eventTime>\n  <rx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">"
+        }
+      ],
+      "extra": {
+        "category": "SUPERVISION"
+      }
+    },
+    {
+      "id": "6.2.6.15-2 Configuring the O-RU operational parameters-carrier ready",
+      "description": "Carrier state READY notification observed",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 42,
+      "evidences": [
+        {
+          "start": 29556,
+          "end": 29576,
+          "lines": [
+            "<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">",
+            "  <eventTime>2026-02-23T16:59:58.700849393-06:00</eventTime>",
+            "  <rx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "    <rx-array-carriers>",
+            "      <name>Rx-Array-Carrier-00</name>",
+            "      <state>READY</state>",
+            "    </rx-array-carriers>",
+            "    <rx-array-carriers>",
+            "      <name>Rx-Array-Carrier-01</name>",
+            "      <state>READY</state>",
+            "    </rx-array-carriers>",
+            "  </rx-array-carriers-state-change>",
+            "</notification>",
+            "[2026-02-23 17:00:11.564743];RECV;424bytes",
+            "<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">",
+            "  <eventTime>2026-02-23T16:59:59.401429211-06:00</eventTime>",
+            "  <tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "    <tx-array-carriers>",
+            "      <name>Tx-Array-Carrier-00</name>",
+            "      <state>READY</state>",
+            "    </tx-array-carriers>"
+          ],
+          "text": "<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">\n  <eventTime>2026-02-23T16:59:58.700849393-06:00</eventTime>\n  <rx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">\n    <rx-array-carriers>\n      <name>Rx-Array-Carrier-00</name>\n      <state>READY</state>\n    </rx-array-carriers>\n    <rx-array-carriers>\n      <name>Rx-Array-Carrier-01</name>\n      <state>READY</state>\n    </rx-array-carriers>\n  </rx-array-carriers-state-change>\n</notification>\n[2026-02-23 17:00:11.564743];RECV;424bytes\n<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">\n  <eventTime>2026-02-23T16:59:59.401429211-06:00</eventTime>\n  <tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">\n    <tx-array-carriers>\n      <name>Tx-Array-Carrier-00</name>\n      <state>READY</state>\n    </tx-array-carriers>"
+        },
+        {
+          "start": 29560,
+          "end": 29580,
+          "lines": [
+            "      <name>Rx-Array-Carrier-00</name>",
+            "      <state>READY</state>",
+            "    </rx-array-carriers>",
+            "    <rx-array-carriers>",
+            "      <name>Rx-Array-Carrier-01</name>",
+            "      <state>READY</state>",
+            "    </rx-array-carriers>",
+            "  </rx-array-carriers-state-change>",
+            "</notification>",
+            "[2026-02-23 17:00:11.564743];RECV;424bytes",
+            "<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">",
+            "  <eventTime>2026-02-23T16:59:59.401429211-06:00</eventTime>",
+            "  <tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "    <tx-array-carriers>",
+            "      <name>Tx-Array-Carrier-00</name>",
+            "      <state>READY</state>",
+            "    </tx-array-carriers>",
+            "    <tx-array-carriers>",
+            "      <name>Tx-Array-Carrier-01</name>",
+            "      <state>READY</state>",
+            "    </tx-array-carriers>"
+          ],
+          "text": "      <name>Rx-Array-Carrier-00</name>\n      <state>READY</state>\n    </rx-array-carriers>\n    <rx-array-carriers>\n      <name>Rx-Array-Carrier-01</name>\n      <state>READY</state>\n    </rx-array-carriers>\n  </rx-array-carriers-state-change>\n</notification>\n[2026-02-23 17:00:11.564743];RECV;424bytes\n<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">\n  <eventTime>2026-02-23T16:59:59.401429211-06:00</eventTime>\n  <tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">\n    <tx-array-carriers>\n      <name>Tx-Array-Carrier-00</name>\n      <state>READY</state>\n    </tx-array-carriers>\n    <tx-array-carriers>\n      <name>Tx-Array-Carrier-01</name>\n      <state>READY</state>\n    </tx-array-carriers>"
+        }
+      ],
+      "extra": {
+        "category": "SUPERVISION"
+      }
+    },
+    {
+      "id": "HW_USAGE_ACTIVE",
+      "description": "Hardware usage-state = active",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 26,
+      "evidences": [
+        {
+          "start": 28852,
+          "end": 28877,
+          "lines": [
+            "        <mfg-name>Nokia</mfg-name>",
+            "        <model-name>AXEGHA</model-name>",
+            "        <state>",
+            "          <admin-state>unlocked</admin-state>",
+            "          <oper-state>enabled</oper-state>",
+            "          <usage-state>active</usage-state>",
+            "          <power-state xmlns=\"urn:o-ran:hardware:1.0\">AWAKE</power-state>",
+            "          <availability-state xmlns=\"urn:o-ran:hardware:1.0\">NORMAL</availability-state>",
+            "        </state>",
+            "        <temperature-state xmlns=\"urn:nokia.com:ran:ru:hardware:1.0\">",
+            "          <rating>",
+            "            <value>NORMAL</value>",
+            "            <counter>1</counter>",
+            "          </rating>",
+            "        </temperature-state>",
+            "        <label-content xmlns=\"urn:o-ran:hardware:1.0\">",
+            "          <model-name>true</model-name>",
+            "          <serial-number>true</serial-number>",
+            "        </label-content>",
+            "        <product-code xmlns=\"urn:o-ran:hardware:1.0\">476626A.X23</product-code>",
+            "        <o-ran-name xmlns=\"urn:o-ran:hardware:1.0\">Module</o-ran-name>",
+            "      </component>",
+            "      <component>",
+            "        <name>port0</name>",
+            "        <class xmlns:ianahw=\"urn:ietf:params:xml:ns:yang:iana-hardware\">ianahw:port</class>",
+            "        <o-ran-name xmlns=\"urn:o-ran:hardware:1.0\">port0</o-ran-name>"
+          ],
+          "text": "        <mfg-name>Nokia</mfg-name>\n        <model-name>AXEGHA</model-name>\n        <state>\n          <admin-state>unlocked</admin-state>\n          <oper-state>enabled</oper-state>\n          <usage-state>active</usage-state>\n          <power-state xmlns=\"urn:o-ran:hardware:1.0\">AWAKE</power-state>\n          <availability-state xmlns=\"urn:o-ran:hardware:1.0\">NORMAL</availability-state>\n        </state>\n        <temperature-state xmlns=\"urn:nokia.com:ran:ru:hardware:1.0\">\n          <rating>\n            <value>NORMAL</value>\n            <counter>1</counter>\n          </rating>\n        </temperature-state>\n        <label-content xmlns=\"urn:o-ran:hardware:1.0\">\n          <model-name>true</model-name>\n          <serial-number>true</serial-number>\n        </label-content>\n        <product-code xmlns=\"urn:o-ran:hardware:1.0\">476626A.X23</product-code>\n        <o-ran-name xmlns=\"urn:o-ran:hardware:1.0\">Module</o-ran-name>\n      </component>\n      <component>\n        <name>port0</name>\n        <class xmlns:ianahw=\"urn:ietf:params:xml:ns:yang:iana-hardware\">ianahw:port</class>\n        <o-ran-name xmlns=\"urn:o-ran:hardware:1.0\">port0</o-ran-name>"
+        }
+      ],
+      "extra": {
+        "category": "HW"
+      }
+    }
+  ],
+  "sub_results": {
+    "6.2.6.8": [
+      {
+        "id": "6.2.6.8-1 HW info",
+        "description": "Retrieves O-RU hardware information from O-RU",
+        "severity": "INFO",
+        "status": "OBSERVED",
+        "evidence_count": 3,
+        "evidences": [
+          {
+            "start": 6935,
+            "end": 6935,
+            "lines": [
+              "        <product-code xmlns=\"urn:o-ran:hardware:1.0\">476626A.X23</product-code>"
+            ],
+            "text": "        <product-code xmlns=\"urn:o-ran:hardware:1.0\">476626A.X23</product-code>"
+          },
+          {
+            "start": 6936,
+            "end": 6936,
+            "lines": [
+              "        <o-ran-name xmlns=\"urn:o-ran:hardware:1.0\">Module</o-ran-name>"
+            ],
+            "text": "        <o-ran-name xmlns=\"urn:o-ran:hardware:1.0\">Module</o-ran-name>"
+          },
+          {
+            "start": 6941,
+            "end": 6941,
+            "lines": [
+              "        <o-ran-name xmlns=\"urn:o-ran:hardware:1.0\">port0</o-ran-name>"
+            ],
+            "text": "        <o-ran-name xmlns=\"urn:o-ran:hardware:1.0\">port0</o-ran-name>"
+          }
+        ],
+        "extra": {
+          "category": "NETCONF",
+          "parent": "6.2.6.8",
+          "no_fail": true,
+          "no_judge": true
+        }
+      },
+      {
+        "id": "6.2.6.8-2 Interfaces",
+        "description": "Retrieval of O-RU interface information from O-RU",
+        "severity": "INFO",
+        "status": "OBSERVED",
+        "evidence_count": 23,
+        "evidences": [
+          {
+            "start": 7103,
+            "end": 7125,
+            "lines": [
+              "        </port-reference>",
+              "      </interface>",
+              "    </interfaces>",
+              "  </data>",
+              "</rpc-reply>",
+              "[2026-02-23 16:54:50.267914];SEND;160bytes",
+              "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+              "<rpc message-id=\"32\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+              "  <reset xmlns=\"urn:o-ran:operations:1.0\"/>",
+              "</rpc>",
+              "[2026-02-23 16:54:50.302255];RECV;92bytes",
+              "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"32\">",
+              "  <ok/>",
+              "</rpc-reply>",
+              "[2026-02-23 16:54:50.308324];SEND;135bytes",
+              "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+              "<rpc message-id=\"33\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+              "  <close-session/>",
+              "</rpc>",
+              "[2026-02-23 16:54:50.309938];RECV;92bytes",
+              "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"33\">",
+              "  <ok/>",
+              "</rpc-reply>"
+            ],
+            "text": "        </port-reference>\n      </interface>\n    </interfaces>\n  </data>\n</rpc-reply>\n[2026-02-23 16:54:50.267914];SEND;160bytes\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rpc message-id=\"32\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n  <reset xmlns=\"urn:o-ran:operations:1.0\"/>\n</rpc>\n[2026-02-23 16:54:50.302255];RECV;92bytes\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"32\">\n  <ok/>\n</rpc-reply>\n[2026-02-23 16:54:50.308324];SEND;135bytes\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rpc message-id=\"33\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n  <close-session/>\n</rpc>\n[2026-02-23 16:54:50.309938];RECV;92bytes\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"33\">\n  <ok/>\n</rpc-reply>"
+          }
+        ],
+        "extra": {
+          "category": "NETCONF",
+          "parent": "6.2.6.8",
+          "no_fail": true,
+          "no_judge": true
+        }
+      },
+      {
+        "id": "6.2.6.8-3 Port transceivers",
+        "description": "Retrieval of O-RU port transceiver information from O-RU",
+        "severity": "INFO",
+        "status": "OBSERVED",
+        "evidence_count": 3,
+        "evidences": [
+          {
+            "start": 2768,
+            "end": 2768,
+            "lines": [
+              "    notification port-transceiver-data-change to use actual leaf types instead of leafrefs\";"
+            ],
+            "text": "    notification port-transceiver-data-change to use actual leaf types instead of leafrefs\";"
+          },
+          {
+            "start": 2777,
+            "end": 2777,
+            "lines": [
+              "    2) [CB013427-E] Extended the notification port-transceiver-data-change with DWDM tunable transceiver leafs\";"
+            ],
+            "text": "    2) [CB013427-E] Extended the notification port-transceiver-data-change with DWDM tunable transceiver leafs\";"
+          },
+          {
+            "start": 2784,
+            "end": 2784,
+            "lines": [
+              "    1) [CB013490-D] Added the following leaves in o-ran-trx:port-transceiver-data:"
+            ],
+            "text": "    1) [CB013490-D] Added the following leaves in o-ran-trx:port-transceiver-data:"
+          }
+        ],
+        "extra": {
+          "category": "NETCONF",
+          "parent": "6.2.6.8",
+          "no_fail": true,
+          "no_judge": true
+        }
+      },
+      {
+        "id": "6.2.6.8-4 Fan state",
+        "description": "Retrieval of O-RU fan state information from O-RU",
+        "severity": "INFO",
+        "status": "NOT_OBSERVED",
+        "evidence_count": 0,
+        "evidences": [],
+        "extra": {
+          "category": "NETCONF",
+          "parent": "6.2.6.8",
+          "no_fail": true,
+          "no_judge": true
+        }
+      },
+      {
+        "id": "6.2.6.8-5 Band capabilities",
+        "description": "Retrieval of O-RU band capabilities information from O-RU",
+        "severity": "INFO",
+        "status": "OBSERVED",
+        "evidence_count": 3,
+        "evidences": [
+          {
+            "start": 5358,
+            "end": 5358,
+            "lines": [
+              "    path \"/mcap:module-capability/mcap:band-capabilities/mcap:band-number\";"
+            ],
+            "text": "    path \"/mcap:module-capability/mcap:band-capabilities/mcap:band-number\";"
+          },
+          {
+            "start": 12484,
+            "end": 12484,
+            "lines": [
+              "    path \"/mcap:module-capability/mcap:band-capabilities/mcap:band-number\";"
+            ],
+            "text": "    path \"/mcap:module-capability/mcap:band-capabilities/mcap:band-number\";"
+          },
+          {
+            "start": 14431,
+            "end": 14431,
+            "lines": [
+              "      <band-capabilities>"
+            ],
+            "text": "      <band-capabilities>"
+          }
+        ],
+        "extra": {
+          "category": "MODULE",
+          "parent": "6.2.6.8",
+          "no_fail": true,
+          "no_judge": true
+        }
+      },
+      {
+        "id": "6.2.6.8-6 IQ compression",
+        "description": "Retrieval of O-RU IQ compression information from O-RU",
+        "severity": "INFO",
+        "status": "OBSERVED",
+        "evidence_count": 30,
+        "evidences": [
+          {
+            "start": 14409,
+            "end": 14423,
+            "lines": [
+              "          <dynamic-compression-supported>false</dynamic-compression-supported>",
+              "          <realtime-variable-bit-width-supported>false</realtime-variable-bit-width-supported>",
+              "          <compression-method-supported>",
+              "            <iq-bitwidth>9</iq-bitwidth>",
+              "            <compression-type>STATIC</compression-type>",
+              "            <compression-method>BLOCK_FLOATING_POINT</compression-method>",
+              "            <exponent>4</exponent>",
+              "            <fs-offset>16</fs-offset>",
+              "          </compression-method-supported>",
+              "          <syminc-supported>false</syminc-supported>",
+              "        </format-of-iq-sample>",
+              "        <ul-mixed-num-required-guard-rbs>",
+              "          <scs-a>KHZ_15</scs-a>",
+              "          <scs-b>KHZ_1_25</scs-b>",
+              "          <number-of-guard-rbs-ul>2</number-of-guard-rbs-ul>"
+            ],
+            "text": "          <dynamic-compression-supported>false</dynamic-compression-supported>\n          <realtime-variable-bit-width-supported>false</realtime-variable-bit-width-supported>\n          <compression-method-supported>\n            <iq-bitwidth>9</iq-bitwidth>\n            <compression-type>STATIC</compression-type>\n            <compression-method>BLOCK_FLOATING_POINT</compression-method>\n            <exponent>4</exponent>\n            <fs-offset>16</fs-offset>\n          </compression-method-supported>\n          <syminc-supported>false</syminc-supported>\n        </format-of-iq-sample>\n        <ul-mixed-num-required-guard-rbs>\n          <scs-a>KHZ_15</scs-a>\n          <scs-b>KHZ_1_25</scs-b>\n          <number-of-guard-rbs-ul>2</number-of-guard-rbs-ul>"
+          },
+          {
+            "start": 14415,
+            "end": 14429,
+            "lines": [
+              "            <exponent>4</exponent>",
+              "            <fs-offset>16</fs-offset>",
+              "          </compression-method-supported>",
+              "          <syminc-supported>false</syminc-supported>",
+              "        </format-of-iq-sample>",
+              "        <ul-mixed-num-required-guard-rbs>",
+              "          <scs-a>KHZ_15</scs-a>",
+              "          <scs-b>KHZ_1_25</scs-b>",
+              "          <number-of-guard-rbs-ul>2</number-of-guard-rbs-ul>",
+              "        </ul-mixed-num-required-guard-rbs>",
+              "        <energy-saving-by-transmission-blanks>false</energy-saving-by-transmission-blanks>",
+              "        <dynamic-transport-delay-management-supported>false</dynamic-transport-delay-management-supported>",
+              "        <coupling-methods>",
+              "          <coupling-via-frequency-and-time>true</coupling-via-frequency-and-time>",
+              "        </coupling-methods>"
+            ],
+            "text": "            <exponent>4</exponent>\n            <fs-offset>16</fs-offset>\n          </compression-method-supported>\n          <syminc-supported>false</syminc-supported>\n        </format-of-iq-sample>\n        <ul-mixed-num-required-guard-rbs>\n          <scs-a>KHZ_15</scs-a>\n          <scs-b>KHZ_1_25</scs-b>\n          <number-of-guard-rbs-ul>2</number-of-guard-rbs-ul>\n        </ul-mixed-num-required-guard-rbs>\n        <energy-saving-by-transmission-blanks>false</energy-saving-by-transmission-blanks>\n        <dynamic-transport-delay-management-supported>false</dynamic-transport-delay-management-supported>\n        <coupling-methods>\n          <coupling-via-frequency-and-time>true</coupling-via-frequency-and-time>\n        </coupling-methods>"
+          }
+        ],
+        "extra": {
+          "category": "MODULE",
+          "parent": "6.2.6.8",
+          "no_fail": true,
+          "no_judge": true
+        }
+      },
+      {
+        "id": "6.2.6.8-7 Software info",
+        "description": "Retrieval of O-RU software information from O-RU",
+        "severity": "INFO",
+        "status": "OBSERVED",
+        "evidence_count": 45,
+        "evidences": [
+          {
+            "start": 6912,
+            "end": 6926,
+            "lines": [
+              "        <description/>",
+              "        <hardware-rev>X23</hardware-rev>",
+              "        <software-rev>NK.RF.SRM7.trunk.20260219.042</software-rev>",
+              "        <serial-num>L1254202350</serial-num>",
+              "        <mfg-name>Nokia</mfg-name>",
+              "        <model-name>AXEGHA</model-name>",
+              "        <state>",
+              "          <admin-state>unlocked</admin-state>",
+              "          <oper-state>enabled</oper-state>",
+              "          <usage-state>idle</usage-state>",
+              "          <power-state xmlns=\"urn:o-ran:hardware:1.0\">AWAKE</power-state>",
+              "          <availability-state xmlns=\"urn:o-ran:hardware:1.0\">NORMAL</availability-state>",
+              "        </state>",
+              "        <temperature-state xmlns=\"urn:nokia.com:ran:ru:hardware:1.0\">",
+              "          <rating>"
+            ],
+            "text": "        <description/>\n        <hardware-rev>X23</hardware-rev>\n        <software-rev>NK.RF.SRM7.trunk.20260219.042</software-rev>\n        <serial-num>L1254202350</serial-num>\n        <mfg-name>Nokia</mfg-name>\n        <model-name>AXEGHA</model-name>\n        <state>\n          <admin-state>unlocked</admin-state>\n          <oper-state>enabled</oper-state>\n          <usage-state>idle</usage-state>\n          <power-state xmlns=\"urn:o-ran:hardware:1.0\">AWAKE</power-state>\n          <availability-state xmlns=\"urn:o-ran:hardware:1.0\">NORMAL</availability-state>\n        </state>\n        <temperature-state xmlns=\"urn:nokia.com:ran:ru:hardware:1.0\">\n          <rating>"
+          },
+          {
+            "start": 6962,
+            "end": 6976,
+            "lines": [
+              "  <data>",
+              "    <software-inventory xmlns=\"urn:o-ran:software-management:1.0\">",
+              "      <software-slot>",
+              "        <name>Slot1</name>",
+              "        <status>VALID</status>",
+              "        <active>false</active>",
+              "        <running>false</running>",
+              "        <access>READ_WRITE</access>",
+              "        <product-code>476626A.X23</product-code>",
+              "        <vendor-code>NK</vendor-code>",
+              "        <build-id>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-id>",
+              "        <build-name>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-name>",
+              "        <build-version>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-version>",
+              "      </software-slot>",
+              "      <software-slot>"
+            ],
+            "text": "  <data>\n    <software-inventory xmlns=\"urn:o-ran:software-management:1.0\">\n      <software-slot>\n        <name>Slot1</name>\n        <status>VALID</status>\n        <active>false</active>\n        <running>false</running>\n        <access>READ_WRITE</access>\n        <product-code>476626A.X23</product-code>\n        <vendor-code>NK</vendor-code>\n        <build-id>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-id>\n        <build-name>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-name>\n        <build-version>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-version>\n      </software-slot>\n      <software-slot>"
+          },
+          {
+            "start": 6973,
+            "end": 6987,
+            "lines": [
+              "        <build-name>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-name>",
+              "        <build-version>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-version>",
+              "      </software-slot>",
+              "      <software-slot>",
+              "        <name>Slot2</name>",
+              "        <status>VALID</status>",
+              "        <active>true</active>",
+              "        <running>true</running>",
+              "        <access>READ_WRITE</access>",
+              "        <product-code>476626A.X23</product-code>",
+              "        <vendor-code>NK</vendor-code>",
+              "        <build-id>NK.RF.SRM7.trunk.20260219.042</build-id>",
+              "        <build-name>NK.RF.SRM7.trunk.20260219.042</build-name>",
+              "        <build-version>NK.RF.SRM7.trunk.20260219.042</build-version>",
+              "      </software-slot>"
+            ],
+            "text": "        <build-name>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-name>\n        <build-version>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-version>\n      </software-slot>\n      <software-slot>\n        <name>Slot2</name>\n        <status>VALID</status>\n        <active>true</active>\n        <running>true</running>\n        <access>READ_WRITE</access>\n        <product-code>476626A.X23</product-code>\n        <vendor-code>NK</vendor-code>\n        <build-id>NK.RF.SRM7.trunk.20260219.042</build-id>\n        <build-name>NK.RF.SRM7.trunk.20260219.042</build-name>\n        <build-version>NK.RF.SRM7.trunk.20260219.042</build-version>\n      </software-slot>"
+          }
+        ],
+        "extra": {
+          "category": "MODULE",
+          "parent": "6.2.6.8",
+          "no_fail": true,
+          "no_judge": true
+        }
+      },
+      {
+        "id": "6.2.6.8-8 TX arrays",
+        "description": "Retrieval of O-RU TX array information from O-RU",
+        "severity": "INFO",
+        "status": "OBSERVED",
+        "evidence_count": 3,
+        "evidences": [
+          {
+            "start": 1622,
+            "end": 1622,
+            "lines": [
+              "    path \"/up:user-plane-configuration/up:tx-arrays/up:name\";"
+            ],
+            "text": "    path \"/up:user-plane-configuration/up:tx-arrays/up:name\";"
+          },
+          {
+            "start": 3893,
+            "end": 3893,
+            "lines": [
+              "    path \"/up:user-plane-configuration/up:tx-arrays/up:name\";"
+            ],
+            "text": "    path \"/up:user-plane-configuration/up:tx-arrays/up:name\";"
+          },
+          {
+            "start": 3895,
+            "end": 3895,
+            "lines": [
+              "    must \"count(/up:user-plane-configuration/up:tx-arrays[up:name=current()]/up:polarisations) = 2\";"
+            ],
+            "text": "    must \"count(/up:user-plane-configuration/up:tx-arrays[up:name=current()]/up:polarisations) = 2\";"
+          }
+        ],
+        "extra": {
+          "category": "MODULE",
+          "parent": "6.2.6.8",
+          "no_fail": true,
+          "no_judge": true
+        }
+      },
+      {
+        "id": "6.2.6.8-9 RX arrays",
+        "description": "Retrieval of O-RU RX array information from O-RU",
+        "severity": "INFO",
+        "status": "OBSERVED",
+        "evidence_count": 3,
+        "evidences": [
+          {
+            "start": 2151,
+            "end": 2151,
+            "lines": [
+              "    path \"/up:user-plane-configuration/up:rx-arrays/up:name\";"
+            ],
+            "text": "    path \"/up:user-plane-configuration/up:rx-arrays/up:name\";"
+          },
+          {
+            "start": 2534,
+            "end": 2534,
+            "lines": [
+              "    path \"/up:user-plane-configuration/up:rx-arrays/up:name\";"
+            ],
+            "text": "    path \"/up:user-plane-configuration/up:rx-arrays/up:name\";"
+          },
+          {
+            "start": 3660,
+            "end": 3660,
+            "lines": [
+              "    path \"/up:user-plane-configuration/up:rx-arrays/up:name\";"
+            ],
+            "text": "    path \"/up:user-plane-configuration/up:rx-arrays/up:name\";"
+          }
+        ],
+        "extra": {
+          "category": "MODULE",
+          "parent": "6.2.6.8",
+          "no_fail": true,
+          "no_judge": true
+        }
+      },
+      {
+        "id": "6.2.6.8-10 Endpoint PRACH group",
+        "description": "Retrieval of O-RU Endpoint PRACH group information from O-RU",
+        "severity": "INFO",
+        "status": "OBSERVED",
+        "evidence_count": 3,
+        "evidences": [
+          {
+            "start": 16991,
+            "end": 16991,
+            "lines": [
+              "      <endpoint-prach-group>"
+            ],
+            "text": "      <endpoint-prach-group>"
+          },
+          {
+            "start": 16998,
+            "end": 16998,
+            "lines": [
+              "      </endpoint-prach-group>"
+            ],
+            "text": "      </endpoint-prach-group>"
+          },
+          {
+            "start": 16999,
+            "end": 16999,
+            "lines": [
+              "      <endpoint-prach-group>"
+            ],
+            "text": "      <endpoint-prach-group>"
+          }
+        ],
+        "extra": {
+          "category": "MODULE",
+          "parent": "6.2.6.8",
+          "no_fail": true,
+          "no_judge": true
+        }
+      },
+      {
+        "id": "6.2.6.8-11 Beamforming capability",
+        "description": "Retrieves O-RU beamforming capability information from O-RU",
+        "severity": "INFO",
+        "status": "NOT_OBSERVED",
+        "evidence_count": 0,
+        "evidences": [],
+        "extra": {
+          "category": "MODULE",
+          "parent": "6.2.6.8",
+          "no_fail": true,
+          "no_judge": true
+        }
+      },
+      {
+        "id": "6.2.6.8-12 ALD ports",
+        "description": "Retrieves antenna line device port information from O-RU",
+        "severity": "INFO",
+        "status": "NOT_OBSERVED",
+        "evidence_count": 0,
+        "evidences": [],
+        "extra": {
+          "category": "MODULE",
+          "parent": "6.2.6.8",
+          "no_fail": true,
+          "no_judge": true
+        }
+      },
+      {
+        "id": "6.2.6.8-13 External IO",
+        "description": "Retrieves external input and output line information from O-RU",
+        "severity": "INFO",
+        "status": "OBSERVED",
+        "evidence_count": 3,
+        "evidences": [
+          {
+            "start": 774,
+            "end": 774,
+            "lines": [
+              "        <feature>INPUT-VOLTAGE-MONITORING</feature>"
+            ],
+            "text": "        <feature>INPUT-VOLTAGE-MONITORING</feature>"
+          },
+          {
+            "start": 1265,
+            "end": 1265,
+            "lines": [
+              "    1) Added value range limitation to input-voltage-high/low/unstable-threshold leafs and removed default values\";"
+            ],
+            "text": "    1) Added value range limitation to input-voltage-high/low/unstable-threshold leafs and removed default values\";"
+          },
+          {
+            "start": 1276,
+            "end": 1276,
+            "lines": [
+              "    feature INPUT-VOLTAGE-MONITORING;"
+            ],
+            "text": "    feature INPUT-VOLTAGE-MONITORING;"
+          }
+        ],
+        "extra": {
+          "category": "MODULE",
+          "parent": "6.2.6.8",
+          "no_fail": true,
+          "no_judge": true
+        }
+      },
+      {
+        "id": "6.2.6.8-14 Active alarms",
+        "description": "Retrieves active alarm list from O-RU",
+        "severity": "INFO",
+        "status": "OBSERVED",
+        "evidence_count": 45,
+        "evidences": [
+          {
+            "start": 28916,
+            "end": 28960,
+            "lines": [
+              "  <next-update-at xmlns=\"urn:o-ran:supervision:1.0\">2026-02-23T16:59:12-06:00</next-update-at>",
+              "</rpc-reply>",
+              "[2026-02-23 16:58:23.914281];SEND;1544bytes",
+              "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+              "<rpc message-id=\"51\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+              "  <edit-config>",
+              "    <target>",
+              "      <running/>",
+              "    </target>",
+              "    <config>",
+              "      <user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+              "        <low-level-rx-links>",
+              "          <name>Low-Level-Rx-Links-000</name>",
+              "          <processing-element>processing-element01</processing-element>",
+              "          <rx-array-carrier>Rx-Array-Carrier-00</rx-array-carrier>",
+              "          <low-level-rx-endpoint>lowLevelRxEndpoint0</low-level-rx-endpoint>",
+              "        </low-level-rx-links>",
+              "        <low-level-rx-links>",
+              "          <name>Low-Level-Rx-Links-001</name>",
+              "          <processing-element>processing-element01</processing-element>",
+              "          <rx-array-carrier>Rx-Array-Carrier-01</rx-array-carrier>",
+              "          <low-level-rx-endpoint>lowLevelRxEndpoint10</low-level-rx-endpoint>",
+              "        </low-level-rx-links>",
+              "        <low-level-rx-links>",
+              "          <name>Low-Level-Rx-Links-002</name>",
+              "          <processing-element>processing-element01</processing-element>",
+              "          <rx-array-carrier>Rx-Array-Carrier-00</rx-array-carrier>",
+              "          <low-level-rx-endpoint>lowLevelRxEndpoint100</low-level-rx-endpoint>",
+              "        </low-level-rx-links>",
+              "        <low-level-rx-links>",
+              "          <name>Low-Level-Rx-Links-003</name>",
+              "          <processing-element>processing-element01</processing-element>",
+              "          <rx-array-carrier>Rx-Array-Carrier-01</rx-array-carrier>",
+              "          <low-level-rx-endpoint>lowLevelRxEndpoint104</low-level-rx-endpoint>",
+              "        </low-level-rx-links>",
+              "      </user-plane-configuration>",
+              "    </config>",
+              "  </edit-config>",
+              "</rpc>",
+              "[2026-02-23 16:58:24.231689];RECV;92bytes",
+              "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"51\">",
+              "  <ok/>",
+              "</rpc-reply>",
+              "[2026-02-23 16:58:24.236126];SEND;219bytes",
+              "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+            ],
+            "text": "  <next-update-at xmlns=\"urn:o-ran:supervision:1.0\">2026-02-23T16:59:12-06:00</next-update-at>\n</rpc-reply>\n[2026-02-23 16:58:23.914281];SEND;1544bytes\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rpc message-id=\"51\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n  <edit-config>\n    <target>\n      <running/>\n    </target>\n    <config>\n      <user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">\n        <low-level-rx-links>\n          <name>Low-Level-Rx-Links-000</name>\n          <processing-element>processing-element01</processing-element>\n          <rx-array-carrier>Rx-Array-Carrier-00</rx-array-carrier>\n          <low-level-rx-endpoint>lowLevelRxEndpoint0</low-level-rx-endpoint>\n        </low-level-rx-links>\n        <low-level-rx-links>\n          <name>Low-Level-Rx-Links-001</name>\n          <processing-element>processing-element01</processing-element>\n          <rx-array-carrier>Rx-Array-Carrier-01</rx-array-carrier>\n          <low-level-rx-endpoint>lowLevelRxEndpoint10</low-level-rx-endpoint>\n        </low-level-rx-links>\n        <low-level-rx-links>\n          <name>Low-Level-Rx-Links-002</name>\n          <processing-element>processing-element01</processing-element>\n          <rx-array-carrier>Rx-Array-Carrier-00</rx-array-carrier>\n          <low-level-rx-endpoint>lowLevelRxEndpoint100</low-level-rx-endpoint>\n        </low-level-rx-links>\n        <low-level-rx-links>\n          <name>Low-Level-Rx-Links-003</name>\n          <processing-element>processing-element01</processing-element>\n          <rx-array-carrier>Rx-Array-Carrier-01</rx-array-carrier>\n          <low-level-rx-endpoint>lowLevelRxEndpoint104</low-level-rx-endpoint>\n        </low-level-rx-links>\n      </user-plane-configuration>\n    </config>\n  </edit-config>\n</rpc>\n[2026-02-23 16:58:24.231689];RECV;92bytes\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"51\">\n  <ok/>\n</rpc-reply>\n[2026-02-23 16:58:24.236126];SEND;219bytes\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+          }
+        ],
+        "extra": {
+          "category": "MODULE",
+          "parent": "6.2.6.8",
+          "no_fail": true,
+          "no_judge": true
+        }
+      },
+      {
+        "id": "6.2.6.8-15 Delay management",
+        "description": "Retrieves Delay Management from O-RU",
+        "severity": "INFO",
+        "status": "OBSERVED",
+        "evidence_count": 46,
+        "evidences": [
+          {
+            "start": 14521,
+            "end": 14543,
+            "lines": [
+              "        <subcarrier-spacing>15000</subcarrier-spacing>",
+              "        <ru-delay-profile>",
+              "          <t2a-min-up>206000</t2a-min-up>",
+              "          <t2a-max-up>437000</t2a-max-up>",
+              "          <t2a-min-cp-dl>426000</t2a-min-cp-dl>",
+              "          <t2a-max-cp-dl>657000</t2a-max-cp-dl>",
+              "          <tcp-adv-dl>220000</tcp-adv-dl>",
+              "          <ta3-min>100907</ta3-min>",
+              "          <ta3-max>165285</ta3-max>",
+              "          <t2a-min-cp-ul>220000</t2a-min-cp-ul>",
+              "          <t2a-max-cp-ul>451000</t2a-max-cp-ul>",
+              "        </ru-delay-profile>",
+              "      </bandwidth-scs-delay-state>",
+              "      <bandwidth-scs-delay-state>",
+              "        <bandwidth>1400</bandwidth>",
+              "        <subcarrier-spacing>15000</subcarrier-spacing>",
+              "        <ru-delay-profile>",
+              "          <t2a-min-up>206000</t2a-min-up>",
+              "          <t2a-max-up>437000</t2a-max-up>",
+              "          <t2a-min-cp-dl>426000</t2a-min-cp-dl>",
+              "          <t2a-max-cp-dl>657000</t2a-max-cp-dl>",
+              "          <tcp-adv-dl>220000</tcp-adv-dl>",
+              "          <ta3-min>100907</ta3-min>"
+            ],
+            "text": "        <subcarrier-spacing>15000</subcarrier-spacing>\n        <ru-delay-profile>\n          <t2a-min-up>206000</t2a-min-up>\n          <t2a-max-up>437000</t2a-max-up>\n          <t2a-min-cp-dl>426000</t2a-min-cp-dl>\n          <t2a-max-cp-dl>657000</t2a-max-cp-dl>\n          <tcp-adv-dl>220000</tcp-adv-dl>\n          <ta3-min>100907</ta3-min>\n          <ta3-max>165285</ta3-max>\n          <t2a-min-cp-ul>220000</t2a-min-cp-ul>\n          <t2a-max-cp-ul>451000</t2a-max-cp-ul>\n        </ru-delay-profile>\n      </bandwidth-scs-delay-state>\n      <bandwidth-scs-delay-state>\n        <bandwidth>1400</bandwidth>\n        <subcarrier-spacing>15000</subcarrier-spacing>\n        <ru-delay-profile>\n          <t2a-min-up>206000</t2a-min-up>\n          <t2a-max-up>437000</t2a-max-up>\n          <t2a-min-cp-dl>426000</t2a-min-cp-dl>\n          <t2a-max-cp-dl>657000</t2a-max-cp-dl>\n          <tcp-adv-dl>220000</tcp-adv-dl>\n          <ta3-min>100907</ta3-min>"
+          },
+          {
+            "start": 14536,
+            "end": 14558,
+            "lines": [
+              "        <subcarrier-spacing>15000</subcarrier-spacing>",
+              "        <ru-delay-profile>",
+              "          <t2a-min-up>206000</t2a-min-up>",
+              "          <t2a-max-up>437000</t2a-max-up>",
+              "          <t2a-min-cp-dl>426000</t2a-min-cp-dl>",
+              "          <t2a-max-cp-dl>657000</t2a-max-cp-dl>",
+              "          <tcp-adv-dl>220000</tcp-adv-dl>",
+              "          <ta3-min>100907</ta3-min>",
+              "          <ta3-max>165285</ta3-max>",
+              "          <t2a-min-cp-ul>220000</t2a-min-cp-ul>",
+              "          <t2a-max-cp-ul>451000</t2a-max-cp-ul>",
+              "        </ru-delay-profile>",
+              "      </bandwidth-scs-delay-state>",
+              "      <bandwidth-scs-delay-state>",
+              "        <bandwidth>3000</bandwidth>",
+              "        <subcarrier-spacing>15000</subcarrier-spacing>",
+              "        <ru-delay-profile>",
+              "          <t2a-min-up>206000</t2a-min-up>",
+              "          <t2a-max-up>437000</t2a-max-up>",
+              "          <t2a-min-cp-dl>426000</t2a-min-cp-dl>",
+              "          <t2a-max-cp-dl>657000</t2a-max-cp-dl>",
+              "          <tcp-adv-dl>220000</tcp-adv-dl>",
+              "          <ta3-min>100907</ta3-min>"
+            ],
+            "text": "        <subcarrier-spacing>15000</subcarrier-spacing>\n        <ru-delay-profile>\n          <t2a-min-up>206000</t2a-min-up>\n          <t2a-max-up>437000</t2a-max-up>\n          <t2a-min-cp-dl>426000</t2a-min-cp-dl>\n          <t2a-max-cp-dl>657000</t2a-max-cp-dl>\n          <tcp-adv-dl>220000</tcp-adv-dl>\n          <ta3-min>100907</ta3-min>\n          <ta3-max>165285</ta3-max>\n          <t2a-min-cp-ul>220000</t2a-min-cp-ul>\n          <t2a-max-cp-ul>451000</t2a-max-cp-ul>\n        </ru-delay-profile>\n      </bandwidth-scs-delay-state>\n      <bandwidth-scs-delay-state>\n        <bandwidth>3000</bandwidth>\n        <subcarrier-spacing>15000</subcarrier-spacing>\n        <ru-delay-profile>\n          <t2a-min-up>206000</t2a-min-up>\n          <t2a-max-up>437000</t2a-max-up>\n          <t2a-min-cp-dl>426000</t2a-min-cp-dl>\n          <t2a-max-cp-dl>657000</t2a-max-cp-dl>\n          <tcp-adv-dl>220000</tcp-adv-dl>\n          <ta3-min>100907</ta3-min>"
+          }
+        ],
+        "extra": {
+          "category": "NETCONF",
+          "parent": "6.2.6.8",
+          "no_fail": true,
+          "no_judge": true
+        }
+      }
+    ]
+  },
+  "results": [
+    {
+      "id": "6.2.6.3 SSH/TLS Secure connection establishment",
+      "description": "SSH session/TLS connection establishment initiated by O-DU ",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 12,
+      "evidences": [
+        {
+          "start": 1,
+          "end": 4,
+          "lines": [
+            "[2026-02-23 16:54:39.410366];INFO;Establishing M-plane link to RU0:192.168.172.247:49560 user(1):nkoranuser ...",
+            "[2026-02-23 16:54:39.957701];INFO;SSH channel established(0)",
+            "[2026-02-23 16:54:39.957959];SEND;264bytes",
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+          ],
+          "text": "[2026-02-23 16:54:39.410366];INFO;Establishing M-plane link to RU0:192.168.172.247:49560 user(1):nkoranuser ...\n[2026-02-23 16:54:39.957701];INFO;SSH channel established(0)\n[2026-02-23 16:54:39.957959];SEND;264bytes\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        },
+        {
+          "start": 7123,
+          "end": 7130,
+          "lines": [
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"33\">",
+            "  <ok/>",
+            "</rpc-reply>",
+            "[2026-02-23 16:57:11.416761];WARNING;Disconnected(cause:7) Session error(122)",
+            "[2026-02-23 16:57:22.753186];INFO;Establishing M-plane link to RU0:192.168.172.239:36156 user(1):nkoranuser ...",
+            "[2026-02-23 16:57:23.297153];INFO;SSH channel established(0)",
+            "[2026-02-23 16:57:23.297408];SEND;264bytes",
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+          ],
+          "text": "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"33\">\n  <ok/>\n</rpc-reply>\n[2026-02-23 16:57:11.416761];WARNING;Disconnected(cause:7) Session error(122)\n[2026-02-23 16:57:22.753186];INFO;Establishing M-plane link to RU0:192.168.172.239:36156 user(1):nkoranuser ...\n[2026-02-23 16:57:23.297153];INFO;SSH channel established(0)\n[2026-02-23 16:57:23.297408];SEND;264bytes\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.4-1 NETCONF Capability discovery",
+      "description": "NETCONF hello exchange between O-RU and O-DU",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 6,
+      "evidences": [
+        {
+          "start": 5,
+          "end": 10,
+          "lines": [
+            "<hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "  <capabilities>",
+            "    <capability>urn:ietf:params:netconf:base:1.0</capability>",
+            "    <capability>urn:ietf:params:netconf:base:1.1</capability>",
+            "  </capabilities>",
+            "</hello>"
+          ],
+          "text": "<hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n  <capabilities>\n    <capability>urn:ietf:params:netconf:base:1.0</capability>\n    <capability>urn:ietf:params:netconf:base:1.1</capability>\n  </capabilities>\n</hello>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.4-2 NETCONF Capability discovery(Capabilities inform)",
+      "description": "O-RU sends yang-library of ietf-yang-library.yang module",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 41,
+      "evidences": [
+        {
+          "start": 44,
+          "end": 84,
+          "lines": [
+            "<rpc message-id=\"1\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "  <get>",
+            "    <filter type=\"subtree\">",
+            "      <modules-state xmlns=\"urn:ietf:params:xml:ns:yang:ietf-yang-library\"/>",
+            "    </filter>",
+            "  </get>",
+            "</rpc>",
+            "[2026-02-23 16:54:40.090573];RECV;28928bytes",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"1\">",
+            "  <data>",
+            "    <modules-state xmlns=\"urn:ietf:params:xml:ns:yang:ietf-yang-library\">",
+            "      <module-set-id>17</module-set-id>",
+            "      <module>",
+            "        <name>ietf-yang-metadata</name>",
+            "        <revision>2016-08-05</revision>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-yang-metadata</namespace>",
+            "        <conformance-type>import</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>yang</name>",
+            "        <revision>2022-06-16</revision>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:1</namespace>",
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>ietf-inet-types</name>",
+            "        <revision>2013-07-15</revision>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-inet-types</namespace>",
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>ietf-yang-types</name>",
+            "        <revision>2013-07-15</revision>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-yang-types</namespace>",
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>ietf-yang-schema-mount</name>",
+            "        <revision>2019-01-14</revision>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-yang-schema-mount</namespace>",
+            "        <conformance-type>implement</conformance-type>"
+          ],
+          "text": "<rpc message-id=\"1\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n  <get>\n    <filter type=\"subtree\">\n      <modules-state xmlns=\"urn:ietf:params:xml:ns:yang:ietf-yang-library\"/>\n    </filter>\n  </get>\n</rpc>\n[2026-02-23 16:54:40.090573];RECV;28928bytes\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"1\">\n  <data>\n    <modules-state xmlns=\"urn:ietf:params:xml:ns:yang:ietf-yang-library\">\n      <module-set-id>17</module-set-id>\n      <module>\n        <name>ietf-yang-metadata</name>\n        <revision>2016-08-05</revision>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-yang-metadata</namespace>\n        <conformance-type>import</conformance-type>\n      </module>\n      <module>\n        <name>yang</name>\n        <revision>2022-06-16</revision>\n        <namespace>urn:ietf:params:xml:ns:yang:1</namespace>\n        <conformance-type>implement</conformance-type>\n      </module>\n      <module>\n        <name>ietf-inet-types</name>\n        <revision>2013-07-15</revision>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-inet-types</namespace>\n        <conformance-type>implement</conformance-type>\n      </module>\n      <module>\n        <name>ietf-yang-types</name>\n        <revision>2013-07-15</revision>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-yang-types</namespace>\n        <conformance-type>implement</conformance-type>\n      </module>\n      <module>\n        <name>ietf-yang-schema-mount</name>\n        <revision>2019-01-14</revision>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-yang-schema-mount</namespace>\n        <conformance-type>implement</conformance-type>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.6  Initial process of NETCONF Subscribe",
+      "description": "NETCONF create sbscription O-DU to O-RU",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 10,
+      "evidences": [
+        {
+          "start": 955,
+          "end": 964,
+          "lines": [
+            "      \"ietf-netconf-monitoring get-schema RPC\";",
+            "      }",
+            "      enum \"create-subscription\" {",
+            "      description",
+            "      \"notifications create-subscription RPC\";",
+            "      }",
+            "      enum \"get-data\" {",
+            "      description",
+            "      \"ietf-netconf-nmda get-data RPC\";",
+            "      }"
+          ],
+          "text": "      \"ietf-netconf-monitoring get-schema RPC\";\n      }\n      enum \"create-subscription\" {\n      description\n      \"notifications create-subscription RPC\";\n      }\n      enum \"get-data\" {\n      description\n      \"ietf-netconf-nmda get-data RPC\";\n      }"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.7  Supervision of NETCONF connection",
+      "description": "O-RU sends supervision notification to O-DU",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 11,
+      "evidences": [
+        {
+          "start": 6696,
+          "end": 6706,
+          "lines": [
+            "    description",
+            "    \"O-RUs supporting this feature reuse the session-id generated for each NETCONF",
+            "    session in supervision-notification. The session-id is defined in RFC 6241.",
+            "    For these O-RUs, the O-RU controller participating in the NETCONF supervision",
+            "    procedure can subscribe to supervision-notification notification events,",
+            "    filtering for the supervision-notification/session-id matching",
+            "    session-id in the Hello Message received from NETCONF Server earlier.\";",
+            "    }",
+            "    feature UPLANE-ONLY-DL-MODE {",
+            "    description",
+            "    \"Presence of feature indicates that O-RU supports U-Plane-only DL mode.\";"
+          ],
+          "text": "    description\n    \"O-RUs supporting this feature reuse the session-id generated for each NETCONF\n    session in supervision-notification. The session-id is defined in RFC 6241.\n    For these O-RUs, the O-RU controller participating in the NETCONF supervision\n    procedure can subscribe to supervision-notification notification events,\n    filtering for the supervision-notification/session-id matching\n    session-id in the Hello Message received from NETCONF Server earlier.\";\n    }\n    feature UPLANE-ONLY-DL-MODE {\n    description\n    \"Presence of feature indicates that O-RU supports U-Plane-only DL mode.\";"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.8  Retrieval of O-RU information and Additional configuration",
+      "description": "O-RU sends each yang module list in ietf-yang-library.yang ",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 42,
+      "evidences": [
+        {
+          "start": 200,
+          "end": 206,
+          "lines": [
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>ietf-interfaces</name>",
+            "        <revision>2018-02-20</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>"
+          ],
+          "text": "        <conformance-type>implement</conformance-type>\n      </module>\n      <module>\n        <name>ietf-interfaces</name>\n        <revision>2018-02-20</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>"
+        },
+        {
+          "start": 202,
+          "end": 208,
+          "lines": [
+            "      <module>",
+            "        <name>ietf-interfaces</name>",
+            "        <revision>2018-02-20</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>",
+            "        <feature>if-mib</feature>",
+            "        <conformance-type>implement</conformance-type>"
+          ],
+          "text": "      <module>\n        <name>ietf-interfaces</name>\n        <revision>2018-02-20</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>\n        <feature>if-mib</feature>\n        <conformance-type>implement</conformance-type>"
+        },
+        {
+          "start": 203,
+          "end": 209,
+          "lines": [
+            "        <name>ietf-interfaces</name>",
+            "        <revision>2018-02-20</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>",
+            "        <feature>if-mib</feature>",
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>"
+          ],
+          "text": "        <name>ietf-interfaces</name>\n        <revision>2018-02-20</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>\n        <feature>if-mib</feature>\n        <conformance-type>implement</conformance-type>\n      </module>"
+        },
+        {
+          "start": 312,
+          "end": 318,
+          "lines": [
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>o-ran-mplane-int</name>",
+            "        <revision>2021-12-01</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</schema>",
+            "        <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>"
+          ],
+          "text": "        <conformance-type>implement</conformance-type>\n      </module>\n      <module>\n        <name>o-ran-mplane-int</name>\n        <revision>2021-12-01</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</schema>\n        <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>"
+        },
+        {
+          "start": 314,
+          "end": 320,
+          "lines": [
+            "      <module>",
+            "        <name>o-ran-mplane-int</name>",
+            "        <revision>2021-12-01</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</schema>",
+            "        <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>",
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>"
+          ],
+          "text": "      <module>\n        <name>o-ran-mplane-int</name>\n        <revision>2021-12-01</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</schema>\n        <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>\n        <conformance-type>implement</conformance-type>\n      </module>"
+        },
+        {
+          "start": 326,
+          "end": 332,
+          "lines": [
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>o-ran-transceiver</name>",
+            "        <revision>2023-04-10</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-transceiver@2023-04-10.yang</schema>",
+            "        <namespace>urn:o-ran:transceiver:1.0</namespace>"
+          ],
+          "text": "        <conformance-type>implement</conformance-type>\n      </module>\n      <module>\n        <name>o-ran-transceiver</name>\n        <revision>2023-04-10</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-transceiver@2023-04-10.yang</schema>\n        <namespace>urn:o-ran:transceiver:1.0</namespace>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.8 Retrieval of O-RU information and Additional configuration",
+      "description": "O-RU sends each yang module list in ietf-yang-library.yang",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 42,
+      "evidences": [
+        {
+          "start": 200,
+          "end": 206,
+          "lines": [
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>ietf-interfaces</name>",
+            "        <revision>2018-02-20</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>"
+          ],
+          "text": "        <conformance-type>implement</conformance-type>\n      </module>\n      <module>\n        <name>ietf-interfaces</name>\n        <revision>2018-02-20</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>"
+        },
+        {
+          "start": 202,
+          "end": 208,
+          "lines": [
+            "      <module>",
+            "        <name>ietf-interfaces</name>",
+            "        <revision>2018-02-20</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>",
+            "        <feature>if-mib</feature>",
+            "        <conformance-type>implement</conformance-type>"
+          ],
+          "text": "      <module>\n        <name>ietf-interfaces</name>\n        <revision>2018-02-20</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>\n        <feature>if-mib</feature>\n        <conformance-type>implement</conformance-type>"
+        },
+        {
+          "start": 203,
+          "end": 209,
+          "lines": [
+            "        <name>ietf-interfaces</name>",
+            "        <revision>2018-02-20</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>",
+            "        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>",
+            "        <feature>if-mib</feature>",
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>"
+          ],
+          "text": "        <name>ietf-interfaces</name>\n        <revision>2018-02-20</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/ietf-interfaces@2018-02-20.yang</schema>\n        <namespace>urn:ietf:params:xml:ns:yang:ietf-interfaces</namespace>\n        <feature>if-mib</feature>\n        <conformance-type>implement</conformance-type>\n      </module>"
+        },
+        {
+          "start": 312,
+          "end": 318,
+          "lines": [
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>o-ran-mplane-int</name>",
+            "        <revision>2021-12-01</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</schema>",
+            "        <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>"
+          ],
+          "text": "        <conformance-type>implement</conformance-type>\n      </module>\n      <module>\n        <name>o-ran-mplane-int</name>\n        <revision>2021-12-01</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</schema>\n        <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>"
+        },
+        {
+          "start": 314,
+          "end": 320,
+          "lines": [
+            "      <module>",
+            "        <name>o-ran-mplane-int</name>",
+            "        <revision>2021-12-01</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</schema>",
+            "        <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>",
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>"
+          ],
+          "text": "      <module>\n        <name>o-ran-mplane-int</name>\n        <revision>2021-12-01</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-mplane-int@2021-12-01.yang</schema>\n        <namespace>urn:o-ran:mplane-interfaces:1.0</namespace>\n        <conformance-type>implement</conformance-type>\n      </module>"
+        },
+        {
+          "start": 326,
+          "end": 332,
+          "lines": [
+            "        <conformance-type>implement</conformance-type>",
+            "      </module>",
+            "      <module>",
+            "        <name>o-ran-transceiver</name>",
+            "        <revision>2023-04-10</revision>",
+            "        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-transceiver@2023-04-10.yang</schema>",
+            "        <namespace>urn:o-ran:transceiver:1.0</namespace>"
+          ],
+          "text": "        <conformance-type>implement</conformance-type>\n      </module>\n      <module>\n        <name>o-ran-transceiver</name>\n        <revision>2023-04-10</revision>\n        <schema>file:///var/volatile/tmp/sysrepo/yang/o-ran-transceiver@2023-04-10.yang</schema>\n        <namespace>urn:o-ran:transceiver:1.0</namespace>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF"
+      }
+    },
+    {
+      "id": "6.2.6.8-1 HW info",
+      "description": "Retrieves O-RU hardware information from O-RU",
+      "severity": "INFO",
+      "status": "OBSERVED",
+      "evidence_count": 3,
+      "evidences": [
+        {
+          "start": 6935,
+          "end": 6935,
+          "lines": [
+            "        <product-code xmlns=\"urn:o-ran:hardware:1.0\">476626A.X23</product-code>"
+          ],
+          "text": "        <product-code xmlns=\"urn:o-ran:hardware:1.0\">476626A.X23</product-code>"
+        },
+        {
+          "start": 6936,
+          "end": 6936,
+          "lines": [
+            "        <o-ran-name xmlns=\"urn:o-ran:hardware:1.0\">Module</o-ran-name>"
+          ],
+          "text": "        <o-ran-name xmlns=\"urn:o-ran:hardware:1.0\">Module</o-ran-name>"
+        },
+        {
+          "start": 6941,
+          "end": 6941,
+          "lines": [
+            "        <o-ran-name xmlns=\"urn:o-ran:hardware:1.0\">port0</o-ran-name>"
+          ],
+          "text": "        <o-ran-name xmlns=\"urn:o-ran:hardware:1.0\">port0</o-ran-name>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF",
+        "parent": "6.2.6.8",
+        "no_fail": true,
+        "no_judge": true
+      }
+    },
+    {
+      "id": "6.2.6.8-2 Interfaces",
+      "description": "Retrieval of O-RU interface information from O-RU",
+      "severity": "INFO",
+      "status": "OBSERVED",
+      "evidence_count": 23,
+      "evidences": [
+        {
+          "start": 7103,
+          "end": 7125,
+          "lines": [
+            "        </port-reference>",
+            "      </interface>",
+            "    </interfaces>",
+            "  </data>",
+            "</rpc-reply>",
+            "[2026-02-23 16:54:50.267914];SEND;160bytes",
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "<rpc message-id=\"32\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "  <reset xmlns=\"urn:o-ran:operations:1.0\"/>",
+            "</rpc>",
+            "[2026-02-23 16:54:50.302255];RECV;92bytes",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"32\">",
+            "  <ok/>",
+            "</rpc-reply>",
+            "[2026-02-23 16:54:50.308324];SEND;135bytes",
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "<rpc message-id=\"33\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "  <close-session/>",
+            "</rpc>",
+            "[2026-02-23 16:54:50.309938];RECV;92bytes",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"33\">",
+            "  <ok/>",
+            "</rpc-reply>"
+          ],
+          "text": "        </port-reference>\n      </interface>\n    </interfaces>\n  </data>\n</rpc-reply>\n[2026-02-23 16:54:50.267914];SEND;160bytes\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rpc message-id=\"32\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n  <reset xmlns=\"urn:o-ran:operations:1.0\"/>\n</rpc>\n[2026-02-23 16:54:50.302255];RECV;92bytes\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"32\">\n  <ok/>\n</rpc-reply>\n[2026-02-23 16:54:50.308324];SEND;135bytes\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rpc message-id=\"33\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n  <close-session/>\n</rpc>\n[2026-02-23 16:54:50.309938];RECV;92bytes\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"33\">\n  <ok/>\n</rpc-reply>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF",
+        "parent": "6.2.6.8",
+        "no_fail": true,
+        "no_judge": true
+      }
+    },
+    {
+      "id": "6.2.6.8-3 Port transceivers",
+      "description": "Retrieval of O-RU port transceiver information from O-RU",
+      "severity": "INFO",
+      "status": "OBSERVED",
+      "evidence_count": 3,
+      "evidences": [
+        {
+          "start": 2768,
+          "end": 2768,
+          "lines": [
+            "    notification port-transceiver-data-change to use actual leaf types instead of leafrefs\";"
+          ],
+          "text": "    notification port-transceiver-data-change to use actual leaf types instead of leafrefs\";"
+        },
+        {
+          "start": 2777,
+          "end": 2777,
+          "lines": [
+            "    2) [CB013427-E] Extended the notification port-transceiver-data-change with DWDM tunable transceiver leafs\";"
+          ],
+          "text": "    2) [CB013427-E] Extended the notification port-transceiver-data-change with DWDM tunable transceiver leafs\";"
+        },
+        {
+          "start": 2784,
+          "end": 2784,
+          "lines": [
+            "    1) [CB013490-D] Added the following leaves in o-ran-trx:port-transceiver-data:"
+          ],
+          "text": "    1) [CB013490-D] Added the following leaves in o-ran-trx:port-transceiver-data:"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF",
+        "parent": "6.2.6.8",
+        "no_fail": true,
+        "no_judge": true
+      }
+    },
+    {
+      "id": "6.2.6.8-4 Fan state",
+      "description": "Retrieval of O-RU fan state information from O-RU",
+      "severity": "INFO",
+      "status": "NOT_OBSERVED",
+      "evidence_count": 0,
+      "evidences": [],
+      "extra": {
+        "category": "NETCONF",
+        "parent": "6.2.6.8",
+        "no_fail": true,
+        "no_judge": true
+      }
+    },
+    {
+      "id": "6.2.6.8-5 Band capabilities",
+      "description": "Retrieval of O-RU band capabilities information from O-RU",
+      "severity": "INFO",
+      "status": "OBSERVED",
+      "evidence_count": 3,
+      "evidences": [
+        {
+          "start": 5358,
+          "end": 5358,
+          "lines": [
+            "    path \"/mcap:module-capability/mcap:band-capabilities/mcap:band-number\";"
+          ],
+          "text": "    path \"/mcap:module-capability/mcap:band-capabilities/mcap:band-number\";"
+        },
+        {
+          "start": 12484,
+          "end": 12484,
+          "lines": [
+            "    path \"/mcap:module-capability/mcap:band-capabilities/mcap:band-number\";"
+          ],
+          "text": "    path \"/mcap:module-capability/mcap:band-capabilities/mcap:band-number\";"
+        },
+        {
+          "start": 14431,
+          "end": 14431,
+          "lines": [
+            "      <band-capabilities>"
+          ],
+          "text": "      <band-capabilities>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE",
+        "parent": "6.2.6.8",
+        "no_fail": true,
+        "no_judge": true
+      }
+    },
+    {
+      "id": "6.2.6.8-6 IQ compression",
+      "description": "Retrieval of O-RU IQ compression information from O-RU",
+      "severity": "INFO",
+      "status": "OBSERVED",
+      "evidence_count": 30,
+      "evidences": [
+        {
+          "start": 14409,
+          "end": 14423,
+          "lines": [
+            "          <dynamic-compression-supported>false</dynamic-compression-supported>",
+            "          <realtime-variable-bit-width-supported>false</realtime-variable-bit-width-supported>",
+            "          <compression-method-supported>",
+            "            <iq-bitwidth>9</iq-bitwidth>",
+            "            <compression-type>STATIC</compression-type>",
+            "            <compression-method>BLOCK_FLOATING_POINT</compression-method>",
+            "            <exponent>4</exponent>",
+            "            <fs-offset>16</fs-offset>",
+            "          </compression-method-supported>",
+            "          <syminc-supported>false</syminc-supported>",
+            "        </format-of-iq-sample>",
+            "        <ul-mixed-num-required-guard-rbs>",
+            "          <scs-a>KHZ_15</scs-a>",
+            "          <scs-b>KHZ_1_25</scs-b>",
+            "          <number-of-guard-rbs-ul>2</number-of-guard-rbs-ul>"
+          ],
+          "text": "          <dynamic-compression-supported>false</dynamic-compression-supported>\n          <realtime-variable-bit-width-supported>false</realtime-variable-bit-width-supported>\n          <compression-method-supported>\n            <iq-bitwidth>9</iq-bitwidth>\n            <compression-type>STATIC</compression-type>\n            <compression-method>BLOCK_FLOATING_POINT</compression-method>\n            <exponent>4</exponent>\n            <fs-offset>16</fs-offset>\n          </compression-method-supported>\n          <syminc-supported>false</syminc-supported>\n        </format-of-iq-sample>\n        <ul-mixed-num-required-guard-rbs>\n          <scs-a>KHZ_15</scs-a>\n          <scs-b>KHZ_1_25</scs-b>\n          <number-of-guard-rbs-ul>2</number-of-guard-rbs-ul>"
+        },
+        {
+          "start": 14415,
+          "end": 14429,
+          "lines": [
+            "            <exponent>4</exponent>",
+            "            <fs-offset>16</fs-offset>",
+            "          </compression-method-supported>",
+            "          <syminc-supported>false</syminc-supported>",
+            "        </format-of-iq-sample>",
+            "        <ul-mixed-num-required-guard-rbs>",
+            "          <scs-a>KHZ_15</scs-a>",
+            "          <scs-b>KHZ_1_25</scs-b>",
+            "          <number-of-guard-rbs-ul>2</number-of-guard-rbs-ul>",
+            "        </ul-mixed-num-required-guard-rbs>",
+            "        <energy-saving-by-transmission-blanks>false</energy-saving-by-transmission-blanks>",
+            "        <dynamic-transport-delay-management-supported>false</dynamic-transport-delay-management-supported>",
+            "        <coupling-methods>",
+            "          <coupling-via-frequency-and-time>true</coupling-via-frequency-and-time>",
+            "        </coupling-methods>"
+          ],
+          "text": "            <exponent>4</exponent>\n            <fs-offset>16</fs-offset>\n          </compression-method-supported>\n          <syminc-supported>false</syminc-supported>\n        </format-of-iq-sample>\n        <ul-mixed-num-required-guard-rbs>\n          <scs-a>KHZ_15</scs-a>\n          <scs-b>KHZ_1_25</scs-b>\n          <number-of-guard-rbs-ul>2</number-of-guard-rbs-ul>\n        </ul-mixed-num-required-guard-rbs>\n        <energy-saving-by-transmission-blanks>false</energy-saving-by-transmission-blanks>\n        <dynamic-transport-delay-management-supported>false</dynamic-transport-delay-management-supported>\n        <coupling-methods>\n          <coupling-via-frequency-and-time>true</coupling-via-frequency-and-time>\n        </coupling-methods>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE",
+        "parent": "6.2.6.8",
+        "no_fail": true,
+        "no_judge": true
+      }
+    },
+    {
+      "id": "6.2.6.8-7 Software info",
+      "description": "Retrieval of O-RU software information from O-RU",
+      "severity": "INFO",
+      "status": "OBSERVED",
+      "evidence_count": 45,
+      "evidences": [
+        {
+          "start": 6912,
+          "end": 6926,
+          "lines": [
+            "        <description/>",
+            "        <hardware-rev>X23</hardware-rev>",
+            "        <software-rev>NK.RF.SRM7.trunk.20260219.042</software-rev>",
+            "        <serial-num>L1254202350</serial-num>",
+            "        <mfg-name>Nokia</mfg-name>",
+            "        <model-name>AXEGHA</model-name>",
+            "        <state>",
+            "          <admin-state>unlocked</admin-state>",
+            "          <oper-state>enabled</oper-state>",
+            "          <usage-state>idle</usage-state>",
+            "          <power-state xmlns=\"urn:o-ran:hardware:1.0\">AWAKE</power-state>",
+            "          <availability-state xmlns=\"urn:o-ran:hardware:1.0\">NORMAL</availability-state>",
+            "        </state>",
+            "        <temperature-state xmlns=\"urn:nokia.com:ran:ru:hardware:1.0\">",
+            "          <rating>"
+          ],
+          "text": "        <description/>\n        <hardware-rev>X23</hardware-rev>\n        <software-rev>NK.RF.SRM7.trunk.20260219.042</software-rev>\n        <serial-num>L1254202350</serial-num>\n        <mfg-name>Nokia</mfg-name>\n        <model-name>AXEGHA</model-name>\n        <state>\n          <admin-state>unlocked</admin-state>\n          <oper-state>enabled</oper-state>\n          <usage-state>idle</usage-state>\n          <power-state xmlns=\"urn:o-ran:hardware:1.0\">AWAKE</power-state>\n          <availability-state xmlns=\"urn:o-ran:hardware:1.0\">NORMAL</availability-state>\n        </state>\n        <temperature-state xmlns=\"urn:nokia.com:ran:ru:hardware:1.0\">\n          <rating>"
+        },
+        {
+          "start": 6962,
+          "end": 6976,
+          "lines": [
+            "  <data>",
+            "    <software-inventory xmlns=\"urn:o-ran:software-management:1.0\">",
+            "      <software-slot>",
+            "        <name>Slot1</name>",
+            "        <status>VALID</status>",
+            "        <active>false</active>",
+            "        <running>false</running>",
+            "        <access>READ_WRITE</access>",
+            "        <product-code>476626A.X23</product-code>",
+            "        <vendor-code>NK</vendor-code>",
+            "        <build-id>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-id>",
+            "        <build-name>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-name>",
+            "        <build-version>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-version>",
+            "      </software-slot>",
+            "      <software-slot>"
+          ],
+          "text": "  <data>\n    <software-inventory xmlns=\"urn:o-ran:software-management:1.0\">\n      <software-slot>\n        <name>Slot1</name>\n        <status>VALID</status>\n        <active>false</active>\n        <running>false</running>\n        <access>READ_WRITE</access>\n        <product-code>476626A.X23</product-code>\n        <vendor-code>NK</vendor-code>\n        <build-id>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-id>\n        <build-name>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-name>\n        <build-version>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-version>\n      </software-slot>\n      <software-slot>"
+        },
+        {
+          "start": 6973,
+          "end": 6987,
+          "lines": [
+            "        <build-name>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-name>",
+            "        <build-version>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-version>",
+            "      </software-slot>",
+            "      <software-slot>",
+            "        <name>Slot2</name>",
+            "        <status>VALID</status>",
+            "        <active>true</active>",
+            "        <running>true</running>",
+            "        <access>READ_WRITE</access>",
+            "        <product-code>476626A.X23</product-code>",
+            "        <vendor-code>NK</vendor-code>",
+            "        <build-id>NK.RF.SRM7.trunk.20260219.042</build-id>",
+            "        <build-name>NK.RF.SRM7.trunk.20260219.042</build-name>",
+            "        <build-version>NK.RF.SRM7.trunk.20260219.042</build-version>",
+            "      </software-slot>"
+          ],
+          "text": "        <build-name>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-name>\n        <build-version>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-version>\n      </software-slot>\n      <software-slot>\n        <name>Slot2</name>\n        <status>VALID</status>\n        <active>true</active>\n        <running>true</running>\n        <access>READ_WRITE</access>\n        <product-code>476626A.X23</product-code>\n        <vendor-code>NK</vendor-code>\n        <build-id>NK.RF.SRM7.trunk.20260219.042</build-id>\n        <build-name>NK.RF.SRM7.trunk.20260219.042</build-name>\n        <build-version>NK.RF.SRM7.trunk.20260219.042</build-version>\n      </software-slot>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE",
+        "parent": "6.2.6.8",
+        "no_fail": true,
+        "no_judge": true
+      }
+    },
+    {
+      "id": "6.2.6.8-8 TX arrays",
+      "description": "Retrieval of O-RU TX array information from O-RU",
+      "severity": "INFO",
+      "status": "OBSERVED",
+      "evidence_count": 3,
+      "evidences": [
+        {
+          "start": 1622,
+          "end": 1622,
+          "lines": [
+            "    path \"/up:user-plane-configuration/up:tx-arrays/up:name\";"
+          ],
+          "text": "    path \"/up:user-plane-configuration/up:tx-arrays/up:name\";"
+        },
+        {
+          "start": 3893,
+          "end": 3893,
+          "lines": [
+            "    path \"/up:user-plane-configuration/up:tx-arrays/up:name\";"
+          ],
+          "text": "    path \"/up:user-plane-configuration/up:tx-arrays/up:name\";"
+        },
+        {
+          "start": 3895,
+          "end": 3895,
+          "lines": [
+            "    must \"count(/up:user-plane-configuration/up:tx-arrays[up:name=current()]/up:polarisations) = 2\";"
+          ],
+          "text": "    must \"count(/up:user-plane-configuration/up:tx-arrays[up:name=current()]/up:polarisations) = 2\";"
+        }
+      ],
+      "extra": {
+        "category": "MODULE",
+        "parent": "6.2.6.8",
+        "no_fail": true,
+        "no_judge": true
+      }
+    },
+    {
+      "id": "6.2.6.8-9 RX arrays",
+      "description": "Retrieval of O-RU RX array information from O-RU",
+      "severity": "INFO",
+      "status": "OBSERVED",
+      "evidence_count": 3,
+      "evidences": [
+        {
+          "start": 2151,
+          "end": 2151,
+          "lines": [
+            "    path \"/up:user-plane-configuration/up:rx-arrays/up:name\";"
+          ],
+          "text": "    path \"/up:user-plane-configuration/up:rx-arrays/up:name\";"
+        },
+        {
+          "start": 2534,
+          "end": 2534,
+          "lines": [
+            "    path \"/up:user-plane-configuration/up:rx-arrays/up:name\";"
+          ],
+          "text": "    path \"/up:user-plane-configuration/up:rx-arrays/up:name\";"
+        },
+        {
+          "start": 3660,
+          "end": 3660,
+          "lines": [
+            "    path \"/up:user-plane-configuration/up:rx-arrays/up:name\";"
+          ],
+          "text": "    path \"/up:user-plane-configuration/up:rx-arrays/up:name\";"
+        }
+      ],
+      "extra": {
+        "category": "MODULE",
+        "parent": "6.2.6.8",
+        "no_fail": true,
+        "no_judge": true
+      }
+    },
+    {
+      "id": "6.2.6.8-10 Endpoint PRACH group",
+      "description": "Retrieval of O-RU Endpoint PRACH group information from O-RU",
+      "severity": "INFO",
+      "status": "OBSERVED",
+      "evidence_count": 3,
+      "evidences": [
+        {
+          "start": 16991,
+          "end": 16991,
+          "lines": [
+            "      <endpoint-prach-group>"
+          ],
+          "text": "      <endpoint-prach-group>"
+        },
+        {
+          "start": 16998,
+          "end": 16998,
+          "lines": [
+            "      </endpoint-prach-group>"
+          ],
+          "text": "      </endpoint-prach-group>"
+        },
+        {
+          "start": 16999,
+          "end": 16999,
+          "lines": [
+            "      <endpoint-prach-group>"
+          ],
+          "text": "      <endpoint-prach-group>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE",
+        "parent": "6.2.6.8",
+        "no_fail": true,
+        "no_judge": true
+      }
+    },
+    {
+      "id": "6.2.6.8-11 Beamforming capability",
+      "description": "Retrieves O-RU beamforming capability information from O-RU",
+      "severity": "INFO",
+      "status": "NOT_OBSERVED",
+      "evidence_count": 0,
+      "evidences": [],
+      "extra": {
+        "category": "MODULE",
+        "parent": "6.2.6.8",
+        "no_fail": true,
+        "no_judge": true
+      }
+    },
+    {
+      "id": "6.2.6.8-12 ALD ports",
+      "description": "Retrieves antenna line device port information from O-RU",
+      "severity": "INFO",
+      "status": "NOT_OBSERVED",
+      "evidence_count": 0,
+      "evidences": [],
+      "extra": {
+        "category": "MODULE",
+        "parent": "6.2.6.8",
+        "no_fail": true,
+        "no_judge": true
+      }
+    },
+    {
+      "id": "6.2.6.8-13 External IO",
+      "description": "Retrieves external input and output line information from O-RU",
+      "severity": "INFO",
+      "status": "OBSERVED",
+      "evidence_count": 3,
+      "evidences": [
+        {
+          "start": 774,
+          "end": 774,
+          "lines": [
+            "        <feature>INPUT-VOLTAGE-MONITORING</feature>"
+          ],
+          "text": "        <feature>INPUT-VOLTAGE-MONITORING</feature>"
+        },
+        {
+          "start": 1265,
+          "end": 1265,
+          "lines": [
+            "    1) Added value range limitation to input-voltage-high/low/unstable-threshold leafs and removed default values\";"
+          ],
+          "text": "    1) Added value range limitation to input-voltage-high/low/unstable-threshold leafs and removed default values\";"
+        },
+        {
+          "start": 1276,
+          "end": 1276,
+          "lines": [
+            "    feature INPUT-VOLTAGE-MONITORING;"
+          ],
+          "text": "    feature INPUT-VOLTAGE-MONITORING;"
+        }
+      ],
+      "extra": {
+        "category": "MODULE",
+        "parent": "6.2.6.8",
+        "no_fail": true,
+        "no_judge": true
+      }
+    },
+    {
+      "id": "6.2.6.8-14 Active alarms",
+      "description": "Retrieves active alarm list from O-RU",
+      "severity": "INFO",
+      "status": "OBSERVED",
+      "evidence_count": 45,
+      "evidences": [
+        {
+          "start": 28916,
+          "end": 28960,
+          "lines": [
+            "  <next-update-at xmlns=\"urn:o-ran:supervision:1.0\">2026-02-23T16:59:12-06:00</next-update-at>",
+            "</rpc-reply>",
+            "[2026-02-23 16:58:23.914281];SEND;1544bytes",
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "<rpc message-id=\"51\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "  <edit-config>",
+            "    <target>",
+            "      <running/>",
+            "    </target>",
+            "    <config>",
+            "      <user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "        <low-level-rx-links>",
+            "          <name>Low-Level-Rx-Links-000</name>",
+            "          <processing-element>processing-element01</processing-element>",
+            "          <rx-array-carrier>Rx-Array-Carrier-00</rx-array-carrier>",
+            "          <low-level-rx-endpoint>lowLevelRxEndpoint0</low-level-rx-endpoint>",
+            "        </low-level-rx-links>",
+            "        <low-level-rx-links>",
+            "          <name>Low-Level-Rx-Links-001</name>",
+            "          <processing-element>processing-element01</processing-element>",
+            "          <rx-array-carrier>Rx-Array-Carrier-01</rx-array-carrier>",
+            "          <low-level-rx-endpoint>lowLevelRxEndpoint10</low-level-rx-endpoint>",
+            "        </low-level-rx-links>",
+            "        <low-level-rx-links>",
+            "          <name>Low-Level-Rx-Links-002</name>",
+            "          <processing-element>processing-element01</processing-element>",
+            "          <rx-array-carrier>Rx-Array-Carrier-00</rx-array-carrier>",
+            "          <low-level-rx-endpoint>lowLevelRxEndpoint100</low-level-rx-endpoint>",
+            "        </low-level-rx-links>",
+            "        <low-level-rx-links>",
+            "          <name>Low-Level-Rx-Links-003</name>",
+            "          <processing-element>processing-element01</processing-element>",
+            "          <rx-array-carrier>Rx-Array-Carrier-01</rx-array-carrier>",
+            "          <low-level-rx-endpoint>lowLevelRxEndpoint104</low-level-rx-endpoint>",
+            "        </low-level-rx-links>",
+            "      </user-plane-configuration>",
+            "    </config>",
+            "  </edit-config>",
+            "</rpc>",
+            "[2026-02-23 16:58:24.231689];RECV;92bytes",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"51\">",
+            "  <ok/>",
+            "</rpc-reply>",
+            "[2026-02-23 16:58:24.236126];SEND;219bytes",
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+          ],
+          "text": "  <next-update-at xmlns=\"urn:o-ran:supervision:1.0\">2026-02-23T16:59:12-06:00</next-update-at>\n</rpc-reply>\n[2026-02-23 16:58:23.914281];SEND;1544bytes\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rpc message-id=\"51\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n  <edit-config>\n    <target>\n      <running/>\n    </target>\n    <config>\n      <user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">\n        <low-level-rx-links>\n          <name>Low-Level-Rx-Links-000</name>\n          <processing-element>processing-element01</processing-element>\n          <rx-array-carrier>Rx-Array-Carrier-00</rx-array-carrier>\n          <low-level-rx-endpoint>lowLevelRxEndpoint0</low-level-rx-endpoint>\n        </low-level-rx-links>\n        <low-level-rx-links>\n          <name>Low-Level-Rx-Links-001</name>\n          <processing-element>processing-element01</processing-element>\n          <rx-array-carrier>Rx-Array-Carrier-01</rx-array-carrier>\n          <low-level-rx-endpoint>lowLevelRxEndpoint10</low-level-rx-endpoint>\n        </low-level-rx-links>\n        <low-level-rx-links>\n          <name>Low-Level-Rx-Links-002</name>\n          <processing-element>processing-element01</processing-element>\n          <rx-array-carrier>Rx-Array-Carrier-00</rx-array-carrier>\n          <low-level-rx-endpoint>lowLevelRxEndpoint100</low-level-rx-endpoint>\n        </low-level-rx-links>\n        <low-level-rx-links>\n          <name>Low-Level-Rx-Links-003</name>\n          <processing-element>processing-element01</processing-element>\n          <rx-array-carrier>Rx-Array-Carrier-01</rx-array-carrier>\n          <low-level-rx-endpoint>lowLevelRxEndpoint104</low-level-rx-endpoint>\n        </low-level-rx-links>\n      </user-plane-configuration>\n    </config>\n  </edit-config>\n</rpc>\n[2026-02-23 16:58:24.231689];RECV;92bytes\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"51\">\n  <ok/>\n</rpc-reply>\n[2026-02-23 16:58:24.236126];SEND;219bytes\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE",
+        "parent": "6.2.6.8",
+        "no_fail": true,
+        "no_judge": true
+      }
+    },
+    {
+      "id": "6.2.6.8-15 Delay management",
+      "description": "Retrieves Delay Management from O-RU",
+      "severity": "INFO",
+      "status": "OBSERVED",
+      "evidence_count": 46,
+      "evidences": [
+        {
+          "start": 14521,
+          "end": 14543,
+          "lines": [
+            "        <subcarrier-spacing>15000</subcarrier-spacing>",
+            "        <ru-delay-profile>",
+            "          <t2a-min-up>206000</t2a-min-up>",
+            "          <t2a-max-up>437000</t2a-max-up>",
+            "          <t2a-min-cp-dl>426000</t2a-min-cp-dl>",
+            "          <t2a-max-cp-dl>657000</t2a-max-cp-dl>",
+            "          <tcp-adv-dl>220000</tcp-adv-dl>",
+            "          <ta3-min>100907</ta3-min>",
+            "          <ta3-max>165285</ta3-max>",
+            "          <t2a-min-cp-ul>220000</t2a-min-cp-ul>",
+            "          <t2a-max-cp-ul>451000</t2a-max-cp-ul>",
+            "        </ru-delay-profile>",
+            "      </bandwidth-scs-delay-state>",
+            "      <bandwidth-scs-delay-state>",
+            "        <bandwidth>1400</bandwidth>",
+            "        <subcarrier-spacing>15000</subcarrier-spacing>",
+            "        <ru-delay-profile>",
+            "          <t2a-min-up>206000</t2a-min-up>",
+            "          <t2a-max-up>437000</t2a-max-up>",
+            "          <t2a-min-cp-dl>426000</t2a-min-cp-dl>",
+            "          <t2a-max-cp-dl>657000</t2a-max-cp-dl>",
+            "          <tcp-adv-dl>220000</tcp-adv-dl>",
+            "          <ta3-min>100907</ta3-min>"
+          ],
+          "text": "        <subcarrier-spacing>15000</subcarrier-spacing>\n        <ru-delay-profile>\n          <t2a-min-up>206000</t2a-min-up>\n          <t2a-max-up>437000</t2a-max-up>\n          <t2a-min-cp-dl>426000</t2a-min-cp-dl>\n          <t2a-max-cp-dl>657000</t2a-max-cp-dl>\n          <tcp-adv-dl>220000</tcp-adv-dl>\n          <ta3-min>100907</ta3-min>\n          <ta3-max>165285</ta3-max>\n          <t2a-min-cp-ul>220000</t2a-min-cp-ul>\n          <t2a-max-cp-ul>451000</t2a-max-cp-ul>\n        </ru-delay-profile>\n      </bandwidth-scs-delay-state>\n      <bandwidth-scs-delay-state>\n        <bandwidth>1400</bandwidth>\n        <subcarrier-spacing>15000</subcarrier-spacing>\n        <ru-delay-profile>\n          <t2a-min-up>206000</t2a-min-up>\n          <t2a-max-up>437000</t2a-max-up>\n          <t2a-min-cp-dl>426000</t2a-min-cp-dl>\n          <t2a-max-cp-dl>657000</t2a-max-cp-dl>\n          <tcp-adv-dl>220000</tcp-adv-dl>\n          <ta3-min>100907</ta3-min>"
+        },
+        {
+          "start": 14536,
+          "end": 14558,
+          "lines": [
+            "        <subcarrier-spacing>15000</subcarrier-spacing>",
+            "        <ru-delay-profile>",
+            "          <t2a-min-up>206000</t2a-min-up>",
+            "          <t2a-max-up>437000</t2a-max-up>",
+            "          <t2a-min-cp-dl>426000</t2a-min-cp-dl>",
+            "          <t2a-max-cp-dl>657000</t2a-max-cp-dl>",
+            "          <tcp-adv-dl>220000</tcp-adv-dl>",
+            "          <ta3-min>100907</ta3-min>",
+            "          <ta3-max>165285</ta3-max>",
+            "          <t2a-min-cp-ul>220000</t2a-min-cp-ul>",
+            "          <t2a-max-cp-ul>451000</t2a-max-cp-ul>",
+            "        </ru-delay-profile>",
+            "      </bandwidth-scs-delay-state>",
+            "      <bandwidth-scs-delay-state>",
+            "        <bandwidth>3000</bandwidth>",
+            "        <subcarrier-spacing>15000</subcarrier-spacing>",
+            "        <ru-delay-profile>",
+            "          <t2a-min-up>206000</t2a-min-up>",
+            "          <t2a-max-up>437000</t2a-max-up>",
+            "          <t2a-min-cp-dl>426000</t2a-min-cp-dl>",
+            "          <t2a-max-cp-dl>657000</t2a-max-cp-dl>",
+            "          <tcp-adv-dl>220000</tcp-adv-dl>",
+            "          <ta3-min>100907</ta3-min>"
+          ],
+          "text": "        <subcarrier-spacing>15000</subcarrier-spacing>\n        <ru-delay-profile>\n          <t2a-min-up>206000</t2a-min-up>\n          <t2a-max-up>437000</t2a-max-up>\n          <t2a-min-cp-dl>426000</t2a-min-cp-dl>\n          <t2a-max-cp-dl>657000</t2a-max-cp-dl>\n          <tcp-adv-dl>220000</tcp-adv-dl>\n          <ta3-min>100907</ta3-min>\n          <ta3-max>165285</ta3-max>\n          <t2a-min-cp-ul>220000</t2a-min-cp-ul>\n          <t2a-max-cp-ul>451000</t2a-max-cp-ul>\n        </ru-delay-profile>\n      </bandwidth-scs-delay-state>\n      <bandwidth-scs-delay-state>\n        <bandwidth>3000</bandwidth>\n        <subcarrier-spacing>15000</subcarrier-spacing>\n        <ru-delay-profile>\n          <t2a-min-up>206000</t2a-min-up>\n          <t2a-max-up>437000</t2a-max-up>\n          <t2a-min-cp-dl>426000</t2a-min-cp-dl>\n          <t2a-max-cp-dl>657000</t2a-max-cp-dl>\n          <tcp-adv-dl>220000</tcp-adv-dl>\n          <ta3-min>100907</ta3-min>"
+        }
+      ],
+      "extra": {
+        "category": "NETCONF",
+        "parent": "6.2.6.8",
+        "no_fail": true,
+        "no_judge": true
+      }
+    },
+    {
+      "id": "6.2.6.9  Software management",
+      "description": "O-RU responds software inventory",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 37,
+      "evidences": [
+        {
+          "start": 6953,
+          "end": 6989,
+          "lines": [
+            "<rpc message-id=\"30\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "  <get>",
+            "    <filter type=\"subtree\">",
+            "      <software-inventory xmlns=\"urn:o-ran:software-management:1.0\"/>",
+            "    </filter>",
+            "  </get>",
+            "</rpc>",
+            "[2026-02-23 16:54:46.101310];RECV;971bytes",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"30\">",
+            "  <data>",
+            "    <software-inventory xmlns=\"urn:o-ran:software-management:1.0\">",
+            "      <software-slot>",
+            "        <name>Slot1</name>",
+            "        <status>VALID</status>",
+            "        <active>false</active>",
+            "        <running>false</running>",
+            "        <access>READ_WRITE</access>",
+            "        <product-code>476626A.X23</product-code>",
+            "        <vendor-code>NK</vendor-code>",
+            "        <build-id>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-id>",
+            "        <build-name>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-name>",
+            "        <build-version>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-version>",
+            "      </software-slot>",
+            "      <software-slot>",
+            "        <name>Slot2</name>",
+            "        <status>VALID</status>",
+            "        <active>true</active>",
+            "        <running>true</running>",
+            "        <access>READ_WRITE</access>",
+            "        <product-code>476626A.X23</product-code>",
+            "        <vendor-code>NK</vendor-code>",
+            "        <build-id>NK.RF.SRM7.trunk.20260219.042</build-id>",
+            "        <build-name>NK.RF.SRM7.trunk.20260219.042</build-name>",
+            "        <build-version>NK.RF.SRM7.trunk.20260219.042</build-version>",
+            "      </software-slot>",
+            "    </software-inventory>",
+            "  </data>"
+          ],
+          "text": "<rpc message-id=\"30\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n  <get>\n    <filter type=\"subtree\">\n      <software-inventory xmlns=\"urn:o-ran:software-management:1.0\"/>\n    </filter>\n  </get>\n</rpc>\n[2026-02-23 16:54:46.101310];RECV;971bytes\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"30\">\n  <data>\n    <software-inventory xmlns=\"urn:o-ran:software-management:1.0\">\n      <software-slot>\n        <name>Slot1</name>\n        <status>VALID</status>\n        <active>false</active>\n        <running>false</running>\n        <access>READ_WRITE</access>\n        <product-code>476626A.X23</product-code>\n        <vendor-code>NK</vendor-code>\n        <build-id>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-id>\n        <build-name>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-name>\n        <build-version>NK.RF.SRM7.trunk.20260126.041TP1702095737</build-version>\n      </software-slot>\n      <software-slot>\n        <name>Slot2</name>\n        <status>VALID</status>\n        <active>true</active>\n        <running>true</running>\n        <access>READ_WRITE</access>\n        <product-code>476626A.X23</product-code>\n        <vendor-code>NK</vendor-code>\n        <build-id>NK.RF.SRM7.trunk.20260219.042</build-id>\n        <build-name>NK.RF.SRM7.trunk.20260219.042</build-name>\n        <build-version>NK.RF.SRM7.trunk.20260219.042</build-version>\n      </software-slot>\n    </software-inventory>\n  </data>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.10  C/U-Plane transport connectivity check between O-DU and O-RU",
+      "description": "O-DU configure vlan id for CU plane",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 24,
+      "evidences": [
+        {
+          "start": 28418,
+          "end": 28441,
+          "lines": [
+            "          <l2-mtu xmlns=\"urn:o-ran:interfaces:1.0\">1500</l2-mtu>",
+            "          <vlan-tagging xmlns=\"urn:o-ran:interfaces:1.0\">true</vlan-tagging>",
+            "          <class-of-service xmlns=\"urn:o-ran:interfaces:1.0\">",
+            "            <u-plane-marking>7</u-plane-marking>",
+            "            <c-plane-marking>7</c-plane-marking>",
+            "            <m-plane-marking>2</m-plane-marking>",
+            "          </class-of-service>",
+            "        </interface>",
+            "        <interface>",
+            "          <name>uc-vlan0</name>",
+            "          <type xmlns:ianaift=\"urn:ietf:params:xml:ns:yang:iana-if-type\">ianaift:l2vlan</type>",
+            "          <enabled>true</enabled>",
+            "          <base-interface xmlns=\"urn:o-ran:interfaces:1.0\">ethernetInterface0</base-interface>",
+            "          <vlan-id xmlns=\"urn:o-ran:interfaces:1.0\">13</vlan-id>",
+            "          <mac-address xmlns=\"urn:o-ran:interfaces:1.0\">B8:97:7A:3F:82:CA</mac-address>",
+            "        </interface>",
+            "      </interfaces>",
+            "    </config>",
+            "  </edit-config>",
+            "</rpc>",
+            "[2026-02-23 16:57:30.983071];RECV;92bytes",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"41\">",
+            "  <ok/>",
+            "</rpc-reply>"
+          ],
+          "text": "          <l2-mtu xmlns=\"urn:o-ran:interfaces:1.0\">1500</l2-mtu>\n          <vlan-tagging xmlns=\"urn:o-ran:interfaces:1.0\">true</vlan-tagging>\n          <class-of-service xmlns=\"urn:o-ran:interfaces:1.0\">\n            <u-plane-marking>7</u-plane-marking>\n            <c-plane-marking>7</c-plane-marking>\n            <m-plane-marking>2</m-plane-marking>\n          </class-of-service>\n        </interface>\n        <interface>\n          <name>uc-vlan0</name>\n          <type xmlns:ianaift=\"urn:ietf:params:xml:ns:yang:iana-if-type\">ianaift:l2vlan</type>\n          <enabled>true</enabled>\n          <base-interface xmlns=\"urn:o-ran:interfaces:1.0\">ethernetInterface0</base-interface>\n          <vlan-id xmlns=\"urn:o-ran:interfaces:1.0\">13</vlan-id>\n          <mac-address xmlns=\"urn:o-ran:interfaces:1.0\">B8:97:7A:3F:82:CA</mac-address>\n        </interface>\n      </interfaces>\n    </config>\n  </edit-config>\n</rpc>\n[2026-02-23 16:57:30.983071];RECV;92bytes\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"41\">\n  <ok/>\n</rpc-reply>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.11  U-Plane configuration between O-DU and O-RU",
+      "description": "O-DU sends User plane configuration and create low level tx/rx endpoint",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 26,
+      "evidences": [
+        {
+          "start": 17008,
+          "end": 17033,
+          "lines": [
+            "          <exponent>4</exponent>",
+            "          <fs-offset>0</fs-offset>",
+            "          <fs-offset>16</fs-offset>",
+            "        </compression-method-supported>",
+            "      </supported-compression-method-sets>",
+            "      <static-low-level-tx-endpoints>",
+            "        <name>lowLevelTxEndpoint0</name>",
+            "        <restricted-interfaces>ethernetInterface0</restricted-interfaces>",
+            "        <restricted-interfaces>ethernetInterface2</restricted-interfaces>",
+            "        <array>txArray1a</array>",
+            "        <endpoint-type>4</endpoint-type>",
+            "        <supported-reference-level>",
+            "          <id>0</id>",
+            "          <min>-8.2082</min>",
+            "          <max>16.1055</max>",
+            "        </supported-reference-level>",
+            "        <compression>",
+            "          <supported-compression-set-id>0</supported-compression-set-id>",
+            "        </compression>",
+            "        <configurable-tdd-pattern-supported>false</configurable-tdd-pattern-supported>",
+            "      </static-low-level-tx-endpoints>",
+            "      <static-low-level-tx-endpoints>",
+            "        <name>lowLevelTxEndpoint1</name>",
+            "        <restricted-interfaces>ethernetInterface0</restricted-interfaces>",
+            "        <restricted-interfaces>ethernetInterface2</restricted-interfaces>",
+            "        <array>txArray1a</array>"
+          ],
+          "text": "          <exponent>4</exponent>\n          <fs-offset>0</fs-offset>\n          <fs-offset>16</fs-offset>\n        </compression-method-supported>\n      </supported-compression-method-sets>\n      <static-low-level-tx-endpoints>\n        <name>lowLevelTxEndpoint0</name>\n        <restricted-interfaces>ethernetInterface0</restricted-interfaces>\n        <restricted-interfaces>ethernetInterface2</restricted-interfaces>\n        <array>txArray1a</array>\n        <endpoint-type>4</endpoint-type>\n        <supported-reference-level>\n          <id>0</id>\n          <min>-8.2082</min>\n          <max>16.1055</max>\n        </supported-reference-level>\n        <compression>\n          <supported-compression-set-id>0</supported-compression-set-id>\n        </compression>\n        <configurable-tdd-pattern-supported>false</configurable-tdd-pattern-supported>\n      </static-low-level-tx-endpoints>\n      <static-low-level-tx-endpoints>\n        <name>lowLevelTxEndpoint1</name>\n        <restricted-interfaces>ethernetInterface0</restricted-interfaces>\n        <restricted-interfaces>ethernetInterface2</restricted-interfaces>\n        <array>txArray1a</array>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.12  Fault Management activation",
+      "description": "O-RU responds active alarms list",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 12,
+      "evidences": [
+        {
+          "start": 28960,
+          "end": 28971,
+          "lines": [
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "<rpc message-id=\"52\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "  <get>",
+            "    <filter type=\"subtree\">",
+            "      <active-alarm-list xmlns=\"urn:o-ran:fm:1.0\"/>",
+            "    </filter>",
+            "  </get>",
+            "</rpc>",
+            "[2026-02-23 16:58:24.245512];RECV;100bytes",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"52\">",
+            "  <data/>",
+            "</rpc-reply>"
+          ],
+          "text": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rpc message-id=\"52\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n  <get>\n    <filter type=\"subtree\">\n      <active-alarm-list xmlns=\"urn:o-ran:fm:1.0\"/>\n    </filter>\n  </get>\n</rpc>\n[2026-02-23 16:58:24.245512];RECV;100bytes\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"52\">\n  <data/>\n</rpc-reply>"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.13  Performance measurement activation",
+      "description": "configuration of O-RU performance",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 70,
+      "evidences": [
+        {
+          "start": 2179,
+          "end": 2213,
+          "lines": [
+            "    }",
+            "    }",
+            "    }",
+            "    }",
+            "    augment \"/o-ran-pm:performance-measurement-objects\" {",
+            "    leaf ethernet-measurement-interval {",
+            "    type uint16;",
+            "    units \"seconds\";",
+            "    }",
+            "    list ethernet-measurement-objects {",
+            "    key \"measurement-object\";",
+            "    leaf measurement-object {",
+            "    type enumeration {",
+            "    enum \"RECEIVED_FRAMES\";",
+            "    enum \"RECEIVED_CRC_ERRORED_FRAMES\";",
+            "    enum \"RECEIVED_FEC_CORRECTABLE_CODEWORDS\";",
+            "    enum \"RECEIVED_FEC_UNCORRECTABLE_CODEWORDS\";",
+            "    enum \"RECEIVER_PCS_STATUS_CHANGE_COUNT\";",
+            "    enum \"RECEIVED_ERRORED_FRAMES\";",
+            "    enum \"RECEIVED_MULTICAST_FRAMES\";",
+            "    enum \"RECEIVED_UNKNOWN_VLAN_FRAMES\";",
+            "    enum \"RECEIVED_UNKNOWN_TYPE_FRAMES\";",
+            "    enum \"RECEIVED_OCTETS\";",
+            "    enum \"TRANSMITTED_FRAMES\";",
+            "    enum \"TRANSMITTED_MULTICAST_FRAMES\";",
+            "    enum \"TRANSMITTED_OCTETS\";",
+            "    }",
+            "    }",
+            "    leaf active {",
+            "    type boolean;",
+            "    default \"false\";",
+            "    }",
+            "    leaf-list report-info {",
+            "    type ethernet-report-info;",
+            "    }"
+          ],
+          "text": "    }\n    }\n    }\n    }\n    augment \"/o-ran-pm:performance-measurement-objects\" {\n    leaf ethernet-measurement-interval {\n    type uint16;\n    units \"seconds\";\n    }\n    list ethernet-measurement-objects {\n    key \"measurement-object\";\n    leaf measurement-object {\n    type enumeration {\n    enum \"RECEIVED_FRAMES\";\n    enum \"RECEIVED_CRC_ERRORED_FRAMES\";\n    enum \"RECEIVED_FEC_CORRECTABLE_CODEWORDS\";\n    enum \"RECEIVED_FEC_UNCORRECTABLE_CODEWORDS\";\n    enum \"RECEIVER_PCS_STATUS_CHANGE_COUNT\";\n    enum \"RECEIVED_ERRORED_FRAMES\";\n    enum \"RECEIVED_MULTICAST_FRAMES\";\n    enum \"RECEIVED_UNKNOWN_VLAN_FRAMES\";\n    enum \"RECEIVED_UNKNOWN_TYPE_FRAMES\";\n    enum \"RECEIVED_OCTETS\";\n    enum \"TRANSMITTED_FRAMES\";\n    enum \"TRANSMITTED_MULTICAST_FRAMES\";\n    enum \"TRANSMITTED_OCTETS\";\n    }\n    }\n    leaf active {\n    type boolean;\n    default \"false\";\n    }\n    leaf-list report-info {\n    type ethernet-report-info;\n    }"
+        },
+        {
+          "start": 2219,
+          "end": 2253,
+          "lines": [
+            "    }",
+            "    uses ethernet-measurement-result-grouping;",
+            "    }",
+            "    }",
+            "    augment \"/o-ran-pm:performance-measurement-objects/o-ran-pm:measurement-capabilitites\" {",
+            "    list ethernet-objects {",
+            "    key \"measurement-object\";",
+            "    leaf measurement-object {",
+            "    type leafref {",
+            "    path \"/o-ran-pm:performance-measurement-objects/ethernet-measurement-objects/measurement-object\";",
+            "    require-instance false;",
+            "    }",
+            "    }",
+            "    }",
+            "    }",
+            "    augment \"/o-ran-pm:measurement-result-stats\" {",
+            "    list ethernet-stats {",
+            "    key \"measurement-object\";",
+            "    leaf measurement-object {",
+            "    type leafref {",
+            "    path \"/o-ran-pm:performance-measurement-objects/ethernet-measurement-objects/measurement-object\";",
+            "    require-instance false;",
+            "    }",
+            "    }",
+            "    list ethernet-measurement-results {",
+            "    config false;",
+            "    uses o-ran-pm:start-and-end-time;",
+            "    uses ethernet-measurement-result-grouping;",
+            "    }",
+            "    }",
+            "    }",
+            "    augment \"/o-ran-pm:performance-measurement-objects\" {",
+            "    list transceiver2-measurement-objects {",
+            "    key \"measurement-object\";",
+            "    leaf measurement-object {"
+          ],
+          "text": "    }\n    uses ethernet-measurement-result-grouping;\n    }\n    }\n    augment \"/o-ran-pm:performance-measurement-objects/o-ran-pm:measurement-capabilitites\" {\n    list ethernet-objects {\n    key \"measurement-object\";\n    leaf measurement-object {\n    type leafref {\n    path \"/o-ran-pm:performance-measurement-objects/ethernet-measurement-objects/measurement-object\";\n    require-instance false;\n    }\n    }\n    }\n    }\n    augment \"/o-ran-pm:measurement-result-stats\" {\n    list ethernet-stats {\n    key \"measurement-object\";\n    leaf measurement-object {\n    type leafref {\n    path \"/o-ran-pm:performance-measurement-objects/ethernet-measurement-objects/measurement-object\";\n    require-instance false;\n    }\n    }\n    list ethernet-measurement-results {\n    config false;\n    uses o-ran-pm:start-and-end-time;\n    uses ethernet-measurement-result-grouping;\n    }\n    }\n    }\n    augment \"/o-ran-pm:performance-measurement-objects\" {\n    list transceiver2-measurement-objects {\n    key \"measurement-object\";\n    leaf measurement-object {"
+        }
+      ],
+      "extra": {
+        "category": "MODULE"
+      }
+    },
+    {
+      "id": "6.2.6.14 synchronization information",
+      "description": "Synchronization reached LOCKED",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 24,
+      "evidences": [
+        {
+          "start": 14244,
+          "end": 14255,
+          "lines": [
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"32\">",
+            "  <data>",
+            "    <sync xmlns=\"urn:o-ran:sync:1.0\">",
+            "      <sync-status>",
+            "        <sync-state>LOCKED</sync-state>",
+            "        <supported-reference-types>",
+            "          <item>PTP</item>",
+            "        </supported-reference-types>",
+            "      </sync-status>",
+            "      <sync-capability>",
+            "        <sync-t-tsc>ENCHANCED</sync-t-tsc>",
+            "      </sync-capability>"
+          ],
+          "text": "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"32\">\n  <data>\n    <sync xmlns=\"urn:o-ran:sync:1.0\">\n      <sync-status>\n        <sync-state>LOCKED</sync-state>\n        <supported-reference-types>\n          <item>PTP</item>\n        </supported-reference-types>\n      </sync-status>\n      <sync-capability>\n        <sync-t-tsc>ENCHANCED</sync-t-tsc>\n      </sync-capability>"
+        },
+        {
+          "start": 28982,
+          "end": 28993,
+          "lines": [
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"53\">",
+            "  <data>",
+            "    <sync xmlns=\"urn:o-ran:sync:1.0\">",
+            "      <sync-status>",
+            "        <sync-state>LOCKED</sync-state>",
+            "        <supported-reference-types>",
+            "          <item>PTP</item>",
+            "        </supported-reference-types>",
+            "      </sync-status>",
+            "      <sync-capability>",
+            "        <sync-t-tsc>ENCHANCED</sync-t-tsc>",
+            "      </sync-capability>"
+          ],
+          "text": "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"53\">\n  <data>\n    <sync xmlns=\"urn:o-ran:sync:1.0\">\n      <sync-status>\n        <sync-state>LOCKED</sync-state>\n        <supported-reference-types>\n          <item>PTP</item>\n        </supported-reference-types>\n      </sync-status>\n      <sync-capability>\n        <sync-t-tsc>ENCHANCED</sync-t-tsc>\n      </sync-capability>"
+        }
+      ],
+      "extra": {
+        "category": "SYNC"
+      }
+    },
+    {
+      "id": "6.2.6.15-1 Configuring the O-RU operational parameters-carrier activation",
+      "description": "<edit-config> to set <active>ACTIVE</active> succeeded",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 36,
+      "evidences": [
+        {
+          "start": 29523,
+          "end": 29558,
+          "lines": [
+            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+            "<rpc message-id=\"60\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">",
+            "  <edit-config>",
+            "    <target>",
+            "      <running/>",
+            "    </target>",
+            "    <config>",
+            "      <user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "        <tx-array-carriers>",
+            "          <name>Tx-Array-Carrier-00</name>",
+            "          <active>ACTIVE</active>",
+            "        </tx-array-carriers>",
+            "        <tx-array-carriers>",
+            "          <name>Tx-Array-Carrier-01</name>",
+            "          <active>ACTIVE</active>",
+            "        </tx-array-carriers>",
+            "        <rx-array-carriers>",
+            "          <name>Rx-Array-Carrier-00</name>",
+            "          <active>ACTIVE</active>",
+            "        </rx-array-carriers>",
+            "        <rx-array-carriers>",
+            "          <name>Rx-Array-Carrier-01</name>",
+            "          <active>ACTIVE</active>",
+            "        </rx-array-carriers>",
+            "      </user-plane-configuration>",
+            "    </config>",
+            "  </edit-config>",
+            "</rpc>",
+            "[2026-02-23 17:00:10.214019];RECV;92bytes",
+            "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"60\">",
+            "  <ok/>",
+            "</rpc-reply>",
+            "[2026-02-23 17:00:10.940758];RECV;424bytes",
+            "<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">",
+            "  <eventTime>2026-02-23T16:59:58.700849393-06:00</eventTime>",
+            "  <rx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">"
+          ],
+          "text": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rpc message-id=\"60\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n  <edit-config>\n    <target>\n      <running/>\n    </target>\n    <config>\n      <user-plane-configuration xmlns=\"urn:o-ran:uplane-conf:1.0\">\n        <tx-array-carriers>\n          <name>Tx-Array-Carrier-00</name>\n          <active>ACTIVE</active>\n        </tx-array-carriers>\n        <tx-array-carriers>\n          <name>Tx-Array-Carrier-01</name>\n          <active>ACTIVE</active>\n        </tx-array-carriers>\n        <rx-array-carriers>\n          <name>Rx-Array-Carrier-00</name>\n          <active>ACTIVE</active>\n        </rx-array-carriers>\n        <rx-array-carriers>\n          <name>Rx-Array-Carrier-01</name>\n          <active>ACTIVE</active>\n        </rx-array-carriers>\n      </user-plane-configuration>\n    </config>\n  </edit-config>\n</rpc>\n[2026-02-23 17:00:10.214019];RECV;92bytes\n<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"60\">\n  <ok/>\n</rpc-reply>\n[2026-02-23 17:00:10.940758];RECV;424bytes\n<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">\n  <eventTime>2026-02-23T16:59:58.700849393-06:00</eventTime>\n  <rx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">"
+        }
+      ],
+      "extra": {
+        "category": "SUPERVISION"
+      }
+    },
+    {
+      "id": "6.2.6.15-2 Configuring the O-RU operational parameters-carrier ready",
+      "description": "Carrier state READY notification observed",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 42,
+      "evidences": [
+        {
+          "start": 29556,
+          "end": 29576,
+          "lines": [
+            "<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">",
+            "  <eventTime>2026-02-23T16:59:58.700849393-06:00</eventTime>",
+            "  <rx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "    <rx-array-carriers>",
+            "      <name>Rx-Array-Carrier-00</name>",
+            "      <state>READY</state>",
+            "    </rx-array-carriers>",
+            "    <rx-array-carriers>",
+            "      <name>Rx-Array-Carrier-01</name>",
+            "      <state>READY</state>",
+            "    </rx-array-carriers>",
+            "  </rx-array-carriers-state-change>",
+            "</notification>",
+            "[2026-02-23 17:00:11.564743];RECV;424bytes",
+            "<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">",
+            "  <eventTime>2026-02-23T16:59:59.401429211-06:00</eventTime>",
+            "  <tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "    <tx-array-carriers>",
+            "      <name>Tx-Array-Carrier-00</name>",
+            "      <state>READY</state>",
+            "    </tx-array-carriers>"
+          ],
+          "text": "<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">\n  <eventTime>2026-02-23T16:59:58.700849393-06:00</eventTime>\n  <rx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">\n    <rx-array-carriers>\n      <name>Rx-Array-Carrier-00</name>\n      <state>READY</state>\n    </rx-array-carriers>\n    <rx-array-carriers>\n      <name>Rx-Array-Carrier-01</name>\n      <state>READY</state>\n    </rx-array-carriers>\n  </rx-array-carriers-state-change>\n</notification>\n[2026-02-23 17:00:11.564743];RECV;424bytes\n<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">\n  <eventTime>2026-02-23T16:59:59.401429211-06:00</eventTime>\n  <tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">\n    <tx-array-carriers>\n      <name>Tx-Array-Carrier-00</name>\n      <state>READY</state>\n    </tx-array-carriers>"
+        },
+        {
+          "start": 29560,
+          "end": 29580,
+          "lines": [
+            "      <name>Rx-Array-Carrier-00</name>",
+            "      <state>READY</state>",
+            "    </rx-array-carriers>",
+            "    <rx-array-carriers>",
+            "      <name>Rx-Array-Carrier-01</name>",
+            "      <state>READY</state>",
+            "    </rx-array-carriers>",
+            "  </rx-array-carriers-state-change>",
+            "</notification>",
+            "[2026-02-23 17:00:11.564743];RECV;424bytes",
+            "<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">",
+            "  <eventTime>2026-02-23T16:59:59.401429211-06:00</eventTime>",
+            "  <tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">",
+            "    <tx-array-carriers>",
+            "      <name>Tx-Array-Carrier-00</name>",
+            "      <state>READY</state>",
+            "    </tx-array-carriers>",
+            "    <tx-array-carriers>",
+            "      <name>Tx-Array-Carrier-01</name>",
+            "      <state>READY</state>",
+            "    </tx-array-carriers>"
+          ],
+          "text": "      <name>Rx-Array-Carrier-00</name>\n      <state>READY</state>\n    </rx-array-carriers>\n    <rx-array-carriers>\n      <name>Rx-Array-Carrier-01</name>\n      <state>READY</state>\n    </rx-array-carriers>\n  </rx-array-carriers-state-change>\n</notification>\n[2026-02-23 17:00:11.564743];RECV;424bytes\n<notification xmlns=\"urn:ietf:params:xml:ns:netconf:notification:1.0\">\n  <eventTime>2026-02-23T16:59:59.401429211-06:00</eventTime>\n  <tx-array-carriers-state-change xmlns=\"urn:o-ran:uplane-conf:1.0\">\n    <tx-array-carriers>\n      <name>Tx-Array-Carrier-00</name>\n      <state>READY</state>\n    </tx-array-carriers>\n    <tx-array-carriers>\n      <name>Tx-Array-Carrier-01</name>\n      <state>READY</state>\n    </tx-array-carriers>"
+        }
+      ],
+      "extra": {
+        "category": "SUPERVISION"
+      }
+    },
+    {
+      "id": "HW_USAGE_ACTIVE",
+      "description": "Hardware usage-state = active",
+      "severity": "INFO",
+      "status": "PASS",
+      "evidence_count": 26,
+      "evidences": [
+        {
+          "start": 28852,
+          "end": 28877,
+          "lines": [
+            "        <mfg-name>Nokia</mfg-name>",
+            "        <model-name>AXEGHA</model-name>",
+            "        <state>",
+            "          <admin-state>unlocked</admin-state>",
+            "          <oper-state>enabled</oper-state>",
+            "          <usage-state>active</usage-state>",
+            "          <power-state xmlns=\"urn:o-ran:hardware:1.0\">AWAKE</power-state>",
+            "          <availability-state xmlns=\"urn:o-ran:hardware:1.0\">NORMAL</availability-state>",
+            "        </state>",
+            "        <temperature-state xmlns=\"urn:nokia.com:ran:ru:hardware:1.0\">",
+            "          <rating>",
+            "            <value>NORMAL</value>",
+            "            <counter>1</counter>",
+            "          </rating>",
+            "        </temperature-state>",
+            "        <label-content xmlns=\"urn:o-ran:hardware:1.0\">",
+            "          <model-name>true</model-name>",
+            "          <serial-number>true</serial-number>",
+            "        </label-content>",
+            "        <product-code xmlns=\"urn:o-ran:hardware:1.0\">476626A.X23</product-code>",
+            "        <o-ran-name xmlns=\"urn:o-ran:hardware:1.0\">Module</o-ran-name>",
+            "      </component>",
+            "      <component>",
+            "        <name>port0</name>",
+            "        <class xmlns:ianahw=\"urn:ietf:params:xml:ns:yang:iana-hardware\">ianahw:port</class>",
+            "        <o-ran-name xmlns=\"urn:o-ran:hardware:1.0\">port0</o-ran-name>"
+          ],
+          "text": "        <mfg-name>Nokia</mfg-name>\n        <model-name>AXEGHA</model-name>\n        <state>\n          <admin-state>unlocked</admin-state>\n          <oper-state>enabled</oper-state>\n          <usage-state>active</usage-state>\n          <power-state xmlns=\"urn:o-ran:hardware:1.0\">AWAKE</power-state>\n          <availability-state xmlns=\"urn:o-ran:hardware:1.0\">NORMAL</availability-state>\n        </state>\n        <temperature-state xmlns=\"urn:nokia.com:ran:ru:hardware:1.0\">\n          <rating>\n            <value>NORMAL</value>\n            <counter>1</counter>\n          </rating>\n        </temperature-state>\n        <label-content xmlns=\"urn:o-ran:hardware:1.0\">\n          <model-name>true</model-name>\n          <serial-number>true</serial-number>\n        </label-content>\n        <product-code xmlns=\"urn:o-ran:hardware:1.0\">476626A.X23</product-code>\n        <o-ran-name xmlns=\"urn:o-ran:hardware:1.0\">Module</o-ran-name>\n      </component>\n      <component>\n        <name>port0</name>\n        <class xmlns:ianahw=\"urn:ietf:params:xml:ns:yang:iana-hardware\">ianahw:port</class>\n        <o-ran-name xmlns=\"urn:o-ran:hardware:1.0\">port0</o-ran-name>"
+        }
+      ],
+      "extra": {
+        "category": "HW"
+      }
+    }
+  ],
+  "run_id": "default-03042026",
+  "input_filename": "20260223_fs-offset0_M-Plane_XML.txt",
+  "saved_at": "2026-03-04T16:50:08Z",
+  "sw_version": "default",
+  "exports": {},
+  "saved_path": null
+}
