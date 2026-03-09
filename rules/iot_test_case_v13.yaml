@@ -64,8 +64,8 @@
   description: "O-RU sends yang-library of ietf-yang-library.yang module"
   severity: INFO
   any_pattern:
-    - "<\\s*(?:\\w+:)?rpc\\b[^>]*\\bmessage-id\\s*=\\s*([\"'])\\s*1\\s*\\1[^>]*>"
-    - "<\\s*(?:\\w+:)?rpc-reply\\b[^>]*\\bmessage-id\\s*=\\s*([\"'])\\s*1\\s*\\1[^>]*>\\s*<\\s*(?:\\w+:)?data\\b"
+    - "<\\s*(?:\\w+:)?rpc\\b[^>]*\\bmessage-id\\s*=\\s*([\"'])\\s*\\d+\\s*\\1[^>]*>"
+    - "<\\s*(?:\\w+:)?rpc-reply\\b[^>]*\\bmessage-id\\s*=\\s*([\"'])\\s*\\d+\\s*\\1[^>]*>\\s*<\\s*(?:\\w+:)?data\\b"
     - '(?i)<modules-state xmlns="urn:ietf:params:xml:ns:yang:ietf-yang-library">'
   collect:
    mode: "regex"      # regex | boundary | message-id
@@ -106,9 +106,9 @@
   description: "O-RU sends each yang module list in ietf-yang-library.yang "
   severity: INFO
   all_pattern:
-    - '(?i)ietf-interface|o-ran-operations|o-ran-lbm|o-ran-performance-management'
+    - '(?i)ietf-interfaces|o-ran-operations|o-ran-lbm|o-ran-performance-management'
     - '(?i)o-ran-transceiver|o-ran-sync|o-ran-mplane-int|o-ran-delay-management|o-ran-module-cap'
-    - '(?i)o-ran-alarm-id|o-ran-fan|o-ran-supervision|o-ran-user mgmt'
+    - '(?i)o-ran-alarm-id|o-ran-fan|o-ran-supervision|o-ran-user-mgmt'
   collect:
    mode: "regex"      # regex | boundary | message-id
    before: 3
@@ -116,21 +116,6 @@
    max_block_lines: 80
    max_evidence: 40
   extra: { category: "NETCONF" }
-- id: 6.2.6.8 Retrieval of O-RU information and Additional configuration
-  description: "O-RU sends each yang module list in ietf-yang-library.yang"
-  severity: INFO
-  all_pattern:
-    - '(?i)ietf-interface|o-ran-operations|o-ran-lbm|o-ran-performance-management'
-    - '(?i)o-ran-transceiver|o-ran-sync|o-ran-mplane-int|o-ran-delay-management|o-ran-module-cap'
-    - '(?i)o-ran-alarm-id|o-ran-fan|o-ran-supervision|o-ran-user mgmt'
-  collect:
-    mode: "regex"   # regex | boundary | message-id
-    before: 3
-    after: 3
-    max_block_lines: 80
-    max_evidence: 40
-  extra: { category: "NETCONF" }
-
 # -----------------------------
 # 6.2.6.8 Sub rules (1~15)
 # -----------------------------
@@ -159,7 +144,6 @@
     # - '(?s)<\s*interface\s*/\s*>'
     # 3. </interfaces> 종료 태그
     - '(?s)</\s*interfaces\s*>'
-    - '(?!)port-reference '
   collect:
     mode: "regex"
     before: 2
@@ -185,6 +169,7 @@
   description: "Retrieval of O-RU fan state information from O-RU"
   severity: INFO
   any_pattern:
+    - '(?i)<present-and-operating>\s*false\s*</present-and-operating>'
     - '(?i)fan-tray xmlns="urn:o-ran:fan:1.0'
   collect:
     mode: "message-id"
