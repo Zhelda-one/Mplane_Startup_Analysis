@@ -459,15 +459,20 @@ def evaluate_text(
         # evidence가 없으면 처리
         if not evidences:
             if no_judge:
-                # 서브 룰: NOT_OBSERVED 유지
+                # 서브 룰: 관찰 여부 룰은 미관찰로 유지
                 status = "NOT_OBSERVED"
                 evidences = []
             elif no_fail:
                 # no_fail 플래그: FAIL로 안 바꿈
                 status = "NO_LOG"
                 evidences = []
+            elif matched:
+                # 패턴은 충족했지만 evidence 수집 실패(포맷/컨텍스트 차이 가능)
+                # => 과도한 FAIL 대신 NO_LOG로 완화해 미탐 방지
+                status = "NO_LOG"
+                evidences = []
             else:
-                # 기본: FAIL
+                # 패턴 자체 불충족 + evidence 없음 => FAIL 유지
                 status = "FAIL"
                 evidences = [{
                     "start": 0,
