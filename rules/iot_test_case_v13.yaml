@@ -169,6 +169,7 @@
   description: "Retrieval of O-RU fan state information from O-RU"
   severity: INFO
   any_pattern:
+    - '(?i)<present-and-operating>\s*false\s*</present-and-operating>'
     - '(?i)fan-tray xmlns="urn:o-ran:fan:1.0'
   collect:
     mode: "message-id"
