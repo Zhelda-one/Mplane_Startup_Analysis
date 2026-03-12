@@ -16,6 +16,9 @@
   .row-left,.row-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
   .btn{background:var(--primary);color:#fff;border:0;border-radius:6px;padding:8px 12px;font-weight:600;cursor:pointer}
   .btn[disabled]{opacity:.6;cursor:not-allowed}
+  .btn.loading{position:relative;padding-left:34px}
+  .btn.loading::before{content:"";position:absolute;left:12px;top:50%;width:14px;height:14px;margin-top:-7px;border:2px solid rgba(255,255,255,.6);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
   .badge{display:inline-block;padding:4px 10px;border-radius:12px;font-weight:700;font-size:12px;background:#eee}
   .pass{background:#c8f7c5}.fail{background:#f7c5c5}
   .muted{color:#666}
@@ -31,6 +34,8 @@
   @keyframes sweep{0%{left:-40%;opacity:.95}100%{left:110%;opacity:0}}
   table{border-collapse:collapse;width:100%} th,td{border:1px solid #ccc;padding:8px 10px;text-align:left} th{background:#f3f3f3}
   tr.clickable{cursor:pointer} tr.selected{outline:2px solid var(--primary)}
+  tr.result-row-enter{animation:row-in .35s ease both}
+  @keyframes row-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
   .chip{display:inline-block;min-width:72px;text-align:center;border-radius:12px;padding:2px 8px;font-weight:700;font-size:12px;background:#eee;margin-right:8px}
   .chip.pass{background:#c8f7c5}.chip.fail{background:#f7c5c5}
   .clist .item{padding:8px 10px;border-bottom:1px dashed #e7e7e7;display:flex;gap:8px;align-items:center}
@@ -38,12 +43,17 @@
   .evidence{margin-top:14px;border:1px solid var(--border);border-radius:8px;background:#fff}
   .evi-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#f3f7fb;border-bottom:1px solid var(--border)}
   .evi-body{padding:10px 12px;max-height:420px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+  .evi-body.switching{opacity:.15;transform:translateY(2px);transition:opacity .12s ease, transform .12s ease}
+  .evi-body.entered{opacity:1;transform:translateY(0);transition:opacity .2s ease, transform .2s ease}
   .mono{font-family:ui-monospace,SFMono-Regular,Consolas,Menlo,Monaco,monospace}
   .status-pass { color: #2e7d32; font-weight: 700; }
   .status-fail { color: #d32f2f; font-weight: 700; }
   .status-nolog { color: #6c757d; font-style: italic; }
   .corner-logo{position:absolute;top:16px;right:16px;width:48px;height:auto;opacity:.9;pointer-events:none}
   @media (max-width:780px){.row{gap:10px}.row-right{width:100%;justify-content:flex-end}.corner-logo{width:36px;top:12px;right:12px}}
+  @media (prefers-reduced-motion: reduce){
+    *, *::before, *::after{animation:none !important;transition:none !important}
+  }
     /* Box1: Format & Save 색상 커스텀 */
   /*#boxFormat{
     background: #fff4e6;          /* 배경색 */
@@ -262,10 +272,17 @@ function prettyXmlish(source){
   const eviTitle=document.getElementById('eviTitle');
   const eviBody=document.getElementById('eviBody');
   const copyBtn=document.getElementById('copyBtn');
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const analyzeBtnLabel = analyzeBtn.textContent;
 
   let lastReport=null;
 
   fi.addEventListener('change', e => { fileName.textContent = e.target.files[0]?.name || ''; });
+
+  function setAnalyzeLoading(on){
+    analyzeBtn.classList.toggle('loading', !!on);
+    analyzeBtn.textContent = on ? 'Analyzing...' : analyzeBtnLabel;
+  }
 
   function setFlow(a,b,c){
     const play = (el, on) => {
@@ -292,7 +309,18 @@ function prettyXmlish(source){
       const body=lines.map((t,i)=>`L${String(s+i).padStart(5,' ')} │ ${t}`).join("\n");
       return `L${s}${e2&&e2!==s?`–L${e2}`:""}\n`+body;
     });
-    eviBody.textContent = blocks.length ? blocks.join("\n\n") : "(no captured logs)";
+    const nextText = blocks.length ? blocks.join("\n\n") : "(no captured logs)";
+    if (reduceMotion){
+      eviBody.textContent = nextText;
+    } else {
+      eviBody.classList.remove('entered');
+      eviBody.classList.add('switching');
+      setTimeout(()=>{
+        eviBody.textContent = nextText;
+        eviBody.classList.remove('switching');
+        eviBody.classList.add('entered');
+      }, 90);
+    }
     copyBtn.style.display = blocks.length ? 'inline-block' : 'none';
     copyBtn.onclick = async ()=>{ try{ await navigator.clipboard.writeText(eviBody.textContent); copyBtn.textContent='Copied'; setTimeout(()=>copyBtn.textContent='Copy',1200);}catch(_){ } };
   }
@@ -306,6 +334,16 @@ function prettyXmlish(source){
         const rid=tr.getAttribute('data-id');
         showLogsById(rid);
       });
+    });
+  }
+
+  function animateResultRows(){
+    if (reduceMotion) return;
+    const rows = [...tbody.querySelectorAll('tr')];
+    rows.forEach((tr, i)=>{
+      tr.classList.remove('result-row-enter');
+      tr.style.animationDelay = `${Math.min(i * 45, 450)}ms`;
+      tr.classList.add('result-row-enter');
     });
   }
 
@@ -399,6 +437,7 @@ function prettyXmlish(source){
         `<td>${getLogStatusDisplay(r.evidence_count||0)}</td>`;
       tbody.appendChild(tr);
     });
+    animateResultRows();
     attachRowClicks();
 
     const cats={};
@@ -417,7 +456,7 @@ function prettyXmlish(source){
 
   analyzeBtn.addEventListener('click', async ()=>{
     try{
-      saveMsg.textContent=''; overall.textContent='Analyzing...'; overall.className='badge'; analyzeBtn.disabled=true; saveBtn.disabled=true;
+      saveMsg.textContent=''; overall.textContent='Analyzing...'; overall.className='badge'; analyzeBtn.disabled=true; saveBtn.disabled=true; setAnalyzeLoading(true);
       const f=fi.files[0]; if(!f){ alert('Please select a file.'); analyzeBtn.disabled=false; return; }
       const fd=new FormData(); fd.append('logfile', f);
       const res=await fetch('/api/analyze', {method:'POST', body:fd});
@@ -428,7 +467,7 @@ function prettyXmlish(source){
     }catch(e){
       overall.textContent='Error'; overall.className='badge fail';
       saveMsg.textContent=(e && e.message)?e.message:String(e);
-    }finally{ analyzeBtn.disabled=false; }
+    }finally{ analyzeBtn.disabled=false; setAnalyzeLoading(false); }
   });
 
   const saveBtnEl=document.getElementById('saveBtn');
