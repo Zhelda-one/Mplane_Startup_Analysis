@@ -122,6 +122,11 @@
         <span id="sum" class="muted">infos=0 warnings=0 errors=0</span>
       </div>
       <div class="row-right">
+        <span style="color:#005a9e;font-weight:700">Secure Session</span>
+        <select id="connMode" aria-label="Secure session mode">
+          <option value="ssh" selected>SSH mode</option>
+          <option value="tls">TLS mode (auto PASS 6.2.6.3)</option>
+        </select>
         <span style="color:#005a9e;font-weight:700">SW Ver</span>
         <input type="text" id="swVersion" placeholder="SW version (folder name)" style="min-width:220px">
         <label><input type="checkbox" id="expPdf" checked> PDF</label>
@@ -267,6 +272,7 @@ function prettyXmlish(source){
   const sw=document.getElementById('swVersion');
   const expPdf=document.getElementById('expPdf');
   const expPng=document.getElementById('expPng');
+  const connMode=document.getElementById('connMode');
 
   const tbody=document.querySelector('#tbl tbody');
   const eviTitle=document.getElementById('eviTitle');
@@ -459,7 +465,8 @@ function prettyXmlish(source){
       saveMsg.textContent=''; overall.textContent='Analyzing...'; overall.className='badge'; analyzeBtn.disabled=true; saveBtn.disabled=true; setAnalyzeLoading(true);
       const f=fi.files[0]; if(!f){ alert('Please select a file.'); analyzeBtn.disabled=false; return; }
       const fd=new FormData(); fd.append('logfile', f);
-      const res=await fetch('/api/analyze', {method:'POST', body:fd});
+      const mode = connMode?.value || 'ssh';
+      const res=await fetch(`/api/analyze?conn_mode=${encodeURIComponent(mode)}`, {method:'POST', body:fd});
       const raw=await res.text();
       let data; try{ data=JSON.parse(raw);}catch{ data={ ok:false, error:raw }; }
       if(!res.ok || data.ok===false){ overall.textContent='Error'; overall.className='badge fail'; saveMsg.textContent=data.error||`HTTP ${res.status} ${res.statusText}`; return; }

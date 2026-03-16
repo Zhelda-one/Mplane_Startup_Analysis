@@ -11,11 +11,12 @@ python -m pip install -r requirements.txt
 ## Run
 ```
 # Default: Step 1 hidden
-python -m uvicorn main:app --host 127.0.0.1 --port 8000 --log-level info
+python -m uvicorn main:app --host 0.0.0.0 --port 8888 --log-level info
 
 # Optional: include Step 1 again
-$env:MPLANE_INCLUDE_STEP1 = '1'
-python -m uvicorn main:app --host 127.0.0.1 --port 8000 --log-level info
+MPLANE_INCLUDE_STEP1=1
+python -m uvicorn main:app --host 0.0.0.0 --port 8888 --log-level info
 ```
 
-Open http://127.0.0.1:8000
+Open from same host: http://127.0.0.1:8888
+Open from external host: http://10.48.238.180:8888/

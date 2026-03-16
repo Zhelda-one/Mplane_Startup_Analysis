@@ -79,6 +79,78 @@ def gen_unique_run_id(sw_version: str, base_dir: Path) -> str:
         n += 1
     return f"{base}-{n}"
 
+
+SECURE_CONN_RULE_ID = "6.2.6.3 SSH/TLS Secure connection establishment"
+
+SSH_CONN_PATTERNS = [
+    r'(?i)Authentication successful',
+    r'User\s+"[^"]+"\s+authenticated\.',
+    r'(?i)SSH channel established',
+]
+
+TLS_CONN_PATTERNS = [
+    r'(?i)TLS(?:v1(?:\.[0-3])?)?\s*(?:handshake|session)?\s*(?:successful|complete|established)',
+    r'(?i)SSL\s*(?:handshake|session)?\s*(?:successful|complete|established)',
+    r'(?i)(?:mTLS|mutual\s*TLS)',
+]
+
+def apply_secure_connection_mode(rules, conn_mode: str) -> str:
+    mode = (conn_mode or "ssh").strip().lower()
+    if mode not in {"ssh", "tls"}:
+        mode = "ssh"
+
+    if mode == "ssh":
+        selected = SSH_CONN_PATTERNS
+    else:
+        selected = TLS_CONN_PATTERNS
+
+    for rule in rules:
+        if getattr(rule, "id", "") == SECURE_CONN_RULE_ID:
+            rule.any_pattern = selected
+            break
+
+    return mode
+
+
+def apply_tls_skip_for_secure_session(report: Dict[str, Any], conn_mode: str) -> None:
+    if (conn_mode or "").lower() != "tls":
+        return
+
+    for section in ("results", "main_results"):
+        for row in report.get(section) or []:
+            if row.get("id") != SECURE_CONN_RULE_ID:
+                continue
+            row["status"] = "PASS"
+            row["evidences"] = [{
+                "start": 0,
+                "end": 0,
+                "lines": ["Skipped in TLS mode (auto-pass)."],
+                "text": "Skipped in TLS mode (auto-pass).",
+            }]
+            row["evidence_count"] = 1
+            extra = row.get("extra") or {}
+            if not isinstance(extra, dict):
+                extra = {}
+            extra["skipped"] = True
+            extra["skip_reason"] = "TLS mode selected"
+            row["extra"] = extra
+
+    main_results = report.get("main_results") or []
+    report["overall"] = "PASS" if not any(x.get("status") == "FAIL" for x in main_results) else "FAIL"
+
+    infos = warns = errs = 0
+    for x in main_results:
+        if x.get("status") != "PASS":
+            continue
+        sev = str(x.get("severity") or "INFO").upper()
+        if sev == "INFO":
+            infos += 1
+        elif sev == "WARN":
+            warns += 1
+        else:
+            errs += 1
+    report["summary"] = {"infos": infos, "warnings": warns, "errors": errs}
+
 # ------------------------------------------------------------
 # 4. Export Dependencies (PDF/PNG)
 # ------------------------------------------------------------
@@ -344,6 +416,7 @@ async def api_analyze(
     ctx: Optional[int] = Query(None),
     items: Optional[int] = Query(None),
     maxchars: Optional[int] = Query(None),
+    conn_mode: Optional[str] = Query("ssh"),
 ):
     try:
         text = (await logfile.read()).decode("utf-8", errors="replace")
@@ -353,7 +426,9 @@ async def api_analyze(
              return JSONResponse({"error": f"Rule file not found at {RULES_PATH}"}, status_code=500)
 
         rules = load_rules(RULES_PATH)
+        selected_conn_mode = apply_secure_connection_mode(rules, conn_mode or "ssh")
         report = evaluate_text(text, rules, ctx_lines=ctx, max_items=items, max_chars=maxchars)
+        apply_tls_skip_for_secure_session(report, selected_conn_mode)
         report.update({
             "run_id": None,
             "input_filename": logfile.filename,
@@ -361,6 +436,7 @@ async def api_analyze(
             "sw_version": None,
             "exports": {},
             "saved_path": None,
+            "connection_mode": selected_conn_mode,
         })
         return JSONResponse(report)
     except Exception as e:
@@ -430,17 +506,15 @@ def get_server_ip():
     """사내망 환경에서 서버의 IP를 찾습니다 (Intranet 친화적)"""
     try:
         # 8.8.8.8은 사내망에서 막힐 수 있으므로, UDP 소켓만 생성하여 IP 추측
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        # 실제로 연결하지 않고 라우팅 테이블만 참조함
-        s.connect(('10.255.255.255', 1))
-        ip = s.getsockname()[0]
-        s.close()
-        return ip
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            # 실제로 연결하지 않고 라우팅 테이블만 참조함
+            sock.connect(('10.255.255.255', 1))
+            return sock.getsockname()[0]
     except Exception:
         try:
             # 실패 시 hostname으로 시도
             return socket.gethostbyname(socket.gethostname())
-        except:
+        except Exception:
             return "127.0.0.1"
 
 if __name__ == "__main__":
