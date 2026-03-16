@@ -95,16 +95,14 @@ TLS_CONN_PATTERNS = [
 ]
 
 def apply_secure_connection_mode(rules, conn_mode: str) -> str:
-    mode = (conn_mode or "auto").strip().lower()
-    if mode not in {"auto", "ssh", "tls"}:
-        mode = "auto"
+    mode = (conn_mode or "ssh").strip().lower()
+    if mode not in {"ssh", "tls"}:
+        mode = "ssh"
 
     if mode == "ssh":
         selected = SSH_CONN_PATTERNS
-    elif mode == "tls":
-        selected = TLS_CONN_PATTERNS
     else:
-        selected = SSH_CONN_PATTERNS + TLS_CONN_PATTERNS
+        selected = TLS_CONN_PATTERNS
 
     for rule in rules:
         if getattr(rule, "id", "") == SECURE_CONN_RULE_ID:
@@ -418,7 +416,7 @@ async def api_analyze(
     ctx: Optional[int] = Query(None),
     items: Optional[int] = Query(None),
     maxchars: Optional[int] = Query(None),
-    conn_mode: Optional[str] = Query("auto"),
+    conn_mode: Optional[str] = Query("ssh"),
 ):
     try:
         text = (await logfile.read()).decode("utf-8", errors="replace")
@@ -428,7 +426,7 @@ async def api_analyze(
              return JSONResponse({"error": f"Rule file not found at {RULES_PATH}"}, status_code=500)
 
         rules = load_rules(RULES_PATH)
-        selected_conn_mode = apply_secure_connection_mode(rules, conn_mode or "auto")
+        selected_conn_mode = apply_secure_connection_mode(rules, conn_mode or "ssh")
         report = evaluate_text(text, rules, ctx_lines=ctx, max_items=items, max_chars=maxchars)
         apply_tls_skip_for_secure_session(report, selected_conn_mode)
         report.update({
