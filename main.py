@@ -430,17 +430,15 @@ def get_server_ip():
     """사내망 환경에서 서버의 IP를 찾습니다 (Intranet 친화적)"""
     try:
         # 8.8.8.8은 사내망에서 막힐 수 있으므로, UDP 소켓만 생성하여 IP 추측
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        # 실제로 연결하지 않고 라우팅 테이블만 참조함
-        s.connect(('10.255.255.255', 1))
-        ip = s.getsockname()[0]
-        s.close()
-        return ip
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            # 실제로 연결하지 않고 라우팅 테이블만 참조함
+            sock.connect(('10.255.255.255', 1))
+            return sock.getsockname()[0]
     except Exception:
         try:
             # 실패 시 hostname으로 시도
             return socket.gethostbyname(socket.gethostname())
-        except:
+        except Exception:
             return "127.0.0.1"
 
 if __name__ == "__main__":
