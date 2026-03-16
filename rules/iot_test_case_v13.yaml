@@ -38,6 +38,9 @@
     - '(?i)Authentication successful'
     - 'User\s+"[^"]+"\s+authenticated\.'
     - '(?i)SSH channel established'
+    - '(?i)TLS(?:v1(?:\.[0-3])?)?\s*(?:handshake|session)?\s*(?:successful|complete|established)'
+    - '(?i)SSL\s*(?:handshake|session)?\s*(?:successful|complete|established)'
+    - '(?i)(?:mTLS|mutual\s*TLS)'
   collect:
    mode: "regex"      # regex | boundary | message-id
    before: 5
