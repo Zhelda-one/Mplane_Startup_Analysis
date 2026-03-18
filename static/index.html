@@ -54,25 +54,6 @@
   @media (prefers-reduced-motion: reduce){
     *, *::before, *::after{animation:none !important;transition:none !important}
   }
-    /* Box1: Format & Save 색상 커스텀 */
-  /*#boxFormat{
-    background: #fff4e6;          /* 배경색 */
-    /*border-color: #ff8a00;        /* 점선 테두리색 */
-  /* }
-  /* #boxFormat .btn{
-    background: #ff8a00;          /* 버튼 배경 */
-  /* }
-  /* #boxFormat .btn:hover{
-    filter: brightness(0.95);     /* 호버 살짝 어둡게 */
-  /* }
-  /* #boxFormat .muted{
-    color: #a4622a;               /* 설명 글자색(선택사항) */
-  /*}*/
-
-  #boxFormat{ background:#e9f8ef; border-color:#2eb872 }
-  #boxFormat .btn{ background:#2eb872 }
-  #boxFormat .muted{ color:#267a55 }
-
   /* Header row */
   .section-h2-row{ display:flex; align-items:center; gap:12px; }
   .section-h2-row .section-spacer{ flex:1 1 auto; }
@@ -92,27 +73,8 @@
 
   <h1>O-RAN M-Plane Startup Log Analyzer - by RL1 PD US EngSupport & PoC</h1>
 
-  <!-- ▣ Box 1: Format & Save (Local Pretty) -->
-  <div class="upload" id="boxFormat">
-    <div><strong>Format &amp; Save</strong> — RMOD RPC log to XML format. <span style="color: red;"><strong> [Ensure the log captures the M-plane startup process.]</strong></span></div>
-    <div class="row" style="margin-top:6px">
-      <div class="row-left">
-        <input type="file" id="fileInputFmt" accept=".txt,.log" />
-        <button class="btn" id="formatSaveBtn" type="button" title="Format (XML pretty) & Save">
-          Format &amp; Save (XML)
-        </button>
-        <span id="fileNameFmt" class="muted"></span>
-      </div>
-      <div class="row-right">
-        <span class="muted">Saves as <code>*_XML.log</code> (original extension preserved)</span>
-      </div>
-    </div>
-    <div id="saveMsgFmt" class="muted" style="white-space:pre-wrap;margin-top:6px;"></div>
-  </div>
-
-  <!-- ▣ Box 2: Analyze (Server) -->
   <div class="upload" id="boxAnalyze">
-    <div>Upload a log file to analyze.</div>
+    <div><strong>Upload a log file to analyze.</strong> The selected file is automatically reformatted to XML before analysis starts. <span style="color: red;"><strong>[Ensure the log captures the M-plane startup process.]</strong></span></div>
     <div class="row" style="margin-top:6px">
       <div class="row-left">
         <input type="file" id="fileInput" accept=".txt,.log" />
@@ -122,6 +84,11 @@
         <span id="sum" class="muted">infos=0 warnings=0 errors=0</span>
       </div>
       <div class="row-right">
+        <span style="color:#005a9e;font-weight:700">Secure Session</span>
+        <select id="connMode" aria-label="Secure session mode">
+          <option value="ssh" selected>SSH mode</option>
+          <option value="tls">TLS mode (auto PASS 6.2.6.3)</option>
+        </select>
         <span style="color:#005a9e;font-weight:700">SW Ver</span>
         <input type="text" id="swVersion" placeholder="SW version (folder name)" style="min-width:220px">
         <label><input type="checkbox" id="expPdf" checked> PDF</label>
@@ -267,6 +234,7 @@ function prettyXmlish(source){
   const sw=document.getElementById('swVersion');
   const expPdf=document.getElementById('expPdf');
   const expPng=document.getElementById('expPng');
+  const connMode=document.getElementById('connMode');
 
   const tbody=document.querySelector('#tbl tbody');
   const eviTitle=document.getElementById('eviTitle');
@@ -276,12 +244,44 @@ function prettyXmlish(source){
   const analyzeBtnLabel = analyzeBtn.textContent;
 
   let lastReport=null;
+  let preparedLogFile=null;
+  let preparedLogMeta=null;
 
-  fi.addEventListener('change', e => { fileName.textContent = e.target.files[0]?.name || ''; });
+  function readFileAsText(file){
+    return new Promise((resolve,reject)=>{
+      const fr=new FileReader();
+      fr.onload = () => resolve(fr.result || '');
+      fr.onerror = () => reject(fr.error || new Error('read error'));
+      fr.readAsText(file,'utf-8');
+    });
+  }
+
+  function getFormattedFilename(name){
+    const base=name||'log.txt';
+    const dot=base.lastIndexOf('.');
+    return dot>0 ? `${base.slice(0,dot)}_XML${base.slice(dot)}` : `${base}_XML.log`;
+  }
 
   function setAnalyzeLoading(on){
     analyzeBtn.classList.toggle('loading', !!on);
     analyzeBtn.textContent = on ? 'Analyzing...' : analyzeBtnLabel;
+  }
+
+  async function prepareLogFile(file){
+    const raw = await readFileAsText(file);
+    const prettyText = prettyXmlish(raw);
+    const formattedName = getFormattedFilename(file.name);
+    preparedLogFile = new File([prettyText], formattedName, {
+      type: file.type || 'text/plain',
+      lastModified: file.lastModified || Date.now(),
+    });
+    preparedLogMeta = {
+      originalName: file.name,
+      formattedName,
+    };
+    fileName.textContent = `${file.name} → ${formattedName}`;
+    saveMsg.textContent = `Auto formatted to XML: ${formattedName}`;
+    return preparedLogFile;
   }
 
   function setFlow(a,b,c){
@@ -454,21 +454,51 @@ function prettyXmlish(source){
     eviBody.textContent=""; copyBtn.style.display="none";
   }
 
-  analyzeBtn.addEventListener('click', async ()=>{
+  async function analyzePreparedFile(fileOverride){
     try{
       saveMsg.textContent=''; overall.textContent='Analyzing...'; overall.className='badge'; analyzeBtn.disabled=true; saveBtn.disabled=true; setAnalyzeLoading(true);
-      const f=fi.files[0]; if(!f){ alert('Please select a file.'); analyzeBtn.disabled=false; return; }
-      const fd=new FormData(); fd.append('logfile', f);
-      const res=await fetch('/api/analyze', {method:'POST', body:fd});
+      const originalFile = fi.files[0];
+      const sourceFile = fileOverride || preparedLogFile || originalFile;
+      if(!sourceFile){ alert('Please select a file.'); analyzeBtn.disabled=false; return; }
+      if(!preparedLogFile || sourceFile === originalFile){
+        await prepareLogFile(originalFile);
+      }
+      const fd=new FormData(); fd.append('logfile', preparedLogFile);
+      const mode = connMode?.value || 'ssh';
+      const res=await fetch(`/api/analyze?conn_mode=${encodeURIComponent(mode)}`, {method:'POST', body:fd});
       const raw=await res.text();
       let data; try{ data=JSON.parse(raw);}catch{ data={ ok:false, error:raw }; }
       if(!res.ok || data.ok===false){ overall.textContent='Error'; overall.className='badge fail'; saveMsg.textContent=data.error||`HTTP ${res.status} ${res.statusText}`; return; }
       renderReport(data);
+      if (preparedLogMeta?.formattedName){
+        saveMsg.textContent = `Auto formatted to XML and analyzed: ${preparedLogMeta.formattedName}`;
+      }
     }catch(e){
       overall.textContent='Error'; overall.className='badge fail';
       saveMsg.textContent=(e && e.message)?e.message:String(e);
     }finally{ analyzeBtn.disabled=false; setAnalyzeLoading(false); }
+  }
+
+  fi.addEventListener('change', async e => {
+    const selected = e.target.files[0];
+    preparedLogFile = null;
+    preparedLogMeta = null;
+    fileName.textContent = selected?.name || '';
+    if(!selected) return;
+    try{
+      await prepareLogFile(selected);
+      await analyzePreparedFile(preparedLogFile);
+    }catch(err){
+      console.error(err);
+      overall.textContent='Error';
+      overall.className='badge fail';
+      saveMsg.textContent=(err && err.message)?err.message:String(err);
+      analyzeBtn.disabled=false;
+      setAnalyzeLoading(false);
+    }
   });
+
+  analyzeBtn.addEventListener('click', async ()=>{ await analyzePreparedFile(); });
 
   const saveBtnEl=document.getElementById('saveBtn');
   saveBtnEl.addEventListener('click', async ()=>{
@@ -486,52 +516,6 @@ function prettyXmlish(source){
       saveMsg.innerHTML=`Saved to: <code>${saved.saved_path||'-'}</code>`+(links.length?` — downloads: ${links.join(' | ')}`:'');
     }catch(e){ saveMsg.textContent=(e && e.message)?e.message:String(e); }
     finally{ saveBtnEl.disabled=false; }
-  });
-})();
-</script>
-
-<!-- ▣ Format & Save 스크립트 (Box1 전용) -->
-<script>
-(()=> {
-  const fiFmt  = document.getElementById('fileInputFmt');
-  const btnFmt = document.getElementById('formatSaveBtn');
-  const nameEl = document.getElementById('fileNameFmt');
-  const msgEl  = document.getElementById('saveMsgFmt');
-
-  fiFmt.addEventListener('change', e => { nameEl.textContent = e.target.files[0]?.name || ''; });
-
-  function readFileAsText(file){
-    return new Promise((resolve,reject)=>{
-      const fr=new FileReader();
-      fr.onload = () => resolve(fr.result || '');
-      fr.onerror = () => reject(fr.error || new Error('read error'));
-      fr.readAsText(file,'utf-8');
-    });
-  }
-  function downloadText(text, filename){
-    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-    const url  = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = filename;
-    document.body.appendChild(a); a.click(); a.remove();
-    URL.revokeObjectURL(url);
-  }
-
-  btnFmt.addEventListener('click', async ()=>{
-    try{
-      msgEl.textContent='';
-      const f=fiFmt.files && fiFmt.files[0];
-      if(!f){ alert('Please select a file for formatting.'); return; }
-      const raw = await readFileAsText(f);
-      const prettyText = prettyXmlish(raw);
-      const base=f.name||'log.txt'; const dot=base.lastIndexOf('.');
-      const name = dot>0 ? (base.slice(0,dot)+'_XML'+base.slice(dot)) : (base+'_XML.log');
-      downloadText(prettyText, name);
-      msgEl.textContent=`Formatted file saved as "${name}".`;
-    }catch(err){
-      console.error(err); msgEl.textContent=String(err);
-      alert('Formatting failed: '+String(err));
-    }
   });
 })();
 </script>
