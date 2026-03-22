@@ -261,6 +261,7 @@ function prettyXmlish(source){
   let preparedLogFile=null;
   let preparedLogMeta=null;
   let lastEvidenceText='';
+  const HIDDEN_RULE_IDS = new Set(['HW_USAGE_ACTIVE']);
 
   function readFileAsText(file){
     return new Promise((resolve,reject)=>{
@@ -418,8 +419,20 @@ function prettyXmlish(source){
     return chunks.join("\n\n");
   }
 
+  function isVisibleRule(rule){
+    const ruleId = typeof rule === 'string' ? rule : (rule?.id || '');
+    return !/^S1_/.test(ruleId) && !HIDDEN_RULE_IDS.has(ruleId);
+  }
+
   function showLogsById(ruleId){
-    const r=(lastReport?.results||[]).find(x=>x.id===ruleId);
+    if(!isVisibleRule(ruleId)){
+      lastEvidenceText='';
+      eviTitle.textContent='No logs.';
+      eviBody.innerHTML='';
+      copyBtn.style.display='none';
+      return;
+    }
+    const r=(lastReport?.results||[]).find(x=>x.id===ruleId && isVisibleRule(x));
     if(!r){
       lastEvidenceText='';
       eviTitle.textContent='No logs.';
@@ -485,7 +498,7 @@ function prettyXmlish(source){
         eviBody.classList.add('entered');
       }, 90);
     }
-    copyBtn.style.display = groups.length ? 'inline-block' : 'none';
+    copyBtn.style.display = txGroups.length ? 'inline-block' : 'none';
     copyBtn.onclick = async ()=>{ try{ await navigator.clipboard.writeText(lastEvidenceText); copyBtn.textContent='Copied'; setTimeout(()=>copyBtn.textContent='Copy',1200);}catch(_){ } };
   }
 
@@ -530,6 +543,7 @@ function prettyXmlish(source){
           continue;
         }
         for (const it of items){
+          if (!isVisibleRule(it)) continue;
           const div=document.createElement('div'); div.className='item';
           const chip=document.createElement('span');
           const st=(it.status||"").toUpperCase();
@@ -548,7 +562,7 @@ function prettyXmlish(source){
       return;
     }
 
-    const results = (report?.results || []);
+    const results = (report?.results || []).filter(isVisibleRule);
     const groups=[
       {title:"Step 1: Secure Session", keys:["NETCONF"]},
       {title:"Step 2: Configuration & Synchronization", keys:["MODULE","SYNC"]},
@@ -588,7 +602,7 @@ function prettyXmlish(source){
     const s=report.summary||{}; const sum=document.getElementById('sum');
     sum.textContent=`infos=${s.infos||0} warnings=${s.warnings||0} errors=${s.errors||0}`;
 
-    const results=(report.results||[]).filter(r=>!(r && /^S1_/.test(r.id||'')));
+    const results=(report.results||[]).filter(isVisibleRule);
     const tbody=document.querySelector('#tbl tbody');
     tbody.innerHTML='';
     results.forEach(r=>{
