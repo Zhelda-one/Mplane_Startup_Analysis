@@ -6,6 +6,7 @@ import json
 import time
 import socket
 import logging
+import hashlib
 from pathlib import Path
 from typing import Optional, Dict, Any, Iterable
 
@@ -150,6 +151,133 @@ def apply_tls_skip_for_secure_session(report: Dict[str, Any], conn_mode: str) ->
         else:
             errs += 1
     report["summary"] = {"infos": infos, "warnings": warns, "errors": errs}
+
+
+_XML_OPEN_TAG_RE = re.compile(r"<\s*(?!/)([A-Za-z_][\w:.-]*)\b")
+_ISO_TS_RE = re.compile(r"\b\d{4}-\d{2}-\d{2}[T ][0-9:.+-]+Z?\b")
+_SESSION_TS_RE = re.compile(r"\b\d{2}:\d{2}:\d{2}(?:\.\d+)?\b")
+_IGNORED_MAIN_TAGS = {
+    "rpc", "rpc-reply", "data", "filter", "config", "edit-config",
+    "notification", "hello", "capabilities", "capability"
+}
+
+
+def _strip_ns(tag: str) -> str:
+    return (tag or "").split(":")[-1].lower()
+
+
+def _extract_direction(text: str) -> str:
+    m = re.search(r"\b(Sending|Received)\s+message\b", text or "", re.I)
+    return (m.group(1).title() if m else "Unknown")
+
+
+def _extract_message_id(text: str) -> Optional[str]:
+    m = re.search(r'message-id\s*=\s*"?(?P<id>\d+)"?', text or "", re.I)
+    return m.group("id") if m else None
+
+
+def _extract_rpc_kind(text: str) -> str:
+    lowered = text or ""
+    if re.search(r"<\s*hello\b", lowered, re.I):
+        return "hello"
+    if re.search(r"<\s*rpc-reply\b", lowered, re.I):
+        return "rpc-reply"
+    if re.search(r"<\s*notification\b", lowered, re.I):
+        return "notification"
+    if re.search(r"<\s*rpc\b", lowered, re.I):
+        return "rpc"
+    return "text"
+
+
+def _extract_main_tag(text: str) -> str:
+    for m in _XML_OPEN_TAG_RE.finditer(text or ""):
+        local = _strip_ns(m.group(1))
+        if local in _IGNORED_MAIN_TAGS:
+            continue
+        return local
+    return "text"
+
+
+def _normalize_evidence_text(text: str) -> str:
+    normalized = (text or "").replace("\r", "")
+    normalized = re.sub(r'message-id\s*=\s*"?(?:\d+)"?', 'message-id="*"', normalized, flags=re.I)
+    normalized = _ISO_TS_RE.sub("<ts>", normalized)
+    normalized = _SESSION_TS_RE.sub("<time>", normalized)
+    normalized = re.sub(r">\s+<", "><", normalized)
+    normalized = re.sub(r"\s+", " ", normalized).strip()
+    return normalized
+
+
+def _build_evidence_metadata(ev: Dict[str, Any], source_file: str) -> Dict[str, Any]:
+    text = str(ev.get("text") or "")
+    normalized = _normalize_evidence_text(text)
+    signature = hashlib.sha1(normalized.encode("utf-8")).hexdigest()[:12] if normalized else "empty"
+    message_id = _extract_message_id(text)
+    direction = _extract_direction(text)
+    rpc_kind = _extract_rpc_kind(text)
+    main_tag = _extract_main_tag(text)
+    return {
+        "source_file": source_file or "-",
+        "message_id": message_id,
+        "direction": direction,
+        "rpc_kind": rpc_kind,
+        "main_tag": main_tag,
+        "normalized_signature": signature,
+        "duplicate_group_key": f"{source_file or '-'}:{signature}",
+    }
+
+
+def _group_evidences(evidences: list[Dict[str, Any]]) -> list[Dict[str, Any]]:
+    groups: Dict[str, Dict[str, Any]] = {}
+    order: list[str] = []
+
+    for ev in evidences or []:
+        if not isinstance(ev, dict):
+            continue
+        key = str(ev.get("duplicate_group_key") or ev.get("normalized_signature") or "")
+        if not key:
+            continue
+        if key not in groups:
+            groups[key] = {
+                "group_key": key,
+                "normalized_signature": ev.get("normalized_signature"),
+                "source_file": ev.get("source_file") or "-",
+                "direction": ev.get("direction") or "Unknown",
+                "rpc_kind": ev.get("rpc_kind") or "text",
+                "main_tag": ev.get("main_tag") or "text",
+                "message_ids": [],
+                "occurrence_count": 0,
+                "occurrences": [],
+            }
+            order.append(key)
+        group = groups[key]
+        msgid = ev.get("message_id")
+        if msgid and msgid not in group["message_ids"]:
+            group["message_ids"].append(msgid)
+        group["occurrence_count"] += 1
+        group["occurrences"].append({
+            "start": ev.get("start"),
+            "end": ev.get("end"),
+            "text": ev.get("text"),
+            "message_id": ev.get("message_id"),
+            "direction": ev.get("direction"),
+            "rpc_kind": ev.get("rpc_kind"),
+            "main_tag": ev.get("main_tag"),
+            "source_file": ev.get("source_file"),
+            "normalized_signature": ev.get("normalized_signature"),
+        })
+
+    return [groups[k] for k in order]
+
+
+def enrich_report_evidences(report: Dict[str, Any], source_file: str) -> None:
+    for row in report.get("results") or []:
+        evidences = row.get("evidences") or []
+        for ev in evidences:
+            if not isinstance(ev, dict):
+                continue
+            ev.update(_build_evidence_metadata(ev, source_file))
+        row["evidence_groups"] = _group_evidences(evidences)
 
 # ------------------------------------------------------------
 # 4. Export Dependencies (PDF/PNG)
@@ -429,6 +557,7 @@ async def api_analyze(
         selected_conn_mode = apply_secure_connection_mode(rules, conn_mode or "ssh")
         report = evaluate_text(text, rules, ctx_lines=ctx, max_items=items, max_chars=maxchars)
         apply_tls_skip_for_secure_session(report, selected_conn_mode)
+        enrich_report_evidences(report, logfile.filename or "-")
         report.update({
             "run_id": None,
             "input_filename": logfile.filename,

@@ -42,9 +42,21 @@
   .clist .title{font-weight:800;margin:8px 0 6px}
   .evidence{margin-top:14px;border:1px solid var(--border);border-radius:8px;background:#fff}
   .evi-head{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:#f3f7fb;border-bottom:1px solid var(--border)}
-  .evi-body{padding:10px 12px;max-height:420px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+  .evi-body{padding:10px 12px;max-height:420px;overflow:auto;overflow-wrap:anywhere}
   .evi-body.switching{opacity:.15;transform:translateY(2px);transition:opacity .12s ease, transform .12s ease}
   .evi-body.entered{opacity:1;transform:translateY(0);transition:opacity .2s ease, transform .2s ease}
+  .evi-group{border:1px solid #e1e8ef;border-radius:8px;background:#fbfdff;padding:12px;margin-bottom:12px}
+  .evi-group-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+  .evi-group-title{font-weight:800;color:#184c75}
+  .evi-group-sub{font-size:12px;color:#5f6b76;margin-top:4px}
+  .evi-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .evi-badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;background:#edf4fb;color:#19486f;font-size:12px;font-weight:700}
+  .evi-occ{margin-top:10px;border:1px solid #d9e3ec;border-radius:6px;background:#fff}
+  .evi-occ summary{cursor:pointer;list-style:none;padding:10px 12px;font-weight:700;background:#f6f9fc}
+  .evi-occ summary::-webkit-details-marker{display:none}
+  .evi-occ-meta{font-size:12px;color:#5f6b76;margin-left:8px;font-weight:500}
+  .evi-pre{margin:0;padding:12px;border-top:1px solid #e5ecf2;white-space:pre-wrap;overflow-wrap:anywhere;background:#fff}
+  .evi-empty{color:#6b7280;font-style:italic}
   .mono{font-family:ui-monospace,SFMono-Regular,Consolas,Menlo,Monaco,monospace}
   .status-pass { color: #2e7d32; font-weight: 700; }
   .status-fail { color: #d32f2f; font-weight: 700; }
@@ -74,7 +86,7 @@
   <h1>O-RAN M-Plane Startup Log Analyzer - by RL1 PD US EngSupport & PoC</h1>
 
   <div class="upload" id="boxAnalyze">
-    <div><strong>Upload a log file to analyze.</strong> The selected file is automatically reformatted to XML before analysis starts. <span style="color: red;"><strong>[Ensure the log captures the M-plane startup process.]</strong></span></div>
+    <div><strong>Upload a log file to analyze.</strong> The selected file is automatically reformatted to XML and will be analyzed after you click <strong>Analyze</strong>. <span style="color: red;"><strong>[Ensure the log captures the M-plane startup process.]</strong></span></div>
     <div class="row" style="margin-top:6px">
       <div class="row-left">
         <input type="file" id="fileInput" accept=".txt,.log" />
@@ -246,6 +258,7 @@ function prettyXmlish(source){
   let lastReport=null;
   let preparedLogFile=null;
   let preparedLogMeta=null;
+  let lastEvidenceText='';
 
   function readFileAsText(file){
     return new Promise((resolve,reject)=>{
@@ -298,31 +311,113 @@ function prettyXmlish(source){
     S('sA',a); C('cA',a); S('sB',b); C('cB',b); S('sC',c);
   }
 
+  function escapeHtml(value){
+    return String(value ?? '')
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;')
+      .replace(/'/g,'&#39;');
+  }
+
+  function summarizeGroup(group){
+    const direction = group?.direction || 'Unknown';
+    const rpcKind = group?.rpc_kind || 'text';
+    const mainTag = group?.main_tag || 'text';
+    return `${direction} / ${rpcKind} / ${mainTag}`;
+  }
+
+  function formatOccurrenceText(ev){
+    const s=ev?.start??0, e2=ev?.end??s;
+    const pretty=prettyXmlish(ev?.text||"");
+    const lines = pretty.split("\n").filter(t => t.trim().length > 0);
+    const body=lines.map((t,i)=>`L${String(s+i).padStart(5,' ')} │ ${t}`).join("\n");
+    const msgId = ev?.message_id ? ` | message-id=${ev.message_id}` : '';
+    return `L${s}${e2&&e2!==s?`–L${e2}`:""}${msgId}\n${body}`;
+  }
+
+  function buildGroupedEvidenceFallback(evidences){
+    const fallback = {};
+    (evidences || []).forEach((ev, idx) => {
+      const key = ev?.normalized_signature || `fallback-${idx}`;
+      if (!fallback[key]){
+        fallback[key] = {
+          normalized_signature: key,
+          source_file: ev?.source_file || preparedLogMeta?.formattedName || fi?.files?.[0]?.name || '-',
+          direction: ev?.direction || 'Unknown',
+          rpc_kind: ev?.rpc_kind || 'text',
+          main_tag: ev?.main_tag || 'text',
+          message_ids: ev?.message_id ? [ev.message_id] : [],
+          occurrence_count: 0,
+          occurrences: [],
+        };
+      }
+      fallback[key].occurrence_count += 1;
+      fallback[key].occurrences.push(ev);
+    });
+    return Object.values(fallback);
+  }
+
   function showLogsById(ruleId){
     const r=(lastReport?.results||[]).find(x=>x.id===ruleId);
-    if(!r){ eviTitle.textContent='No logs.'; eviBody.textContent=''; copyBtn.style.display='none'; return; }
-    eviTitle.textContent=(r.id||'-')+' — logs ('+(r.evidence_count||0)+')';
-    const blocks=(r.evidences||[]).map(e=>{
-      const s=e.start??0, e2=e.end??s;
-      const pretty=prettyXmlish(e.text||"");
-      const lines = pretty.split("\n").filter(t => t.trim().length > 0);
-      const body=lines.map((t,i)=>`L${String(s+i).padStart(5,' ')} │ ${t}`).join("\n");
-      return `L${s}${e2&&e2!==s?`–L${e2}`:""}\n`+body;
-    });
-    const nextText = blocks.length ? blocks.join("\n\n") : "(no captured logs)";
+    if(!r){
+      lastEvidenceText='';
+      eviTitle.textContent='No logs.';
+      eviBody.innerHTML='';
+      copyBtn.style.display='none';
+      return;
+    }
+    const groups = (Array.isArray(r.evidence_groups) && r.evidence_groups.length)
+      ? r.evidence_groups
+      : buildGroupedEvidenceFallback(r.evidences || []);
+    const totalOccurrences = groups.reduce((sum, g) => sum + (g?.occurrence_count || g?.occurrences?.length || 0), 0);
+    eviTitle.textContent=(r.id||'-')+` — ${groups.length} group(s), ${totalOccurrences} occurrence(s)`;
+    const plainGroups = [];
+    const groupHtml = groups.length ? groups.map((group, groupIdx) => {
+      const occurrences = Array.isArray(group?.occurrences) ? group.occurrences : [];
+      const sourceFile = group?.source_file || lastReport?.input_filename || '-';
+      const msgIds = (group?.message_ids || []).filter(Boolean);
+      const signature = group?.normalized_signature || `group-${groupIdx + 1}`;
+      const occurrenceText = occurrences.map((ev, idx) => {
+        const text = formatOccurrenceText(ev);
+        plainGroups.push(`[${groupIdx + 1}] ${summarizeGroup(group)} | source=${sourceFile} | occurrence ${idx + 1}/${occurrences.length}\n${text}`);
+        const msgIdText = ev?.message_id ? `message-id=${ev.message_id}` : 'message-id=n/a';
+        return `<details class="evi-occ"${idx === 0 ? ' open' : ''}>
+          <summary>Occurrence ${idx + 1} <span class="evi-occ-meta">L${escapeHtml(ev?.start ?? 0)}${(ev?.end && ev?.end !== ev?.start) ? `–L${escapeHtml(ev.end)}` : ''} · ${escapeHtml(msgIdText)}</span></summary>
+          <pre class="evi-pre mono">${escapeHtml(text)}</pre>
+        </details>`;
+      }).join('');
+      return `<section class="evi-group">
+        <div class="evi-group-head">
+          <div>
+            <div class="evi-group-title">${escapeHtml(summarizeGroup(group))}</div>
+            <div class="evi-group-sub">Source file: ${escapeHtml(sourceFile)} · Signature: ${escapeHtml(signature)}</div>
+          </div>
+          <span class="evi-badge">${escapeHtml(String(group?.occurrence_count || occurrences.length || 0))} duplicate(s)</span>
+        </div>
+        <div class="evi-badges">
+          <span class="evi-badge">direction: ${escapeHtml(group?.direction || 'Unknown')}</span>
+          <span class="evi-badge">rpc: ${escapeHtml(group?.rpc_kind || 'text')}</span>
+          <span class="evi-badge">main tag: ${escapeHtml(group?.main_tag || 'text')}</span>
+          ${msgIds.length ? `<span class="evi-badge">message-id: ${escapeHtml(msgIds.join(', '))}</span>` : ''}
+        </div>
+        ${occurrenceText || '<div class="evi-empty">No captured occurrences.</div>'}
+      </section>`;
+    }).join('') : '<div class="evi-empty">(no captured logs)</div>';
+    lastEvidenceText = plainGroups.join("\n\n") || "(no captured logs)";
     if (reduceMotion){
-      eviBody.textContent = nextText;
+      eviBody.innerHTML = groupHtml;
     } else {
       eviBody.classList.remove('entered');
       eviBody.classList.add('switching');
       setTimeout(()=>{
-        eviBody.textContent = nextText;
+        eviBody.innerHTML = groupHtml;
         eviBody.classList.remove('switching');
         eviBody.classList.add('entered');
       }, 90);
     }
-    copyBtn.style.display = blocks.length ? 'inline-block' : 'none';
-    copyBtn.onclick = async ()=>{ try{ await navigator.clipboard.writeText(eviBody.textContent); copyBtn.textContent='Copied'; setTimeout(()=>copyBtn.textContent='Copy',1200);}catch(_){ } };
+    copyBtn.style.display = groups.length ? 'inline-block' : 'none';
+    copyBtn.onclick = async ()=>{ try{ await navigator.clipboard.writeText(lastEvidenceText); copyBtn.textContent='Copied'; setTimeout(()=>copyBtn.textContent='Copy',1200);}catch(_){ } };
   }
 
   function attachRowClicks(){
@@ -450,15 +545,17 @@ function prettyXmlish(source){
     // ✅ 누락되어 있던 호출 복구
     renderChecklist(report);
 
+    lastEvidenceText='';
     eviTitle.textContent="Click a row or checklist item to preview logs…";
-    eviBody.textContent=""; copyBtn.style.display="none";
+    eviBody.innerHTML=""; copyBtn.style.display="none";
   }
 
   async function analyzePreparedFile(fileOverride){
     try{
       saveMsg.textContent=''; overall.textContent='Analyzing...'; overall.className='badge'; analyzeBtn.disabled=true; saveBtn.disabled=true; setAnalyzeLoading(true);
-      const f=fi.files[0]; if(!f){ alert('Please select a file.'); analyzeBtn.disabled=false; return; }
-      const fd=new FormData(); fd.append('logfile', f);
+      const sourceFile = fileOverride || preparedLogFile || fi.files[0];
+      if(!sourceFile){ alert('Please select a file.'); analyzeBtn.disabled=false; return; }
+      const fd=new FormData(); fd.append('logfile', sourceFile, sourceFile.name || 'formatted.log');
       const mode = connMode?.value || 'ssh';
       const res=await fetch(`/api/analyze?conn_mode=${encodeURIComponent(mode)}`, {method:'POST', body:fd});
       const raw=await res.text();
@@ -478,11 +575,25 @@ function prettyXmlish(source){
     const selected = e.target.files[0];
     preparedLogFile = null;
     preparedLogMeta = null;
+    lastReport = null;
+    saveBtn.disabled = true;
+    overall.textContent = 'Waiting';
+    overall.className = 'badge';
+    sum.textContent = 'infos=0 warnings=0 errors=0';
+    tbody.innerHTML = '';
+    document.getElementById('checklist').innerHTML = '';
+    eviTitle.textContent = 'Click a row or checklist item to preview logs…';
+    lastEvidenceText = '';
+    eviBody.innerHTML = '';
+    copyBtn.style.display = 'none';
     fileName.textContent = selected?.name || '';
-    if(!selected) return;
+    if(!selected){
+      saveMsg.textContent = '';
+      return;
+    }
     try{
       await prepareLogFile(selected);
-      await analyzePreparedFile(preparedLogFile);
+      saveMsg.textContent = `Auto formatted to XML: ${preparedLogMeta?.formattedName || selected.name}. Click Analyze to continue.`;
     }catch(err){
       console.error(err);
       overall.textContent='Error';
