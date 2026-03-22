@@ -367,7 +367,11 @@ def _group_transactions(transactions: list[Dict[str, Any]]) -> list[Dict[str, An
     return [groups[k] for k in order]
 
 
-def _build_transactions_for_row(row: Dict[str, Any], source_file: str) -> list[Dict[str, Any]]:
+def _build_transactions_for_row(
+    row: Dict[str, Any],
+    source_file: str,
+    all_session_blocks: Optional[list[Dict[str, Any]]] = None,
+) -> list[Dict[str, Any]]:
     transactions: list[Dict[str, Any]] = []
     seen: set[tuple[Any, ...]] = set()
 
@@ -378,7 +382,10 @@ def _build_transactions_for_row(row: Dict[str, Any], source_file: str) -> list[D
         session_blocks = _extract_session_blocks(ev.get("text") or "", source_file, int(ev.get("start") or 1))
         anchor_block = _find_anchor_block(session_blocks, int(hit_line) if hit_line is not None else None)
         message_id = (anchor_block or {}).get("message_id") or ev.get("message_id")
-        relevant_blocks = [b for b in session_blocks if message_id and b.get("message_id") == message_id]
+        source_blocks = all_session_blocks or session_blocks
+        relevant_blocks = [b for b in source_blocks if message_id and b.get("message_id") == message_id]
+        if not relevant_blocks:
+            relevant_blocks = [b for b in session_blocks if message_id and b.get("message_id") == message_id]
         if not relevant_blocks and anchor_block:
             relevant_blocks = [anchor_block]
         rpc_block = next((b for b in relevant_blocks if b.get("rpc_kind") == "rpc"), None)
@@ -412,7 +419,8 @@ def _build_transactions_for_row(row: Dict[str, Any], source_file: str) -> list[D
     return transactions
 
 
-def enrich_report_evidences(report: Dict[str, Any], source_file: str) -> None:
+def enrich_report_evidences(report: Dict[str, Any], source_file: str, full_text: str = "") -> None:
+    all_session_blocks = _extract_session_blocks(full_text or "", source_file, 1) if full_text else []
     for row in report.get("results") or []:
         evidences = row.get("evidences") or []
         for ev in evidences:
@@ -420,7 +428,7 @@ def enrich_report_evidences(report: Dict[str, Any], source_file: str) -> None:
                 continue
             ev.update(_build_evidence_metadata(ev, source_file))
         row["evidence_groups"] = _group_evidences(evidences)
-        row["evidence_transactions"] = _group_transactions(_build_transactions_for_row(row, source_file))
+        row["evidence_transactions"] = _group_transactions(_build_transactions_for_row(row, source_file, all_session_blocks))
         collect_mode = str(row.get("collect_mode") or "").lower()
         row["view_mode"] = "transaction" if collect_mode == "message-id" and row["evidence_transactions"] else "context"
 
@@ -702,7 +710,7 @@ async def api_analyze(
         selected_conn_mode = apply_secure_connection_mode(rules, conn_mode or "ssh")
         report = evaluate_text(text, rules, ctx_lines=ctx, max_items=items, max_chars=maxchars)
         apply_tls_skip_for_secure_session(report, selected_conn_mode)
-        enrich_report_evidences(report, logfile.filename or "-")
+        enrich_report_evidences(report, logfile.filename or "-", text)
         report.update({
             "run_id": None,
             "input_filename": logfile.filename,
