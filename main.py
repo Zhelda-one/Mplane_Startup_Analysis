@@ -270,6 +270,119 @@ def _group_evidences(evidences: list[Dict[str, Any]]) -> list[Dict[str, Any]]:
     return [groups[k] for k in order]
 
 
+def _extract_session_blocks(text: str, source_file: str) -> list[Dict[str, Any]]:
+    lines = str(text or "").splitlines()
+    if not lines:
+        return []
+
+    starts = [idx for idx, line in enumerate(lines) if _SESSION_BOUNDARY_RE.search(line)]
+    if not starts:
+        starts = [0]
+
+    blocks: list[Dict[str, Any]] = []
+    for pos, start in enumerate(starts):
+        end = starts[pos + 1] if pos + 1 < len(starts) else len(lines)
+        chunk_lines = lines[start:end]
+        chunk_text = "\n".join(chunk_lines).strip()
+        if not chunk_text:
+            continue
+        blocks.append({
+            "start": start + 1,
+            "end": end,
+            "text": chunk_text,
+            "source_file": source_file or "-",
+            "message_id": _extract_message_id(chunk_text),
+            "direction": _extract_direction(chunk_text),
+            "rpc_kind": _extract_rpc_kind(chunk_text),
+            "main_tag": _extract_main_tag(chunk_text),
+        })
+    return blocks
+
+
+def _normalize_hit_text(text: str) -> str:
+    hit = str(text or "").strip()
+    hit = re.sub(r'message-id\s*=\s*"?(?:\d+)"?', 'message-id="*"', hit, flags=re.I)
+    hit = _ISO_TS_RE.sub("<ts>", hit)
+    hit = _SESSION_TS_RE.sub("<time>", hit)
+    hit = re.sub(r"\s+", " ", hit).strip()
+    return hit
+
+
+def _build_transaction_signature(ev: Dict[str, Any], rpc_block: Optional[Dict[str, Any]], reply_block: Optional[Dict[str, Any]]) -> str:
+    payload = "||".join([
+        str(ev.get("source_file") or "-"),
+        _normalize_hit_text(ev.get("match_text") or ""),
+        _normalize_evidence_text((rpc_block or {}).get("text") or ""),
+        _normalize_evidence_text((reply_block or {}).get("text") or ""),
+    ])
+    return hashlib.sha1(payload.encode("utf-8")).hexdigest()[:12] if payload else "empty"
+
+
+def _group_transactions(transactions: list[Dict[str, Any]]) -> list[Dict[str, Any]]:
+    groups: Dict[str, Dict[str, Any]] = {}
+    order: list[str] = []
+
+    for tx in transactions:
+        key = str(tx.get("transaction_signature") or "")
+        if not key:
+            continue
+        if key not in groups:
+            groups[key] = {
+                "transaction_signature": key,
+                "keyword_hit": tx.get("keyword_hit") or "",
+                "message_id": tx.get("message_id"),
+                "source_file": tx.get("source_file") or "-",
+                "occurrence_count": 0,
+                "transactions": [],
+            }
+            order.append(key)
+        groups[key]["occurrence_count"] += 1
+        groups[key]["transactions"].append(tx)
+
+    return [groups[k] for k in order]
+
+
+def _build_transactions_for_row(row: Dict[str, Any], source_file: str) -> list[Dict[str, Any]]:
+    transactions: list[Dict[str, Any]] = []
+    seen: set[tuple[Any, ...]] = set()
+
+    for ev in row.get("evidences") or []:
+        if not isinstance(ev, dict):
+            continue
+        session_blocks = _extract_session_blocks(ev.get("text") or "", source_file)
+        message_id = ev.get("message_id") or next((b.get("message_id") for b in session_blocks if b.get("message_id")), None)
+        relevant_blocks = [b for b in session_blocks if (not message_id or b.get("message_id") == message_id)]
+        rpc_block = next((b for b in relevant_blocks if b.get("rpc_kind") == "rpc"), None)
+        reply_block = next((b for b in relevant_blocks if b.get("rpc_kind") == "rpc-reply"), None)
+        notifications = [b for b in relevant_blocks if b.get("rpc_kind") == "notification"]
+        if not relevant_blocks:
+            relevant_blocks = session_blocks
+
+        signature = _build_transaction_signature(ev, rpc_block, reply_block)
+        dedupe_key = (
+            message_id or "n/a",
+            ev.get("match_line") or 0,
+            signature,
+        )
+        if dedupe_key in seen:
+            continue
+        seen.add(dedupe_key)
+
+        transactions.append({
+            "transaction_signature": signature,
+            "source_file": source_file or "-",
+            "message_id": message_id,
+            "keyword_hit": ev.get("match_text") or "",
+            "match_line": ev.get("match_line"),
+            "rpc": rpc_block,
+            "rpc_reply": reply_block,
+            "notifications": notifications,
+            "raw_blocks": relevant_blocks,
+        })
+
+    return transactions
+
+
 def enrich_report_evidences(report: Dict[str, Any], source_file: str) -> None:
     for row in report.get("results") or []:
         evidences = row.get("evidences") or []
@@ -278,6 +391,7 @@ def enrich_report_evidences(report: Dict[str, Any], source_file: str) -> None:
                 continue
             ev.update(_build_evidence_metadata(ev, source_file))
         row["evidence_groups"] = _group_evidences(evidences)
+        row["evidence_transactions"] = _group_transactions(_build_transactions_for_row(row, source_file))
 
 # ------------------------------------------------------------
 # 4. Export Dependencies (PDF/PNG)

@@ -51,6 +51,8 @@
   .evi-group-sub{font-size:12px;color:#5f6b76;margin-top:4px}
   .evi-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
   .evi-badge{display:inline-flex;align-items:center;padding:4px 10px;border-radius:999px;background:#edf4fb;color:#19486f;font-size:12px;font-weight:700}
+  .evi-section{margin-top:12px}
+  .evi-section-title{font-size:12px;font-weight:800;color:#4b5a67;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
   .evi-occ{margin-top:10px;border:1px solid #d9e3ec;border-radius:6px;background:#fff}
   .evi-occ summary{cursor:pointer;list-style:none;padding:10px 12px;font-weight:700;background:#f6f9fc}
   .evi-occ summary::-webkit-details-marker{display:none}
@@ -358,6 +360,64 @@ function prettyXmlish(source){
     return Object.values(fallback);
   }
 
+  function buildSessionBlockHtml(title, block){
+    if (!block) return '';
+    const msgIdText = block?.message_id ? `message-id=${block.message_id}` : 'message-id=n/a';
+    return `<div class="evi-section">
+      <div class="evi-section-title">${escapeHtml(title)}</div>
+      <details class="evi-occ" open>
+        <summary>${escapeHtml((block?.direction || 'Unknown') + ' / ' + (block?.rpc_kind || 'text') + ' / ' + (block?.main_tag || 'text'))}<span class="evi-occ-meta">L${escapeHtml(block?.start ?? 0)}${(block?.end && block?.end !== block?.start) ? `–L${escapeHtml(block.end)}` : ''} · ${escapeHtml(msgIdText)}</span></summary>
+        <pre class="evi-pre mono">${escapeHtml(formatOccurrenceText(block))}</pre>
+      </details>
+    </div>`;
+  }
+
+  function buildTransactionFallback(evidences){
+    return (evidences || []).map((ev, idx) => ({
+      transaction_signature: ev?.normalized_signature || `fallback-tx-${idx}`,
+      keyword_hit: ev?.match_text || '',
+      message_id: ev?.message_id || null,
+      source_file: ev?.source_file || preparedLogMeta?.formattedName || fi?.files?.[0]?.name || '-',
+      occurrence_count: 1,
+      transactions: [{
+        transaction_signature: ev?.normalized_signature || `fallback-tx-${idx}`,
+        source_file: ev?.source_file || preparedLogMeta?.formattedName || fi?.files?.[0]?.name || '-',
+        message_id: ev?.message_id || null,
+        keyword_hit: ev?.match_text || '',
+        match_line: ev?.match_line || ev?.start || 0,
+        rpc: null,
+        rpc_reply: null,
+        notifications: [],
+        raw_blocks: [ev],
+      }],
+    }));
+  }
+
+  function buildTransactionCopyText(txGroup){
+    const chunks = [];
+    const transactions = Array.isArray(txGroup?.transactions) ? txGroup.transactions : [];
+    transactions.forEach((tx, idx) => {
+      const header = [
+        `Transaction ${idx + 1}/${transactions.length}`,
+        `source=${tx?.source_file || '-'}`,
+        `message-id=${tx?.message_id || 'n/a'}`,
+        `keyword-hit=${tx?.keyword_hit || 'n/a'}`,
+      ].join(' | ');
+      chunks.push(header);
+      if (tx?.rpc) chunks.push(`[RPC]\n${formatOccurrenceText(tx.rpc)}`);
+      if (tx?.rpc_reply) chunks.push(`[RPC-REPLY]\n${formatOccurrenceText(tx.rpc_reply)}`);
+      (tx?.notifications || []).forEach((block, nIdx) => {
+        chunks.push(`[NOTIFICATION ${nIdx + 1}]\n${formatOccurrenceText(block)}`);
+      });
+      if (!tx?.rpc && !tx?.rpc_reply && (!tx?.notifications || !tx.notifications.length)){
+        (tx?.raw_blocks || []).forEach((block, bIdx) => {
+          chunks.push(`[RAW ${bIdx + 1}]\n${formatOccurrenceText(block)}`);
+        });
+      }
+    });
+    return chunks.join("\n\n");
+  }
+
   function showLogsById(ruleId){
     const r=(lastReport?.results||[]).find(x=>x.id===ruleId);
     if(!r){
@@ -367,41 +427,50 @@ function prettyXmlish(source){
       copyBtn.style.display='none';
       return;
     }
-    const groups = (Array.isArray(r.evidence_groups) && r.evidence_groups.length)
-      ? r.evidence_groups
-      : buildGroupedEvidenceFallback(r.evidences || []);
-    const totalOccurrences = groups.reduce((sum, g) => sum + (g?.occurrence_count || g?.occurrences?.length || 0), 0);
-    eviTitle.textContent=(r.id||'-')+` — ${groups.length} group(s), ${totalOccurrences} occurrence(s)`;
+    const txGroups = (Array.isArray(r.evidence_transactions) && r.evidence_transactions.length)
+      ? r.evidence_transactions
+      : buildTransactionFallback(r.evidences || []);
+    const totalOccurrences = txGroups.reduce((sum, g) => sum + (g?.occurrence_count || g?.transactions?.length || 0), 0);
+    eviTitle.textContent=(r.id||'-')+` — ${txGroups.length} transaction group(s), ${totalOccurrences} occurrence(s)`;
     const plainGroups = [];
-    const groupHtml = groups.length ? groups.map((group, groupIdx) => {
-      const occurrences = Array.isArray(group?.occurrences) ? group.occurrences : [];
-      const sourceFile = group?.source_file || lastReport?.input_filename || '-';
-      const msgIds = (group?.message_ids || []).filter(Boolean);
-      const signature = group?.normalized_signature || `group-${groupIdx + 1}`;
-      const occurrenceText = occurrences.map((ev, idx) => {
-        const text = formatOccurrenceText(ev);
-        plainGroups.push(`[${groupIdx + 1}] ${summarizeGroup(group)} | source=${sourceFile} | occurrence ${idx + 1}/${occurrences.length}\n${text}`);
-        const msgIdText = ev?.message_id ? `message-id=${ev.message_id}` : 'message-id=n/a';
+    const groupHtml = txGroups.length ? txGroups.map((txGroup, groupIdx) => {
+      const transactions = Array.isArray(txGroup?.transactions) ? txGroup.transactions : [];
+      const sourceFile = txGroup?.source_file || lastReport?.input_filename || '-';
+      const msgId = txGroup?.message_id || transactions.find(tx => tx?.message_id)?.message_id || 'n/a';
+      const keywordHit = txGroup?.keyword_hit || transactions.find(tx => tx?.keyword_hit)?.keyword_hit || '';
+      plainGroups.push(`[Group ${groupIdx + 1}] source=${sourceFile} | message-id=${msgId} | keyword-hit=${keywordHit || 'n/a'}\n${buildTransactionCopyText(txGroup)}`);
+      const txHtml = transactions.map((tx, idx) => {
+        const notificationBlocks = (tx?.notifications || []).map((block, nIdx) => buildSessionBlockHtml(`Notification ${nIdx + 1}`, block)).join('');
+        const rawBlocks = (!tx?.rpc && !tx?.rpc_reply && (!tx?.notifications || !tx.notifications.length))
+          ? (tx?.raw_blocks || []).map((block, bIdx) => buildSessionBlockHtml(`Raw block ${bIdx + 1}`, block)).join('')
+          : '';
         return `<details class="evi-occ"${idx === 0 ? ' open' : ''}>
-          <summary>Occurrence ${idx + 1} <span class="evi-occ-meta">L${escapeHtml(ev?.start ?? 0)}${(ev?.end && ev?.end !== ev?.start) ? `–L${escapeHtml(ev.end)}` : ''} · ${escapeHtml(msgIdText)}</span></summary>
-          <pre class="evi-pre mono">${escapeHtml(text)}</pre>
+          <summary>Occurrence ${idx + 1} <span class="evi-occ-meta">message-id=${escapeHtml(tx?.message_id || 'n/a')} · hit L${escapeHtml(tx?.match_line ?? 0)}</span></summary>
+          <div style="padding:0 12px 12px">
+            <div class="evi-section">
+              <div class="evi-section-title">Keyword hit</div>
+              <pre class="evi-pre mono">${escapeHtml(tx?.keyword_hit || '(no keyword hit line captured)')}</pre>
+            </div>
+            ${buildSessionBlockHtml('RPC request', tx?.rpc)}
+            ${buildSessionBlockHtml('RPC reply', tx?.rpc_reply)}
+            ${notificationBlocks}
+            ${rawBlocks || (!tx?.rpc && !tx?.rpc_reply && (!tx?.notifications || !tx.notifications.length) ? '<div class="evi-empty">No RPC/RPC-Reply pair was found for this hit.</div>' : '')}
+          </div>
         </details>`;
       }).join('');
       return `<section class="evi-group">
         <div class="evi-group-head">
           <div>
-            <div class="evi-group-title">${escapeHtml(summarizeGroup(group))}</div>
-            <div class="evi-group-sub">Source file: ${escapeHtml(sourceFile)} · Signature: ${escapeHtml(signature)}</div>
+            <div class="evi-group-title">message-id ${escapeHtml(msgId)} transaction</div>
+            <div class="evi-group-sub">Source file: ${escapeHtml(sourceFile)} · Keyword hit: ${escapeHtml(keywordHit || 'n/a')}</div>
           </div>
-          <span class="evi-badge">${escapeHtml(String(group?.occurrence_count || occurrences.length || 0))} duplicate(s)</span>
+          <span class="evi-badge">${escapeHtml(String(txGroup?.occurrence_count || transactions.length || 0))} occurrence(s)</span>
         </div>
         <div class="evi-badges">
-          <span class="evi-badge">direction: ${escapeHtml(group?.direction || 'Unknown')}</span>
-          <span class="evi-badge">rpc: ${escapeHtml(group?.rpc_kind || 'text')}</span>
-          <span class="evi-badge">main tag: ${escapeHtml(group?.main_tag || 'text')}</span>
-          ${msgIds.length ? `<span class="evi-badge">message-id: ${escapeHtml(msgIds.join(', '))}</span>` : ''}
+          <span class="evi-badge">message-id: ${escapeHtml(msgId)}</span>
+          <span class="evi-badge">signature: ${escapeHtml(txGroup?.transaction_signature || `tx-${groupIdx + 1}`)}</span>
         </div>
-        ${occurrenceText || '<div class="evi-empty">No captured occurrences.</div>'}
+        ${txHtml || '<div class="evi-empty">No transaction blocks found.</div>'}
       </section>`;
     }).join('') : '<div class="evi-empty">(no captured logs)</div>';
     lastEvidenceText = plainGroups.join("\n\n") || "(no captured logs)";
