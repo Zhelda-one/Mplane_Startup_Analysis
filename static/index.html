@@ -419,6 +419,45 @@ function prettyXmlish(source){
     return chunks.join("\n\n");
   }
 
+  function buildContextCopyText(evidences){
+    return (evidences || []).map((ev, idx) => {
+      const hit = ev?.match_text || '(no keyword hit line captured)';
+      return [
+        `Evidence ${idx + 1}`,
+        `source=${ev?.source_file || lastReport?.input_filename || '-'}`,
+        `hit-line=${ev?.match_line ?? 'n/a'}`,
+        `keyword-hit=${hit}`,
+        formatOccurrenceText(ev),
+      ].join("\n");
+    }).join("\n\n");
+  }
+
+  function buildContextHtml(evidences){
+    if (!evidences?.length){
+      return '<div class="evi-empty">(no captured logs)</div>';
+    }
+    return evidences.map((ev, idx) => {
+      const hitText = ev?.match_text || '(no keyword hit line captured)';
+      return `<section class="evi-group">
+        <div class="evi-group-head">
+          <div>
+            <div class="evi-group-title">Evidence ${idx + 1}</div>
+            <div class="evi-group-sub">Source file: ${escapeHtml(ev?.source_file || lastReport?.input_filename || '-')} · hit L${escapeHtml(ev?.match_line ?? 'n/a')}</div>
+          </div>
+          <span class="evi-badge">context view</span>
+        </div>
+        <div class="evi-section">
+          <div class="evi-section-title">Keyword hit</div>
+          <pre class="evi-pre mono">${escapeHtml(hitText)}</pre>
+        </div>
+        <div class="evi-section">
+          <div class="evi-section-title">Context logs</div>
+          <pre class="evi-pre mono">${escapeHtml(formatOccurrenceText(ev))}</pre>
+        </div>
+      </section>`;
+    }).join('');
+  }
+
   function isVisibleRule(rule){
     const ruleId = typeof rule === 'string' ? rule : (rule?.id || '');
     return !/^S1_/.test(ruleId) && !HIDDEN_RULE_IDS.has(ruleId);
@@ -438,6 +477,27 @@ function prettyXmlish(source){
       eviTitle.textContent='No logs.';
       eviBody.innerHTML='';
       copyBtn.style.display='none';
+      return;
+    }
+    const viewMode = r?.view_mode || (Array.isArray(r?.evidence_transactions) && r.evidence_transactions.length ? 'transaction' : 'context');
+    if (viewMode !== 'transaction'){
+      const evidences = Array.isArray(r?.evidences) ? r.evidences : [];
+      eviTitle.textContent=(r.id||'-')+` — ${evidences.length} context block(s)`;
+      lastEvidenceText = buildContextCopyText(evidences) || "(no captured logs)";
+      const contextHtml = buildContextHtml(evidences);
+      if (reduceMotion){
+        eviBody.innerHTML = contextHtml;
+      } else {
+        eviBody.classList.remove('entered');
+        eviBody.classList.add('switching');
+        setTimeout(()=>{
+          eviBody.innerHTML = contextHtml;
+          eviBody.classList.remove('switching');
+          eviBody.classList.add('entered');
+        }, 90);
+      }
+      copyBtn.style.display = evidences.length ? 'inline-block' : 'none';
+      copyBtn.onclick = async ()=>{ try{ await navigator.clipboard.writeText(lastEvidenceText); copyBtn.textContent='Copied'; setTimeout(()=>copyBtn.textContent='Copy',1200);}catch(_){ } };
       return;
     }
     const txGroups = (Array.isArray(r.evidence_transactions) && r.evidence_transactions.length)

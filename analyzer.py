@@ -496,6 +496,7 @@ def evaluate_text(
             "status": status,
             "evidence_count": evidence_count,
             "evidences": evidences,
+            "collect_mode": (r.collect or {}).get("mode"),
             "extra": r.extra or {},
         }
 

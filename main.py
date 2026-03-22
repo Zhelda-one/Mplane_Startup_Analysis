@@ -421,6 +421,8 @@ def enrich_report_evidences(report: Dict[str, Any], source_file: str) -> None:
             ev.update(_build_evidence_metadata(ev, source_file))
         row["evidence_groups"] = _group_evidences(evidences)
         row["evidence_transactions"] = _group_transactions(_build_transactions_for_row(row, source_file))
+        collect_mode = str(row.get("collect_mode") or "").lower()
+        row["view_mode"] = "transaction" if collect_mode == "message-id" and row["evidence_transactions"] else "context"
 
 # ------------------------------------------------------------
 # 4. Export Dependencies (PDF/PNG)
