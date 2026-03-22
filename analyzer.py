@@ -293,6 +293,8 @@ def _collect_contextual_blocks(
                 "end": e1,
                 "lines": blk_lines,
                 "text": "\n".join(blk_lines),
+                "match_line": idx + 1,
+                "match_text": lines[idx],
             }
         )
         used += 1
@@ -380,6 +382,8 @@ def _collect_evidences(
                     "end": e,
                     "lines": blk_lines,
                     "text": t,
+                    "match_line": ln,
+                    "match_text": lines[ln - 1] if 0 < ln <= len(lines) else "",
                 }
             )
             printed += 1

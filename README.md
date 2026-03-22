@@ -23,5 +23,5 @@ Open from external host: http://10.48.238.180:8888/
 
 ## Analyze flow
 - Choose a `.txt` or `.log` file in **Upload a log file to analyze**.
-- The browser automatically reformats the selected file into XML-style text and immediately starts analysis with the formatted content.
+- The browser automatically reformats the selected file into XML-style text; click **Analyze** to start analysis with the formatted content.
 - Use `SAVE` only after the report appears if you want to export JSON/PDF/PNG results.
