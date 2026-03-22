@@ -156,7 +156,6 @@ def apply_tls_skip_for_secure_session(report: Dict[str, Any], conn_mode: str) ->
 _XML_OPEN_TAG_RE = re.compile(r"<\s*(?!/)([A-Za-z_][\w:.-]*)\b")
 _ISO_TS_RE = re.compile(r"\b\d{4}-\d{2}-\d{2}[T ][0-9:.+-]+Z?\b")
 _SESSION_TS_RE = re.compile(r"\b\d{2}:\d{2}:\d{2}(?:\.\d+)?\b")
-_SESSION_BOUNDARY_RE = re.compile(r"\bSession\b.*\b(Sending|Received)\s+message:", re.I)
 _IGNORED_MAIN_TAGS = {
     "rpc", "rpc-reply", "data", "filter", "config", "edit-config",
     "notification", "hello", "capabilities", "capability"
