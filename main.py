@@ -156,6 +156,7 @@ def apply_tls_skip_for_secure_session(report: Dict[str, Any], conn_mode: str) ->
 _XML_OPEN_TAG_RE = re.compile(r"<\s*(?!/)([A-Za-z_][\w:.-]*)\b")
 _ISO_TS_RE = re.compile(r"\b\d{4}-\d{2}-\d{2}[T ][0-9:.+-]+Z?\b")
 _SESSION_TS_RE = re.compile(r"\b\d{2}:\d{2}:\d{2}(?:\.\d+)?\b")
+_SESSION_BOUNDARY_RE = re.compile(r"\bSession\b.*\b(Sending|Received)\s+message:", re.I)
 _IGNORED_MAIN_TAGS = {
     "rpc", "rpc-reply", "data", "filter", "config", "edit-config",
     "notification", "hello", "capabilities", "capability"
@@ -270,7 +271,7 @@ def _group_evidences(evidences: list[Dict[str, Any]]) -> list[Dict[str, Any]]:
     return [groups[k] for k in order]
 
 
-def _extract_session_blocks(text: str, source_file: str) -> list[Dict[str, Any]]:
+def _extract_session_blocks(text: str, source_file: str, base_start: int = 1) -> list[Dict[str, Any]]:
     lines = str(text or "").splitlines()
     if not lines:
         return []
@@ -287,9 +288,11 @@ def _extract_session_blocks(text: str, source_file: str) -> list[Dict[str, Any]]
         chunk_text = "\n".join(chunk_lines).strip()
         if not chunk_text:
             continue
+        start_line = max(1, int(base_start) + start)
+        end_line = max(start_line, int(base_start) + end - 1)
         blocks.append({
-            "start": start + 1,
-            "end": end,
+            "start": start_line,
+            "end": end_line,
             "text": chunk_text,
             "source_file": source_file or "-",
             "message_id": _extract_message_id(chunk_text),
@@ -307,6 +310,27 @@ def _normalize_hit_text(text: str) -> str:
     hit = _SESSION_TS_RE.sub("<time>", hit)
     hit = re.sub(r"\s+", " ", hit).strip()
     return hit
+
+
+def _find_anchor_block(blocks: list[Dict[str, Any]], hit_line: Optional[int]) -> Optional[Dict[str, Any]]:
+    if not blocks:
+        return None
+    if hit_line is None:
+        return blocks[0]
+
+    for block in blocks:
+        start = int(block.get("start") or 0)
+        end = int(block.get("end") or start)
+        if start <= hit_line <= end:
+            return block
+
+    return min(
+        blocks,
+        key=lambda block: min(
+            abs(int(block.get("start") or 0) - hit_line),
+            abs(int(block.get("end") or 0) - hit_line),
+        ),
+    )
 
 
 def _build_transaction_signature(ev: Dict[str, Any], rpc_block: Optional[Dict[str, Any]], reply_block: Optional[Dict[str, Any]]) -> str:
@@ -350,9 +374,13 @@ def _build_transactions_for_row(row: Dict[str, Any], source_file: str) -> list[D
     for ev in row.get("evidences") or []:
         if not isinstance(ev, dict):
             continue
-        session_blocks = _extract_session_blocks(ev.get("text") or "", source_file)
-        message_id = ev.get("message_id") or next((b.get("message_id") for b in session_blocks if b.get("message_id")), None)
-        relevant_blocks = [b for b in session_blocks if (not message_id or b.get("message_id") == message_id)]
+        hit_line = ev.get("match_line")
+        session_blocks = _extract_session_blocks(ev.get("text") or "", source_file, int(ev.get("start") or 1))
+        anchor_block = _find_anchor_block(session_blocks, int(hit_line) if hit_line is not None else None)
+        message_id = (anchor_block or {}).get("message_id") or ev.get("message_id")
+        relevant_blocks = [b for b in session_blocks if message_id and b.get("message_id") == message_id]
+        if not relevant_blocks and anchor_block:
+            relevant_blocks = [anchor_block]
         rpc_block = next((b for b in relevant_blocks if b.get("rpc_kind") == "rpc"), None)
         reply_block = next((b for b in relevant_blocks if b.get("rpc_kind") == "rpc-reply"), None)
         notifications = [b for b in relevant_blocks if b.get("rpc_kind") == "notification"]
