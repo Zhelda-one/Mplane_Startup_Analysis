@@ -457,8 +457,9 @@ function prettyXmlish(source){
   async function analyzePreparedFile(fileOverride){
     try{
       saveMsg.textContent=''; overall.textContent='Analyzing...'; overall.className='badge'; analyzeBtn.disabled=true; saveBtn.disabled=true; setAnalyzeLoading(true);
-      const f=fi.files[0]; if(!f){ alert('Please select a file.'); analyzeBtn.disabled=false; return; }
-      const fd=new FormData(); fd.append('logfile', f);
+      const sourceFile = fileOverride || preparedLogFile || fi.files[0];
+      if(!sourceFile){ alert('Please select a file.'); analyzeBtn.disabled=false; return; }
+      const fd=new FormData(); fd.append('logfile', sourceFile, sourceFile.name || 'formatted.log');
       const mode = connMode?.value || 'ssh';
       const res=await fetch(`/api/analyze?conn_mode=${encodeURIComponent(mode)}`, {method:'POST', body:fd});
       const raw=await res.text();
