@@ -275,7 +275,8 @@ def _extract_session_blocks(text: str, source_file: str) -> list[Dict[str, Any]]
     if not lines:
         return []
 
-    starts = [idx for idx, line in enumerate(lines) if _SESSION_BOUNDARY_RE.search(line)]
+    boundary_re = globals().get("_SESSION_BOUNDARY_RE") or re.compile(r"\bSession\b.*\b(Sending|Received)\s+message:", re.I)
+    starts = [idx for idx, line in enumerate(lines) if boundary_re.search(line)]
     if not starts:
         starts = [0]
 
