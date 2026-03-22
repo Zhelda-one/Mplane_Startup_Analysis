@@ -74,7 +74,7 @@
   <h1>O-RAN M-Plane Startup Log Analyzer - by RL1 PD US EngSupport & PoC</h1>
 
   <div class="upload" id="boxAnalyze">
-    <div><strong>Upload a log file to analyze.</strong> The selected file is automatically reformatted to XML before analysis starts. <span style="color: red;"><strong>[Ensure the log captures the M-plane startup process.]</strong></span></div>
+    <div><strong>Upload a log file to analyze.</strong> The selected file is automatically reformatted to XML and will be analyzed after you click <strong>Analyze</strong>. <span style="color: red;"><strong>[Ensure the log captures the M-plane startup process.]</strong></span></div>
     <div class="row" style="margin-top:6px">
       <div class="row-left">
         <input type="file" id="fileInput" accept=".txt,.log" />
@@ -479,11 +479,24 @@ function prettyXmlish(source){
     const selected = e.target.files[0];
     preparedLogFile = null;
     preparedLogMeta = null;
+    lastReport = null;
+    saveBtn.disabled = true;
+    overall.textContent = 'Waiting';
+    overall.className = 'badge';
+    sum.textContent = 'infos=0 warnings=0 errors=0';
+    tbody.innerHTML = '';
+    document.getElementById('checklist').innerHTML = '';
+    eviTitle.textContent = 'Click a row or checklist item to preview logs…';
+    eviBody.textContent = '';
+    copyBtn.style.display = 'none';
     fileName.textContent = selected?.name || '';
-    if(!selected) return;
+    if(!selected){
+      saveMsg.textContent = '';
+      return;
+    }
     try{
       await prepareLogFile(selected);
-      await analyzePreparedFile(preparedLogFile);
+      saveMsg.textContent = `Auto formatted to XML: ${preparedLogMeta?.formattedName || selected.name}. Click Analyze to continue.`;
     }catch(err){
       console.error(err);
       overall.textContent='Error';
